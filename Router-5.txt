@@ -203,7 +203,7 @@ Footer for Help
 
 // Instead this is a lot easier way to do that. The reason we would want to do that is usually because
 // we have got parts of the component those are very template-like and they always belong on the page 
-// and we also have dymanic contents those reside on the page.
+// and we also have dynamic contents those reside on the page.
 
 // It is very useful and very powerful when we need it and we can go as deep as we want to. 
 // Inside the HelpCustomer and the HelpHost components we can put more Routes which will render
