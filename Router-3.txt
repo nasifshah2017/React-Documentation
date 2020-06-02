@@ -223,8 +223,8 @@ function App() {
 // If the browser is just at slash(/) then React will render the Home component,
 // if the browser is at slash host (/host) then the browser will render the Host component,
 // and so on...
-// The way the user is going to around from page to page is from the NavBar which has the 
-// "Link" component inside of them, that migrates the user to each of the component on clicking
+// The way the user is going to go around from page to page is from the NavBar which has the 
+// "Link" components inside of them and that migrate the user to each of the component on clicking
 // the menus.
 
 
