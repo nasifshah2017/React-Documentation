@@ -79,8 +79,8 @@ function App() {
 // Now if we add the Route component we would also need to add the path prop, and as we
 // want our NavBar to be displayed at every page, so we would set the path to be 
 // slash (/). We would always set it to slash (/), we do not have an exact on that, and there
-// will always be a slash on our URL no m page our URL migrates us to, so the NavBar will 
-// be always rendered on every single page.
+// will always be a slash on our URL no matter which page our URL migrates us to, as we have 
+// slash on our URL at every page that's why the NavBar will always be rendered on every single page.
 
 
 App.js
