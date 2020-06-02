@@ -269,17 +269,4 @@ function App() {
 // We have the Router component that is going to be around everything, we have the Route component and that can be
 // there anytime we want to put a component depending on what URL we are happen to be at and then we have the Link 
 // component and that is our new substitute for anchor (a) tags, if we want to link internally inside our React 
-// app then we are always going to use the Link component. 
-    
-
-  
-
-
-
-
-
-
-
-   
-
-    
+// app then we are always going to use the Link component.  
