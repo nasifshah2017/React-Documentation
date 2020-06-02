@@ -208,8 +208,3 @@ Footer for Help
 // It is very useful and very powerful when we need it and we can go as deep as we want to. 
 // Inside the HelpCustomer and the HelpHost components we can put more Routes which will render
 // components conditionally. 
-
-  
-
- 
-
