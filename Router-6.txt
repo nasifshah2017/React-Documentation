@@ -1,7 +1,8 @@
-// In this lesson we are going to learn about the props those React-Router provides us and these
-// are very important, they release a lot of programmatic power that we have over the router. 
-// Let's start with the NavBar. We are already sending the props as parameters. Now, we will
-// console.log the props to see what built-in props does, that the NavBar provides us with,
+// In this lesson we are going to learn about the props those React-Router provides us with, 
+// and these are very important, they release a lot of programmatic power that we have over  
+// the router. Let's start with the NavBar. We are already sending the props as parameters. 
+// Now, we will console.log the props to see what built-in props does, that the NavBar provides 
+// us with,
 
 NavBar.js
 
