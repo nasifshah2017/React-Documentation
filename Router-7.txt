@@ -1,0 +1,344 @@
+// In this lesson we are going to take a look on the "match" object, which is the last
+// prop we need to look at. 
+// First we need to install "react-router-dom"
+
+Console coding:
+
+npm install react-router-dom
+
+
+App.js 
+
+import React from 'react';
+import './App.css';
+import {BrowserRouter as Router, Link, Route} from 'react-router-dom;
+
+function App() {
+	return (
+		<Router>
+			<div className="App">
+				<ul>
+					<li><Link to='/'>Home</Link></li>
+					<li><Link to='/about'>About</Link></li>
+				</ul>
+
+				<Route exact path="/" component={Home}/>
+				<Route exact path="/about" component={About}/>
+
+			</div>
+		<Route>
+	)
+}
+
+export default App;
+
+
+Home.js
+
+import React from 'react';
+
+function Home(props){
+	return (
+		<h1>Home page!</h1>
+	)
+}
+export default Home;
+
+
+About.js
+
+import React from 'react';
+
+function About(props){
+	return (
+		<h1>About page!</h1>
+	)
+}
+export default About;
+
+
+// So we just deveoped two extremely simple stateless components like we developed many times
+// Now we will import both of them in our App.js file 
+
+
+App.js 
+
+import React from 'react';
+import './App.css';
+import {BrowserRouter as Router, Link, Route} from 'react-router-dom;
+import Home from './Home';
+import About from './About';
+
+function App() {
+	return (
+		<Router>
+			<div className="App">
+				<ul>
+					<li><Link to='/'>Home</Link></li>
+					<li><Link to='/about'>About</Link></li>
+				</ul>
+
+				<Route exact path="/" component={Home}/>
+				<Route exact path="/about" component={About}/>
+
+			</div>
+		<Route>
+	)
+}
+
+export default App;
+
+
+localhost:3000/
+				Home			// Clickable links
+				About
+
+				Home
+
+
+
+localhost:3000/about
+				Home			// Clickable links
+				About
+
+				About
+
+
+
+// We were interested in the props that the route components sends down
+// Now we will go to About.js page and console.log (props) inside About component's
+// definition, 
+
+
+About.js
+
+import React from 'react';
+
+function About(props){
+	 console.log(props)
+	return (
+		<h1>About page!</h1>
+	)
+}
+export default About;
+
+
+// Now when we click on the About link and the About component gets rendered
+// we get this on our console,
+
+Output
+
+Console
+
+{history: {...}, location: {...}, match: {...}, staticContext: undefined}
+
+// Now if we open this console we get this,
+
+Output
+
+Console
+
+history: {length: 38, action: "PUSH", location: {...}, createHref: f, push: f, ...}
+location: {pathname: "/about", search: "", hash: "", state: undefined, key: "k4j4q9"}
+match: {isExact: true, params: {}, path: "/about", url: "/about", staticContext: undefined}
+
+// In this lesson we are interested in "match" so we will open the match object and when 
+// we open it we get this output,
+
+Output
+
+Console 
+
+match:
+	isExact: true
+	params: {}
+	path: "/about"
+	url: "/about"
+	proto: Object
+	staticContext: undefined
+
+	
+// So we can see here the "path" and URL exactly as we expect, the question is what should
+// "params" be?
+
+// Now if we go back to App.js,
+
+
+App.js 
+
+import React from 'react';
+import './App.css';
+import {BrowserRouter as Router, Link, Route} from 'react-router-dom;
+import Home from './Home';
+import About from './About';
+
+function App() {
+	return (
+		<Router>
+			<div className="App">
+				<ul>
+					<li><Link to='/'>Home</Link></li>
+					<li><Link to='/about'>About</Link></li>
+				</ul>
+
+				<Route exact path="/" component={Home}/>
+				<Route exact path="/about" component={About}/>	//
+
+			</div>
+		<Route>
+	)
+}
+
+export default App;
+
+
+// Well the params section is meant to be the "path" prop that we are using while rendering
+// About component. 
+// There we have set the path prop to be "/about" and as we do not have anything after the 
+// "/about", that is why there are no params (parameters).
+
+// A parameter is just simply a wildcard route, its a dynamic route, so we have slash about ("/about") 
+// Let's say we wanted to go to the "/about" URL and there are a bunch of options that we can go to after
+// "/about" we could do like "/about/us", or like "/about/company" or like "/about/investors" or whatever
+// it might be, there are a whole bunch of different abouts and all of these are pretty much the same but 
+// they just need to pull a different content or keyword after "/about".
+
+// The example that we had before was from the BBC Sports News site. 
+// The site's URL link is "bbc.com/sport".
+
+// Now on BBC Sport's home page we have lot of sports news and if we click on a particalur news' link it 
+// migrates us to that particular news' page, which has a URL link as, "bbc.com/sport/1144566"
+
+// So its the same link as the Sport's home page but after the link it has a number. Now if we go back to 
+// the home page and click on another news' link it takes us to that page and it has a URL link as, 
+// "bbc.com/sport/1154681".
+
+// So we get the idea that as we click around the difference between the news' links are very minor and all the 
+// news' particular pages look basically the same, the only difference is the news that is on it, and
+// all the other contents like the news' logo, page designs, and all the page content other than the news
+// are same.
+
+// So there might be hundreds or even thousands of sports' news on the BBC Sports' home page and all the
+// same template contents are available in all the news' particular pages. 
+
+// That is why instead of making routes' path for each of the pages, which will end up being thousands
+// of paths, we simply put a particular "wildcard keyword" followed by colon (:) at the end of the link.
+
+// For example, we can name this keyword "id" as each of the news' page we are going to, we are getting a 
+// number at the end of that page's URL link like this,
+
+
+App.js 
+
+import React from 'react';
+import './App.css';
+import {BrowserRouter as Router, Link, Route} from 'react-router-dom;
+import Home from './Home';
+import About from './About';
+
+function App() {
+	return (
+		<Router>
+			<div className="App">
+				<ul>
+					<li><Link to='/'>Home</Link></li>
+					<li><Link to='/about'>About</Link></li>
+				</ul>
+
+				<Route exact path="/" component={Home}/>
+				<Route exact path="/about/:id" component={About}/>	//
+
+			</div>
+		<Route>
+	)
+}
+
+export default App;           
+
+
+// This means we have a Route that the Router is going to serve up at "/about/:id", this "id" can be any
+// number, does not matter which one, and if the user only ends up at an URL with "/about/:id" it 
+// is going to create a value for the params property in that match object at the console called id.
+
+// Now if we go back to the About page and click the About link we are not going to get the About
+// component rendered there anymore,
+
+localhost:3000/about
+
+				Home
+				About
+
+
+// We do not have an exact match for that, as the About component can only be rendered at
+// "/about/:id" but we are at "/about" only.
+
+// Now if we only type this on our URL bar,
+
+
+localhost:3000/about/number
+
+				Home
+				About
+			
+		              About page!
+
+
+// We get the About component rendered in our About page. 
+// Now if we check the params property in the match object we get this,
+
+
+Output 
+
+Console
+
+match:
+	isExact: true
+	params: 
+		{id: number}
+	path: "/about/:id"
+	url: "/about/number"
+
+// We can see that inside the "match" object, we have the "params" object which
+// has the property of "id" with a value called "number" 
+
+// If we change "number" to "anything",
+
+localhost:3000/about/anything
+
+				Home
+				About
+			
+		              About page!
+
+
+// We get the same page but now if we check our console we get this,
+
+
+Output
+
+Console
+
+match:
+	isExact: true
+	params: 
+		{id: anything}
+	path: "/about/:id"
+	url: "/about/anything"
+
+
+// This time again the params property is an object inside the "match"
+// object but with id as the property and its value being "anything".
+
+// This means whatever we have in our URL right after "/about" is going to be saved
+// inside the params and it is going to be the value of the property that we set as our 
+// path prop right after colon (:). 
+
+// It will take a little bit time to get our head wrap around it, if we are not familiar
+// with it.    
+
+
+
+
+	  
+
+

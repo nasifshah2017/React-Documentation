@@ -1,0 +1,305 @@
+// In this lesson we are going to use a navbar
+// First of all we are going to develop a NavBar component in the NavBar.js file
+
+
+NavBar.js
+
+import React from 'react';
+
+function NavBar(props){
+	return(
+		<h1>NavBar</h1>
+	)
+}
+
+export default NavBar;
+
+
+// This is our bare bone functional component, it is stateless, it is not a class
+// and all it does is return an h1.
+
+// In our App.js file we will import this NavBar
+
+
+App.js
+
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+import {BrowserRouter as Link, Route, Router} from 'react-router-dom';
+import NavBar from './NavBar/NavBar';
+
+function App() {
+	return (
+		<Router>
+			<NavBar/>
+		</Router>
+		);
+	}
+	
+	export default App;
+
+
+// So, we have imported our NavBar component and we are rendering it inside our Router component
+// that we imported from the 'react-router-dom' library.
+
+
+Output:
+
+NavBar 
+
+
+// This is what we are getting at the moment. 
+// Inside of the Materialize website, if we go to the Component's tab
+// and then go down and select NavBar, we will get code snippets of different
+// types of NavBar and from there we will copy the snippet of the Right Aligned Links
+
+
+<nav>
+	<div class="nav-wrapper">
+		<a href="#" class="brand-logo">Logo</a>
+		<ul id="nav-mobile" class="right hide-on-med-and-down">
+			<li><a href="sass.html">Sass</a></li>
+			<li><a href="badges.html">Components</a></li>
+			<li><a href="collapsible.html>JavaScript</a></li>
+		</ul>
+	</div>
+</nav>
+
+
+// So we are going to drop this snippet inside the NavBar component as its body.
+
+
+NavBar.js
+
+import React from 'react';
+
+function NavBar(props){
+	return(
+	<nav>
+		<div class="nav-wrapper">
+			<a href="#" class="brand-logo">Logo</a>
+			<ul id="nav-mobile" class="right hide-on-med-and-down">
+				<li><a href="sass.html">Sass</a></li>
+				<li><a href="badges.html">Components</a></li>
+				<li><a href="collapsible.html>JavaScript</a></li>
+			</ul>
+		</div>
+	</nav>
+	)
+}
+
+export default NavBar; 
+
+
+// Now we can see our NavBar on our webpage but we also get some errors on our console as most
+// of the tags that has been used on this snippets are not compatible with React and we need to
+// import the router Components from 'react-router-dom' library. 
+
+
+NavBar.js
+
+import React from 'react';
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
+
+function NavBar(props){
+	return(
+	<nav>
+		<div className="nav-wrapper">
+			<Link to="#" class="brand-logo">Logo</Link>
+			<ul id="nav-mobile" class="right hide-on-med-and-down">
+				<li><Link to="sass.html">Sass</Link></li>
+				<li><Link to="badges.html">Components</Link></li>
+				<li><Link to="collapsible.html>JavaScript</Link></li>
+			</ul>
+		</div>
+	</nav>
+	)
+}
+
+export default NavBar;
+ 
+
+// Now our NavBar is React-Router compatible and we will put menus on our NavBar as we want,
+// also we are going to change all of the links that these menus migrates the users to.  
+
+
+NavBar.js
+
+import React from 'react';
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
+
+function NavBar(props){
+	return(
+	<nav>
+		<div className="nav-wrapper">
+			<Link to="/" class="brand-logo">AirBnB</Link>
+			<ul id="nav-mobile" class="right hide-on-med-and-down">
+				<li><Link to="/host">Become a host</Link></li>
+				<li><Link to="/help">Help</Link></li>
+				<li><Link to="/signup">Sign Up</Link></li>
+				<li><Link to="/login">Log in</Link></li>
+			</ul>
+		</div>
+	</nav>
+	)
+}
+
+export default NavBar; 
+
+
+// Our NavBar is going to look fairly similar as to what AirBnB has, and the menus are linking internally
+// to its different Routes.
+
+// Now we need to develop each component that each of the menus are linking the user to. 
+
+
+App.js
+
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+import {BrowserRouter as Link, Route, Router} from 'react-router-dom';
+import NavBar from './NavBar/NavBar';
+
+// Defining our components
+
+const Home = ()=><h1>Home</h1>
+const Host = ()=><h1>Become a host</h1>
+const Help = ()=><h1>Help</h1>
+const Login = ()=><h1>Login</h1>
+const Signup = ()=> <h1>Signup</h1>
+
+function App() {
+	return (
+		<Router>
+			<NavBar/>
+		</Router>
+		);
+	}
+	
+	export default App;
+
+
+// So as you can see we have technically defined our components, ultimately when we make our
+// AirBnb clone we would want to move the component definitions to their respective files in
+// the component folder. But for simplicity we will leave them like it is now.
+
+// Now we will use the Route component to set up the path for each of the component.
+
+
+App.js
+
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+import {BrowserRouter as Link, Route, Router} from 'react-router-dom';
+import NavBar from './NavBar/NavBar';
+
+const Home = ()=><h1>Home</h1>
+const Host = ()=><h1>Become a host</h1>
+const Help = ()=><h1>Help</h1>
+const Login = ()=><h1>Login</h1>
+const Signup = ()=> <h1>Signup</h1>
+
+function App() {
+	return (
+		<Router>
+			<NavBar/>
+			<Route exact path="/" component={Home}/>	{/*Rendering our Components at specific Routes*/}
+			<Route exact path="/host" component={Host}/>
+			<Route exact path="/help" component={Help}/>
+			<Route exact path="/login" component={Login}/>
+			<Route exact path="/signup" component={Signup}/>
+		</Router>
+		);
+	}
+	
+	export default App;
+
+
+// So, we have our components defined and we do not need to make five different files
+// they are rendering conditionally based on the Route that the browser is at.
+// If the browser is just at slash(/) then React will render the Home component,
+// if the browser is at slash host (/host) then the browser will render the Host component,
+// and so on...
+// The way the user is going to around from page to page is from the NavBar which has the 
+// "Link" component inside of them, that migrates the user to each of the component on clicking
+// the menus.
+
+
+localhost:3000
+
+Home
+
+
+localhost:3000/host
+
+Become a host
+
+
+localhost:3000/help
+
+Help
+
+
+localhost:3000/signup
+
+Sign up
+
+
+localhost:3000/login
+
+Log in
+
+
+// We have another React-Router component called NavLink. The NavLink is a special version of the Link 
+// component that adds styling attributes to the rendered element when it matches the current URL.
+// Example:
+ 
+
+import {NavLink} from 'react-router-dom'
+
+<NavLink to="/about">About</NavLink>
+
+
+// As we need active links in our webpage, that will indicate the user that they can click these links
+// to migrate to different pages, we can substitute the Link components for the NavLink components
+// the Link components work same as NavLink components but it does not provide the active status
+// as the NavLink components.
+
+
+NavBar.js
+
+import React from 'react';
+import {BrowserRouter as Router, Route, NavLink} from 'react-router-dom';
+import './NavBar.css';
+
+function NavBar(props){
+	return(
+	<nav>
+		<div className="nav-wrapper">
+			<NavLink exact to="/" class="brand-logo">AirBnB</NavLink>
+			<ul id="nav-mobile" class="right hide-on-med-and-down">
+				<li><NavLink to="/host">Become a host</NavLink></li>
+				<li><NavLink to="/help">Help</NavLink></li>
+				<li><NavLink to="/signup">Sign Up</NavLink></li>
+				<li><NavLink to="/login">Log in</NavLink></li>
+			</ul>
+		</div>
+	</nav>
+	)
+}
+
+export default NavBar; 
+
+
+// It will work exactly the same way as the Link components 
+
+
+ 
+
+
+
+ 
+ 

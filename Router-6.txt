@@ -1,0 +1,384 @@
+// In this lesson we are going to learn about the props those React-Router provides us and these
+// are very important, they release a lot of programmatic power that we have over the router. 
+// Let's start with the NavBar. We are already sending the props as parameters. Now, we will
+// console.log the props to see what built-in props does, that the NavBar provides us with,
+
+NavBar.js
+
+import React from 'react';
+import {BrowserRouter as Router, Route, NavLink} from 'react-router-dom';
+import './NavBar.css';
+
+function NavBar(props){
+	console.log(props);
+	return(
+	<nav>
+		<div className="nav-wrapper">
+			<NavLink exact to="/" class="brand-logo">AirBnB</NavLink>
+			<ul id="nav-mobile" class="right hide-on-med-and-down">
+				<li><NavLink to="/host">Become a host</NavLink></li>
+				<li><NavLink to="/help">Help</NavLink></li>
+				<li><NavLink to="/signup">Sign Up</NavLink></li>
+				<li><NavLink to="/login">Log in</NavLink></li>
+			</ul>
+		</div>
+	</nav>
+	)
+}
+
+export default NavBar; 
+
+Output:
+
+Console
+{}
+
+// All we can see that its just an empty object with nothing has been passed down.
+// Now let's go back to our App.js file and see where we are rendering the <NavBar/>
+// component
+
+
+App.js
+
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+import {BrowserRouter as Link, Route, Router} from 'react-router-dom';
+import NavBar from './NavBar/NavBar';
+import Home from './Home';
+import Help from './Help';
+
+const Host = ()=><h1>Become a host</h1>
+const Login = ()=><h1>Login</h1>
+const Signup = ()=><h1>Signup</h1>
+
+function App() {
+	return (
+		<Router>
+			<NavBar/> 		{/* Its being rendered here */}
+			<Route exact path="/" render={()=>{
+				return <Home title="Hello" />
+			}}/>
+			<Route exact path="/host" component={Host}/>
+			<Route exact path="/help" component={Help}/>
+			<Route exact path="/login" component={Login}/>
+			<Route exact path="/signup" component={Signup}/>
+		</Router>
+		);
+	}
+	
+	export default App;
+
+
+// The first thing we need to remember that if our component is not being called inside the 
+// "Route" component then we would not have access to any of the props that React-Router
+// provides us with.  
+// Now it is being rendered inside of the "Router" component but if we want to see the 
+// built-in React-Router props then we would need to render it inside of the Route component.
+
+// Now if we add the Route component we would also need to add the path prop, and as we
+// want our NavBar to be displayed at every page, so we would set the path to be 
+// slash (/). We would always set it to slash (/), we do not have an exact on that, and there
+// will always be a slash on our URL no m page our URL migrates us to, so the NavBar will 
+// be always rendered on every single page.
+
+
+App.js
+
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+import {BrowserRouter as Link, Route, Router} from 'react-router-dom';
+import NavBar from './NavBar/NavBar';
+import Home from './Home';
+import Help from './Help';
+
+const Host = ()=><h1>Become a host</h1>
+const Login = ()=><h1>Login</h1>
+const Signup = ()=><h1>Signup</h1>
+
+function App() {
+	return (
+		<Router>
+			<Route path="/" NavBar/> 	
+			<Route exact path="/" render={()=>{
+				return <Home title="Hello" />
+			}}/>
+			<Route exact path="/host" component={Host}/>
+			<Route exact path="/help" component={Help}/>
+			<Route exact path="/login" component={Login}/>
+			<Route exact path="/signup" component={Signup}/>
+		</Router>
+		);
+	}
+	
+	export default App;
+
+
+// Now if we check our console we get this as an output,
+
+
+Output:
+
+Console
+
+{ {history: {length: 13, action: "POP", location: {...}, createHref: f, push: f, ...},
+   location: {pathname: "/", search: "", hash: "", state: undefined, key: "jajqhi"},
+   match: {path: "/", url: "/", isExact: true, params: {...}}
+	staticContext: undefined}} 
+
+// We can see an object containing four properties called "history", "location", "match" and 
+// "staticContext" 
+
+// Let's see the "location" property first 
+
+location: 
+	hash: ""
+	key: "jajqhi"
+	pathname: "/"
+	search: ""
+	state: undefined 
+
+// So it gives us a bunch of properties, 
+// a "hash" property which has a value of an empty string ""
+// a "key" property
+// a "path" property which is set to a value of string slash ("/")
+// a "search" property which is set to a value of an empty string "" 
+// and there is a "state" property which is for a different version of 
+// Router than we are using
+
+// Now we will set a new URL,
+
+
+localhost:3000/help?query=test#home
+
+
+// after entering this URL on our URL bar and pressing enter this is what  
+// we get on our console.
+
+
+location: 
+	hash: "#home"
+	key: "jajqhi"
+	pathname: "/help"
+	search: "?query=test"
+	state: undefined
+ 
+
+// This time we have a value for hash so it parsed out the "#home" from our URL
+// It did the exact same thing with the query string and 
+// the pathname gets updated to "/help"
+
+// This is the shortened version of what we maybe familiar with native JavaScript
+// there is a location that is attached to the window, 
+// The "location" property display us the internal information from the Router.
+
+// Now we will view the "history" property,
+ 
+
+history:
+	action: "POP"
+	block: f block(propmt)
+	createHref: f createHref(location)
+	go: f go(n)
+	goBack: f goBack()
+	goForward: f goForward()
+	length: 12
+	listen: f listen(listener)
+	location: {pathname: "/help", search: "?query=test", hash: "#home", state: undefined}
+	push: f push(path, state)
+	replace: f replace(path, state)
+	proto: object
+
+
+// The f s that we can see on history object stands for functions
+// and the word following the f s are names of built-in methods that we can run here
+// The "length" is not an array but it is kind of like an array, the history property object
+// is created by a seperate module called history, it is made by the same people who made the 
+// Router and it is a dependency and specifically the history object is a Stack. It is a fancy 
+// computer science term for something that is LIFO which is Last-in First-out, rather than a 
+// Queue which is First-in First-out.
+
+// Queue is when we get on a line at a store, the cashier will always help the first person in line,  
+// so if you get there first you get to be the first one to go through the check-out, LIFO is exactly
+// the opposite, things are stacked on top of each other so you are taking the top one off, its more 
+// like a deck of cards.
+
+// The "length" property defines how many things are on the Stack, and there is a "push" property
+// there and if we push a path we can programatically move the user somewhere else.
+
+
+App.js
+
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+import {BrowserRouter as Link, Route, Router} from 'react-router-dom';
+import NavBar from './NavBar/NavBar';
+import Home from './Home';
+import Help from './Help';
+
+const Host = ()=><h1>Become a host</h1>
+const Login = ()=><h1>Login</h1>
+const Signup = ()=><h1>Signup</h1>
+
+function App() {
+	return (
+		<Router>
+			<Route path="/" NavBar/> 	
+			<Route exact path="/" render={()=>{
+				return <Home title="Hello" />
+			}}/>
+			<Route exact path="/host" component={Host}/>
+			<Route exact path="/help" component={Help}/>
+			<Route exact path="/login" component={Login}/>
+			<Route exact path="/signup" component={Signup}/>
+		</Router>
+		);
+	}
+	
+	export default App;
+
+
+// If we look inside the App.js file then we have a NavBar component, if we look at
+// the Route below it, then instead of the "component" prop we have the "render" prop
+// Now inside of Home.js, let's console.log(props) and see what they are inside the 
+// Home component.
+
+
+Home.js
+
+import React from 'react';
+
+function Home(props) {
+	console.log(props);
+	return( 
+		<h1>{props.title}</h1>
+	)
+}
+
+export default Home;  
+ 	
+Output:
+
+Console
+
+{title: "Hello"}
+
+
+// It is just showing an object with the property "title" inside it
+// If we are using the "render" prop instead of the "component" prop
+// then we have  taken the control, we are saying React this is how I particularly
+// want to render my component, when we are using the "component" prop we are giving
+// the control to the Router component, using the "render" prop we can define the exact
+// prop that we want to pass to our component, if we render a component using the 
+// "render" prop and we want the "history" to be available on our console then we need
+// to pass the props inside our render component as a parameter, and we also need to use 
+// the history prop to pass down the history object to our Home component.
+
+
+App.js
+
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+import {BrowserRouter as Link, Route, Router} from 'react-router-dom';
+import NavBar from './NavBar/NavBar';
+import Home from './Home';
+import Help from './Help';
+
+const Host = ()=><h1>Become a host</h1>
+const Login = ()=><h1>Login</h1>
+const Signup = ()=><h1>Signup</h1>
+
+function App() {
+	return (
+		<Router>
+			<Route path="/" NavBar/> 	
+			<Route exact path="/" render={(props)=>{
+				return <Home title="Hello" history={props.history} />
+			}}/>
+			<Route exact path="/host" component={Host}/>
+			<Route exact path="/help" component={Help}/>
+			<Route exact path="/login" component={Login}/>
+			<Route exact path="/signup" component={Signup}/>
+		</Router>
+		);
+	}
+	
+	export default App;
+
+
+Output:
+
+Console
+
+{title: "Hello", history: {...}}
+
+
+// Now we not only get the "title" property but we also get the "history" property.
+// We can also pass other properties provided by the React-Router to us
+// Now we will pass the "match" property. 
+
+
+App.js
+
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+import {BrowserRouter as Link, Route, Router} from 'react-router-dom';
+import NavBar from './NavBar/NavBar';
+import Home from './Home';
+import Help from './Help';
+
+const Host = ()=><h1>Become a host</h1>
+const Login = ()=><h1>Login</h1>
+const Signup = ()=><h1>Signup</h1>
+
+function App() {
+	return (
+		<Router>
+			<Route path="/" NavBar/> 	
+			<Route exact path="/" render={(props)=>{
+				return <Home title="Hello" history={props.history} match={props.match} />
+			}}/>
+			<Route exact path="/host" component={Host}/>
+			<Route exact path="/help" component={Help}/>
+			<Route exact path="/login" component={Login}/>
+			<Route exact path="/signup" component={Signup}/>
+		</Router>
+		);
+	}
+	
+	export default App;
+
+
+Output:
+
+Console
+
+{title: "Hello", history: {...}, match: {...}}
+
+// This is the occasion where we mentioned that we do not need the "location", instead we just
+// pass "history" and "match" and if we want the "location" object then we can get it inside the
+// "history" object as the "location" object is also stored inside the "history" object.
+// Otherwise the browser will always send all three but in this case we can save a little bit of
+// time. 
+
+// Well, this gives us the "history" and "match" properties on our console that we would not 
+// have. This is exclusive to when we are using the "render" prop to get our components because
+// we are manually telling React as how we want to render these components but we are not doing that
+// while rendering the <NavBar/> component, we are letting the Router decide that and it adds the props 
+// itself there. While rendering the Home component we actually need to send the "history" and the "match" 
+// objects if we want them and they are avialable inside the prop keyword that we are sending as an 
+// argument with the anonymous function.
+
+// So, we have got the history and we have got the push properties on our console because the history
+// object is a stack, so if we push something on top of it, then it will make that the LIFO, the last-in
+// will be the place the browser ends up pointing, so if we want to programatically move someone forward
+// we can use the "push" method which will add the user on the stack and if we want to take them out then 
+// we can use the goBack method which will take the user out of the Stack. 
+
+// That covers the "history" object and the last thing here is the "match" object and match is going to be 
+// one that we are going to use a lot and it is a little bit bigger topic, so we are going to treat that in 
+// the next lesson on its own. 

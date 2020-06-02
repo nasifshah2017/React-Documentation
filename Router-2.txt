@@ -1,0 +1,285 @@
+// To get the React Router components we need to install the Router package known as "react-router-dom".
+// There are two different versions, there are DOM and Native and here we are working with the DOM.
+
+
+// Console coding:
+
+	npm install react-router-dom
+
+
+// We need to start by importing the React components from the library, the components we are going to
+// import are "Router", "Route" and "Link"
+
+
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+
+
+// The first thing that we need to remember is that the Router component goes around everything that it 
+// needs to control. Generally speaking that is going to be at the app level.
+ 
+
+	function App() {
+		return (
+			<Router>
+				<div className = "App">
+					<h1>Sanity Check</h1>
+				</div>
+			</Router>
+		);
+	}
+	export default App;
+
+
+// Every component that the Router is going to manage, The Router component needs to be outside of all of them. 
+// That is important because we only want one instance of the Router, we will never want more that one Router 
+// component unless we know what we are doing, we ideally want to keep it down to one as there will be only one
+// URL bar that we will be working with. 
+
+// The second thing that we need after the Router is an actual Route. This what we use to determine what happens 
+// when we are at a given URL. This will make more sense as we go further along.
+
+
+function App() {
+		return (
+			<Router>
+				<Route path="/" component={Home}/>
+			</Router>
+		);
+	}
+	export default App;
+
+
+// So here we set up the "path" prop as the root path where the Route will be directing the user, after that we 
+// will put another called "component" prop and we are going to set that equal to "Home".
+// If we run this program we are going to get error as we have not developed a component called "Home" yet.
+// But Route is a self-closing component, it has a prop called "path" and a prop called "component".
+
+// The path prop means the Route component is going to look to see if the URL has the "/" on it, if it  
+// does then it is going to render the "Home" component under that URL, just as if we had this,
+
+
+function App() {
+		return (
+			<Router>
+				<Home/>
+			</Router>
+		);
+	}
+	export default App;
+
+
+// Now, we will quickly develop a Home component, we will develop it in-line in this file, this is not our
+// ideal way of developing a component but it is a lot faster. 
+
+
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+
+const Home = ()=> <h1>Home</h1>
+const About = ()=> <h1>About</h1>
+
+function App() {
+	return (
+		<Router>
+			<Route path="/" component={Home}/>
+			<Route path="/about" component = {About}/>
+		</Router>
+	);
+}
+
+export default App;
+
+
+// So we have two different Routes and both of them are inside of the Router.
+// Now if we refresh our browser with nothing after the slash "/" on our URL bar then we get the following
+// output
+
+
+localhost:3000/
+
+Home
+
+localhost:3000/about
+
+Home
+
+About
+
+
+// So we can see that if we only refresh by not putting anything after the slash "/" then we only get
+// the "Home" component rendered but if we put "about" after the slash we also get the About component
+// rendered with the "Home" component. 
+
+// Now its good that we get About as that is what we searched for but the quetion is why did we actually
+// get the "Home" component rendered with that. 
+
+// The problem is on this line in our App.js file,
+
+
+<Route path="/" component={Home}/>
+
+
+// As we are assigning the prop "path" to slash(/), the Route will look for slash anywhere on the URL and
+// if it finds the slash(/) on the URL, it will directly render its component on that URL regardless what is
+// there after the slash. This is the catch, we need to put the "exact" prop before the path prop if we want
+// our Route component to render our component prop exactly at the URL we have chosen.
+ 
+
+<Route exact path="/" component={Home}/>
+
+
+// "exact" path is another prop and we do not need to assign anything to it. It will only render the <Home/>
+// component if we are exactly at the slash and do not have anything after the slash. 
+
+
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+
+const Home = ()=> <h1>Home</h1>
+const About = ()=> <h1>About</h1>
+
+function App() {
+	return (
+		<Router>
+			<Route exact path="/" component={Home}/>
+			<Route path="/about" component = {About}/>
+		</Router>
+	);
+}
+
+export default App;
+
+
+localhost:3000/about
+
+About
+
+
+localhost:3000/
+
+Home
+
+// "slash(/)" renders the Home component and "slash(/about)" renders the About component. 
+// So, we are getting conditional rendering based on what is on the URL. 
+
+// Just to make this a little bit more clear we are going to put a header and footer in our App 
+// component. Again if the exact path we are on then we get the Home component rendered on the Home page 
+// and if the path contains "about" then we get to the about page containing the About component. 
+// So, we should see our Header and Footer around whichever component renders. 
+
+
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+
+const Home = ()=> <h1>Home</h1>
+const About = ()=> <h1>About</h1>
+
+function App() {
+	return (
+		<Router>
+			<h1>Header</h1>
+			<Route exact path="/" component={Home}/>
+			<Route path="/about" component = {About}/>
+			<h1>Footer</h1>
+		</Router>
+	);
+}
+
+
+localhost:3000/
+
+Header
+
+Home
+
+Footer
+
+
+localhost:3000/about
+
+Header
+
+About
+
+Footer
+
+
+// In React we do not use anchor(a) tags anymore, as that is back-dated and that will
+// take us away from the app, when we load up what loads up is index.html and that is a front-end 
+// framework and if we leave index.html, then everything has to start back over. The way webpack works
+// is that it goes and grabs index.js and then it follows its rules but if we refresh the app then that
+// means we left index.html and it starts all over again.
+
+// But we do not want to leave the app and that is why we will use a Link component and that has 
+// a prop of "to" and we assign that prop to the URL address that we want to send the user to when 
+// he/she clicks on the link. And it will function exactly like an anchor tag.
+
+
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+
+const Home = ()=> <h1>Home</h1>
+const About = ()=> <h1>About</h1>
+
+function App() {
+	return (
+		<Router>
+			<h1>Header</h1>
+			<div>
+				{/* we don't use a tags, that's so 2014 */}
+				<Link to="/">Home</Link>
+				<Link to="/about">About</Link>
+			</div>
+			<Route exact path="/" component={Home}/>
+			<Route path="/about" component = {About}/>
+			<h1>Footer</h1>
+		</Router>
+	);
+}
+
+
+
+// So, we have two links, one takes us to the Home page and one takes us to the About page and when it takes  
+// us to slash(/) then,
+ 
+	
+	<Route exact path="/" component={Home}/>
+
+
+// will get executed as clicking on the Home link migrates the user to the Home page with the exact URL 
+// slash, and that will load up the Home component instead of the About component.
+
+// And then if we click on the About link, then its going to see that we are on "/about" and it should
+// render the About component instead of the Home component. 
+
+// React-Router takes care of these for us as we click on the links, we get migrated back and forth between
+// the Home page and the About page, and the React Router is doing two things, the first, its deciding
+// what component to put on the page and two we are not leaving index.html, we are not leaving our application,
+// the DOM is not reloading, JavaScript is just rewriting as what is on the URL and the browser co-operates with
+// it so we can use the forward and the backward button and that is the ultra-basics of how the React-Router works.
+
+// We have the Router component that is going to be around everything, we have the Route component and that can be
+// there anytime we want to put a component depending on what URL we are happen to be at and then we have the Link 
+// component and that is our new substitute for anchor (a) tags, if we want to link internally inside our React 
+// app then we are always going to use the Link component. 
+    
+
+  
+
+
+
+
+
+
+
+   
+
+    

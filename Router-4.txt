@@ -1,0 +1,88 @@
+// In this lesson we are going to look at a very important 'prop' of the Route component,
+// so far we have used the "component" prop and there is another prop called "render" which
+// is very important.
+
+// So far the way we have done, is that we have specified a path sometimes using "exact"
+// and sometimes not,
+
+
+	<Route exact path="/" component={Home}/>
+
+
+// And if the path takes us to that URL then React renders the component defined by the component
+// prop. Its more like an if-else statement, if the url has the slash then the browser migrates 
+// the user to the page where React rendered the Home component. 
+
+// But it poses a problem because what if we wanted to do send down props through those components,
+
+
+	<Route exact path="/" component={<Home title="Hello"/>} />
+
+
+// This is what we have normally done so far when we sent props through a component.
+
+// Now if we visit our webpage we see that we get an error as this is not the appropriate
+// way to pass a prop through a component when we are using "component" as a prop to the 
+// Router component. 
+
+// There is another option, we can use a prop called "render" which will allow us to pass a
+// callback function. Just like we did with our event-handlers where we had an onClick and sometimes
+// we pass a parameter to the function, the same thing is true here and we need to pass "render" a callback
+// function that returns something 
+
+// This callback function is going to be an anonymous function 
+
+
+App.js
+
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+import {BrowserRouter as Link, Route, Router} from 'react-router-dom';
+import NavBar from './NavBar/NavBar';
+import Home from './Home';
+
+const Host = ()=><h1>Become a host</h1>
+const Help = ()=><h1>Help</h1>
+const Login = ()=><h1>Login</h1>
+const Signup = ()=> <h1>Signup</h1>
+
+function App() {
+	return (
+		<Router>
+			<NavBar/>
+			<Route exact path="/" render={()=>{
+				return <Home title="Hello" />
+			}}/>
+			<Route exact path="/host" component={Host}/>
+			<Route exact path="/help" component={Help}/>
+			<Route exact path="/login" component={Login}/>
+			<Route exact path="/signup" component={Signup}/>
+		</Router>
+		);
+	}
+	
+	export default App;
+
+
+Home.js
+
+import React from 'react';
+
+function Home(props) {
+	return( 
+		<h1>{props.title}</h1>
+	)
+}
+
+export default Home;
+
+
+Output:  Hello 
+
+
+// As you can see the "render" prop is very important, anytime we render a component
+// which we need to deliver prop to the component's definition then we would need the "render" prop.
+// But if we do not need to send a prop down through our component but only the component itself then 
+// the "component" is the right prop to use. 
+

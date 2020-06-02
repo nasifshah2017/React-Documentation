@@ -1,0 +1,27 @@
+// React Router is a collection of navigational components. We are going to 'npm install' it and they are 
+// going to give us a handful of components that we can use, Route, Link, NavLink etc. and they allow us to control
+// the URL bar, that is very big as it does two things, it gives us bookmarkable URLs. If we click on a news link 
+// at a news site, we get migrated to the particular page of that news from the home page of the news site.
+// The news page might have a link like "bbc.com/sports/tennis/48514159", we can refresh the page and we get the 
+// same page, we might want to share this news with our friends, in that case we can copy the whole link and send
+// it to our friends, as we need to make sure our friend gets at this page. 
+
+// This is a very important part of React Router, the other important thing we can do using the React Router is
+// use the back arrow on that news page and go back to the home page and click another news link, and migrate to
+// the page of that news then we click the back arrow again and go back to the home page again, but then we thought
+// that we saw something in that particular news that we want to view again, so we click the forward arrow and 
+// migrate back to the page, so this is the flexibilty that React Router provides us with, which lets us migrate back 
+// and forth and anywhere in the news site. 
+
+// So far the projects that we did, we do not have this ability on them, as we cannot manage the URL at all, and if 
+// we go back a page we lose everything and if we go forward a page we lose everything, so everything completely  
+// resets if we refresh our page.   
+
+// React Router's job is to give us the ability to develop a real single page app where we can manipulate the DOM 
+// the way we had been with React, but we can use the URL bar, we will see more and more and it will get obvious  
+// how valuable it is as we use it.
+
+// There are two different versions of React Router, there is React Router "Web" or React Router DOM and React Router 
+// "Native". This is a good news because if we develop a React Native app we can use the React Router and the API
+// is almost exactly the same as we are used to. We are going to use the Web version in this course but the Native
+// version is available as well.

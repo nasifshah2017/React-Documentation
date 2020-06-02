@@ -1,0 +1,215 @@
+// In this lesson we are going to go over the Nested Routes and it is really straight forward.
+// We are going to need a new component to do this we can use the component we defined in-line
+// at the App.js page, but we will define a new component in its own file.
+
+Help.js
+
+import React from 'react';
+
+function Help() {
+	return(
+		<h1>Help</h1>
+	)
+}
+
+export default Help;
+
+App.js
+
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+import {BrowserRouter as Link, Route, Router} from 'react-router-dom';
+import NavBar from './NavBar/NavBar';
+import Home from './Home';
+import Help from './Help';
+
+const Host = ()=><h1>Become a host</h1>
+const Login = ()=><h1>Login</h1>
+const Signup = ()=><h1>Signup</h1>
+
+function App() {
+	return (
+		<Router>
+			<NavBar/>
+			<Route exact path="/" render={()=>{
+				return <Home title="Hello" />
+			}}/>
+			<Route exact path="/host" component={Host}/>
+			<Route exact path="/help" component={Help}/>
+			<Route exact path="/login" component={Login}/>
+			<Route exact path="/signup" component={Signup}/>
+		</Router>
+		);
+	}
+	
+	export default App;
+
+
+localhost:3000/help
+
+Help
+
+// Everything is loading up the way it supposed to. If we go back to the definition
+// of the Help component function and let's say we have multiple things inside of Help
+// that we needed to happen. It might have contents those are particular to its page 
+// and not to other component pages.  
+
+
+Help.js
+
+import React from 'react';
+
+function Help() {
+	return(
+		<h1>Help Header</h1>
+		<p>An image goes here</p>
+		<h3>Footer for Help</h3> 
+	)
+}
+
+export default Help;
+
+
+// So these three tags, we always want them to be on the Help page
+// They are the essential part of the template, and then internal
+// to the Help page we have stuffs those belong there, but are not permanent
+// to the page as these three tags. 
+
+// Sometimes its going to be the Customer, sometimes its going to be the Host 
+// These are the dynamic contents of a page. 
+
+// To place these contenst we can use the built-in Route component
+
+
+Help.js
+
+import React from 'react';
+import {Route} from 'react-router-dom';
+
+const HelpCustomer = ()=><h1>Help Customer</h1>
+const HelpHost = ()=><h1>Help Host</h1>
+
+function Help() {
+	return(
+		<h1>Help Header</h1>
+		<p>An image goes here</p>
+		<Route path="/help/customer" component={HelpCustomer}/>
+		<Route path="/help/host" component={HelpHost}/>
+		<h3>Footer for Help</h3> 
+	)
+}
+
+export default Help;
+
+
+// We will give the two options to our users to select between the Customer and the Host 
+
+
+Help.js
+
+import React from 'react';
+import {Route, Link} from 'react-router-dom';
+
+const HelpCustomer = ()=><h1>Help Customer</h1>
+const HelpHost = ()=><h1>Help Host</h1>
+
+function Help() {
+	return(
+		<div>
+			<Link to="/help/customer">I am a customer</Link>
+			<Link to="/help/host">I am a host</Link>
+		</div> 
+		<p>An image goes here</p>
+		<Route path="/help/customer" component={HelpCustomer}/>
+		<Route path="/help/host" component={HelpHost}/>
+		<h3>Footer for Help</h3> 
+	)
+}
+
+export default Help;
+
+
+// We need the Route component because the Route component is essentially rendering the
+// HelpCustomer and the HelpHost components inside of the Help component which is  
+// initially being rendered at the App.js file 
+
+// So Help component is going to get rendered if the user is at "/help"
+// Inside of the Help component if they are inside of "/help/customer" then
+// the "HelpCustomer" component also gets rendered, if they are inside of 
+// "/help/host" then the "HelpHost" gets rendered for them.
+
+// We have the Links above our page to help the user get to the right page and above the
+// Links we have the HelpCustomer and the HelpHost components defined so that we do not 
+// need to make new files for those components. 
+
+
+localhost:3000/help
+
+I am a customer I am a host	// Two clickable links
+
+An image goes here
+
+Footer for Help
+
+
+// Now if we click the "I am a customer" link we get this,
+
+localhost:3000/help/customer
+
+
+
+// We get a blank page. Our HelpCustomer component is not rendered and our page is blank.
+// This happened because the HelpCustomer is inside the Help component and the Help component
+// only renders if we are at the exact path "/help" but we are not, we are in "/help/customer"
+
+
+<Route exact path="/help" component={Help}/>
+
+
+// That is why we need to get rid of the "exact" prop, so the {Help} component gets rendered
+// even when we are at a deeper link than "/help".
+
+
+localhost:3000/help/customer
+
+I am a customer I am a host
+
+An image goes here
+
+Help Customer 
+
+Footer for Help
+
+
+localhost:3000/help/host
+
+I am a customer I am a host
+
+An image goes here 
+
+Help Host
+
+Footer for Help
+
+// As we can see the HelpHost and the HelpCustomer get rendered inside the rendered Help component.
+
+// The Help Host and the Help Customer are the dynamic contents those are internal to the Help.
+
+// The main reason we are going to use this is because it is lot easier than having the contrived 
+// if statements where we are keeping track of on what they most recently clicked on we could have 
+// button instead of the Links where they would choose whether they are a Host or a Customer and then
+// kind of have wanky if statements down in the code. 
+
+// Instead this is a lot easier way to do that. The reason we would want to do that is usually because
+// we have got parts of the component those are very template-like and they always belong on the page 
+// and we also have dymanic contents those reside on the page.
+
+// It is very useful and very powerful when we need it and we can go as deep as we want to. 
+// Inside the HelpCustomer and the HelpHost components we can put more Routes which will render
+// components conditionally. 
+
+  
+
+ 
+
