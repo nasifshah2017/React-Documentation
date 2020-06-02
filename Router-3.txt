@@ -295,11 +295,3 @@ export default NavBar;
 
 
 // It will work exactly the same way as the Link components 
-
-
- 
-
-
-
- 
- 
