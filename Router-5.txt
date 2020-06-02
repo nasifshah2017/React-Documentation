@@ -79,7 +79,7 @@ export default Help;
 // Sometimes its going to be the Customer, sometimes its going to be the Host 
 // These are the dynamic contents of a page. 
 
-// To place these contenst we can use the built-in Route component
+// To place these contents we can use the built-in Route component
 
 
 Help.js
