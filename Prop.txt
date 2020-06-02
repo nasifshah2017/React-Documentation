@@ -1,0 +1,43 @@
+// Props: are arguments to components, when we send the component to another page by its name 
+// and use the component’s attribute, that attribute is the prop that we sent with the component. 
+
+// Props are short for properties. The reason we call it properties, is because prop is an object 
+// and it will have a property for every attribute that we set. 
+
+// declaring the Component: function Card(props)
+// calling the component: <Card name= “Robert Bunch”>
+
+// So, here prop is an object that contains the key called name and the value of the key is 
+// called Robert Bunch. 
+
+// declaring the Component: function Card(props)
+// calling the component: <Card name= “Robert Bunch” title= “React From the Beginning”>
+
+// Here prop is an object that contains two keys as name and title that has values Robert 
+// Bunch and React From the Beginning respectively. 
+// This helps us to use these components as much as we want and we just have change the values 
+// of the props objects and we do not need to define the Component for each use, instead we just 
+// have to change the values of the props' objects. 
+
+// We can call another Component as above using new values:
+// Calling the component: <Card name= “Stephane Maarek” title= “Apache Kafka Series”>
+
+// This component will create a new card as before but with new name and title. 
+
+// When we define props inside a Component, we define it as below:
+
+
+
+	function Card(props) {
+
+		<div className= “card-content”>
+			<p>{props.title}</p>
+			<p>{props.name}</p>
+		</div>
+
+	}
+
+// Props are immutable, they are managed by their parent, they are never managed by the 
+// component itself. This means that we can only change the prop values when we are calling 
+// them in components and using them as attributes in the component call, we can never change 
+// them in the component's function body.  

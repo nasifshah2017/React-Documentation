@@ -1,0 +1,9 @@
+For me, First of regarding React, I would choose which starting route would I prefer either 
+Create React App/ Gatsby or Next JS. I chose Next JS as I no longer need to use React Router 
+nor React Lazy Loading as both is built in Next JS and is also good for SEO. Regarding Hooks, 
+I only use mostly useState and useEffect whereas for side Effects I’ll use Redux Saga instead 
+of Redux thunk. For larger state management, I’ll use the standard Redux actions and reducers. 
+For css I use CSS modules and Material Ui and React bootstrap. So my recommendation would be 
+first choose your preferred approach in each category and go deeper with the path you chose 
+instead of trying to learn them all in a short run cause there’s just too many things to learn 
+if you go general and wide.

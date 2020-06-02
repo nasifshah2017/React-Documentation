@@ -1,0 +1,51 @@
+// The first script tag that we added in our index.html page is React proper. That is React.js:
+
+<script crossorigin src= https://unpkg.com/react@16/umd/react.propduction.min.js></script>
+
+// This is React itself.
+
+// The second script tag contains the link to the file of React DOM:
+
+<script crossorigin src= https://unpkg.com/react-dom@16/umd/react-dom.production.min.js></script>
+
+// The script tag contains the link to the file of Babel:
+
+<script src= “https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js”></script>
+
+// We use React DOM to call the render function:
+
+ReactDOM.render(
+	<h1>Sanity Check</h1>,
+	Document.getElementById(‘root’)
+);
+
+
+// The two items that we can see in the render function are the arguments and they are called JSX. 
+
+// The React DOM is also working with Babel. Babel is a JavaScript compiler. 
+// It converts ES6 Extended JavaScript (JSX) to Vanilla JavaScript. 
+// For example: 
+
+// ES6  
+// ()=> 2			
+
+
+// Vanilla JS
+// (function () {
+// 	return 2;
+// });
+
+
+// ES6
+// ()=> <h1>Sanity Check</h1>
+
+
+// Vanilla JS
+// (function () {
+// 	return React.createElement(“h1”, null, “Sanity Check”);
+// });
+
+
+// React.createElement is a function that is passing the first argument as type or tag, 
+// the second argument is props and we do not know yet what that means, and the third 
+// argument is the content inside the tag.  

@@ -1,0 +1,7 @@
+
+Redux: 	https://youtu.be/3sjMRS1gJys              
+	https://youtu.be/poQXNp9ItL4
+
+React Crash Course: https://youtu.be/DLX62G4lc44
+
+Events: https://developer.mozilla.org/en-US/docs/Web/Events

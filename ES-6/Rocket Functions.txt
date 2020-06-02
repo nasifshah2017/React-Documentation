@@ -1,0 +1,139 @@
+// Here we are going to look into the Rocket Function.
+// It is also called the Arrow Function. JavaScript is 
+// an incredibly call back heavy language.
+
+function x() {
+	return 1;
+}
+
+setInterval(function() {
+	return 1;
+}, 1000);
+
+
+// This function will be called at every 1000-second 
+// interval. It just a little bit of code that we are 
+// passing around. We can do this all the time in JavaScript.
+// Whenever we use an anonymous function instead of writing
+// the whole word function we can do this,
+
+
+setInterval(()=>{
+	return 1;
+}, 1000);
+
+
+// This creates an anonymous function just like we had before,
+// so we have got open and close bracket, followed by the Rocket
+// and then we have the opening curly bracket followed by the 
+// function body and then the closing curly bracket, then we have 
+// the comma, followed by the time of interval at which this function
+// will be called. 
+
+
+// To make this more clear we will define a constructor,
+
+
+function Rocket(speed){
+	this.speed = speed;
+}
+
+const myRocket = new Rocket('30k');
+
+console.log(myRocket.speed);	// 30k
+
+// What we did here is pretty straight forward. This is 
+// how JavaScript works basically. Now let's decalre a prototype.
+
+function Rocket(speed){
+	this.speed = speed;
+}
+
+Rocket.prototype.blastOff = function() {
+	return "Blast Off!!!"
+}
+
+const myRocket = new Rocket('30k');
+
+console.log(myRocket.blastOff());	// Blast Off!!!
+
+// So here we added the blastOff property to every Rocket
+// object and that property is a function, so calling the
+// myRocket function with blastOff property returns the function
+// which returns, "Blast Off!!!". 
+
+// The Rocket Function does two more very important things, if we
+// console.log the word "this" inside the prototype we will get the
+// constructor itself. 
+
+
+Rocket.prototype.blastOff = function() {
+	console.log(this);
+	return "Blast Off!!!"
+} 
+
+// Output: Rocket { speed: '30k' }
+
+
+// We get back the actual object, its the object with 
+// name "Rocket" and a property of "speed" with value
+// "30k". There are going to be lot of occassions where
+// we do not want the "this" keyword to be the whole 
+// Rocket object, we want it to be something outside 
+// the Rocket object. 
+
+// If we get rid of the word "function" and replace it
+// with the Arrow or the Rocket symbol. The this keyword
+// will change to a global this or the node object that is 
+// running , if we use the Rocket function it will not create
+// a new "this", so that is very important. 
+
+Rocket.prototype.blastOff = ()=>{  
+	console.log(this);
+	return "Blast Off!!"
+}
+
+console.log(myRocket.blastOff());
+
+// If we use the Rocket function it will not create a new
+// "this", so that it very important and we will use that
+// quite a bit. 
+
+// The other thing that this gives us the ability to do
+// is that if all we are doing is returning something 
+// we can get rid of all the brackets and the "return" keyword 
+// and write the whole function as it is.
+
+Rocket.prototype.blastOff = ()=> return "Blast off!!"
+
+console.log(myRocket.blastOff())	// Blast Off!!
+
+
+const a = [1,2,3,4,5];
+
+a.forEach((item, i) => {
+	console.log(item);
+})
+
+// Output: 1
+//	   2
+//	   3
+//	   4
+//	   5
+
+
+console.log(a.filter((item, i)=>{
+	return item === 4
+}))
+
+// Output: [ 4 ]
+
+
+console.log(a.filter((item, i)=>item === 4))
+
+// Output: [ 4 ]
+
+
+
+
+  

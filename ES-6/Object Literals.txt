@@ -1,0 +1,68 @@
+// Here we will look into Object Literal notations
+// and it would make things a lot simpler. Let's
+// say we have this variables and we want to put
+// them inside an object.
+
+const a = 1;
+const b = 1;
+const c = 1;
+
+// Now we want to store these variables inside an
+// object.
+
+const x = {
+	a: a,		// Here we are declaring the property names as their values
+	b: b,
+	c: c
+}
+
+const name = "John Smith";
+const job = "Designer";
+const age = 35;
+
+const data = {
+	name: name,
+	job: job,
+	age: age
+}
+
+// This way of stroing variables inside an object is very
+// boring as you need to keep repeating your variable names
+// as the property names. 
+
+// In ES-6 they solve that problem by giving us the ability 
+// to calling the names just once and the variables will get
+// stored in the object as properties.
+
+const name = "John Smith";
+const job = "Designer";
+const age = 35;
+
+const data = {
+	name,
+	job,
+	age,
+}
+
+console.log(data.name);		// John Smith
+
+
+const name = "John Smith";
+const job = "Designer";
+const age = 35;
+
+const prop = 'aPropertyName';
+
+const data = {
+	name,
+	job,
+	age,
+	[prop]: 'Hello'
+}
+
+console.log(data);		
+
+// Output: {name: John Smith, job: Designer, age: 35, aPropertyName: Hello}
+
+
+	

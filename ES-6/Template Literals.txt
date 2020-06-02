@@ -1,0 +1,57 @@
+// We are going to take a look at Template Literals.
+// These are pretty straight forward and extremely useful
+// and they are quite simple 
+
+const firstName = "Rob";
+const lastName = "Bunch";
+const fullName = firstName + lastName;
+
+console.log(fullName);		// RobBunch
+
+// We realize that we forgot to put a space in-between
+// the first and last names. To sort this problem we
+// normally need to concatenate a space in-between
+// them
+
+const firstName = "Rob";
+const lastName = "Bunch";
+const fullName = firstName + " " + lastName;
+
+console.log(fullName);		// Rob Bunch
+
+// Template Literals give us the ability to use the backticks ` `
+// And when can insert variables in them as many as we want, by 
+// using the $ and the {}, and it will display our variables 
+// without the need of concatinating space in-between them, we
+// can put a space just by pressing the space-bar. 
+
+const firstName = "Rob";
+const lastName = "Bunch";
+
+const fullName = `${firsName} ${lastName}`
+
+console.log(fullName);		// Rob Bunch
+
+// We can also use the backticks to evaluate expressions 
+// we can just insert JavaScript expressions inside ${}
+// and that will get evaluated with out any hassle. We 
+// will evalute the current year using JavaScript expressions.
+
+const firstName = "Rob";
+const lastName = "Bunch";
+
+console.log(`The year is ${new Date().getFullYear()}, and I'm
+excited!);
+
+// Output: The year is 2020, and I'm excited!
+
+// This is how the Template Literals work, the main thing to
+// remember is that the backticks give us this power, and when 
+// we are inserting a variable or an expression we need to store
+// them inside ${}.
+
+
+
+ 
+
+

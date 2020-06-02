@@ -1,0 +1,152 @@
+// Here we are going to look at the Destructuring and Spread syntax
+// we will define object, and we want a short way of getting the 
+// properties of that object as variables. 
+
+// Destructuring
+
+const dataFromAPI = {
+	name: "Thanos",
+	age: "?",
+	job: "Super-Villain",
+
+}
+
+
+// Now we have this object and we will define variables,
+// assigning each of those variables as values of the 
+// properties in this object. 
+
+
+const name = dataFromAPI.name;
+const age = dataFromAPI.age;
+const job = dataFromAPI.job;
+
+
+// It did not take that long to assign each variable 
+// with the value of each properties in the object. 
+// But it's kind of silly because it is very repetitive.
+// Instead of doing this we can do something better.
+
+
+const {name, age, job} = dataFromAPI;	// Destructuring
+
+
+// This may look weird but it is exactly as we did in the
+// previous method where we have an object called "dataFromAPI"
+// we want to destructure that object and create a constant called
+// "name" which is equal to "dataFromAPI.name", we want a constant 
+// called "age" which is equal to "dataFromAPI.age", we want a constant
+// called "job" which is equal to "dataFromAPI.job". 
+
+
+// This is called Destructuring, now below the constant "x" will
+// assign it's property "name" to the value of "name" in the dataFromAPI
+// object, it's property "age" to the value of "age" in the dataFromAPI
+// object and it's property "job" to the value of "job" in the dataFromAPI
+// object. 
+
+
+const x = {
+	name,
+	age,
+	job,
+}
+
+console.log(x);	
+
+// Output: {name: 'Thanos', age: '?', job: 'Super-Villain'} 
+
+
+// Spread
+
+// The other cool syntax is called The Spread syntax,
+// let's say we have another property as an array in 
+// our dataFromAPI object called "abilities"
+
+
+const dataFromAPI = {
+	name: "Thanos",
+	age: "?",
+	job: "Super-Villain",
+	abilities: ['Strength', 'immortal', 'destruction']
+}
+
+// Now let's say we got more abilities of Thanos in a different 
+// array that we want to add in array property of our object.
+// This is really annoying as we need to either create a loop 
+// where we need to push each of those array item one at a time
+// or manually just add them using the array name with indes number
+// in square brackets.
+
+
+// Well Spread syntax (...) we can directly add external items in our
+// object. 
+
+
+const abilities = ['speed', 'smart', 'telepathy'];
+
+
+const dataFromAPI = {
+	name: "Thanos",
+	age: "?",
+	job: "Super-Villain",
+	abilities: ['Strength',...abilities, 'immortal', 'destruction']
+}
+
+console.log(dataFromAPI);
+
+// Output: {name: 'Thanos', 
+// age: '?', 
+// job: 'Super-Villain',
+// abilities: 
+// [ 	'Strength',
+//	'speed',
+//	'smart',
+//	'telepathy',
+//	'immortal',
+//	'destruction' ]}
+
+
+// As we can see the abilities array that we had externally
+// got inserted in abilities property array inside our object.
+// This how the Spread syntax helps us add external items in
+// our arrays, objects or other entities. The Spread operator
+// looped in the external array and added the properties in our
+// object's array. 
+
+const x = {
+	name: "Rob"
+}
+
+const a = x;
+
+a.name = "Jim"
+
+console.log(x);	// { name: 'Jim' }
+
+// The reason the name property of "x" chnages to "Jim"
+// is because we did not make a copy of "x", what we really
+// did is make a copy of variable "x" which actually got a 
+// value of the name property in the object.
+
+// The variable "a" is pointing to x = { name: "Rob" }, so when 
+// we change "a" we change x. The way to handle that is this,
+
+const x = {
+	name: "Rob"
+}
+
+const a = {...x};
+a.name = "Jim"
+
+console.log(x);	// { name: 'Rob' }
+
+// The spread operator is going to run through all the properties
+// in our object. When we run this program, "a" now has its own copy.
+// It is not pointing at x anymore and has its own object carrying the 
+// property of "name" with value "Jim".    
+ 
+ 
+
+  
+

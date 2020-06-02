@@ -1,0 +1,19 @@
+var stands for variable.
+const stands for constant.
+
+var x = 3;
+console.log(x)	// 3
+
+x = 4;
+console.log(x)	// 3	// 4
+
+
+const x = 3;
+console.log(x);	// 3
+
+x = 4;
+console.log(x)	// Error
+
+// We can declare a particular variable twice in our program, 
+// but we cannot declare a particular constant twice as our 
+// program will throw an error. 

@@ -1,0 +1,60 @@
+// We are going to take a look at the new keywords "let" and "const"
+// They came out in 2015 and they fully replaced the keyword "var"
+// with which we described the JavaScript varaibles since 1995 when 
+// JavaScript was born. 
+
+var x = 3;
+console.log(x);	// 3
+
+x = 4;
+console.log(x);	// 4
+
+const x = 3;
+console.log(x);	// ERROR
+
+// We cannot assign a const varible more than once because its a constant
+// a certain const variable can only be assigned once and cannot be reassigned
+// again in a program. 
+
+// But we can reassign it while using it an object. 
+// As an example,
+
+const y = {
+	name: "Bill"
+};
+console.log(y.name);
+y.name = "Rob";
+
+console.log(y.name);	// Bill
+
+// We can reassign it here because we are reassigning an item in our object
+// but not the object. "y" is the object which is the const but not "name"
+// which is the property in the "y" object. 
+
+// "let" is another type of variable that only exists in its own loop. When
+// we declare a let variable inside a loop we cannot access it outside that
+// loop. 
+
+let x = 1;
+if(x === 1){
+	let y = 2;
+} else { 
+	let y = 3;
+}
+console.log(y);		// Error: undefined
+
+// We are not being able to access y, as y is defined
+// inside the if and else loop and cannot be accessed
+// outside them. 
+
+// The way we can solve this problem is by declaring
+// y outside the loops.
+
+let x = 1;
+let y;
+if(x === 1){
+	y = 2;
+} else {
+	y = 3;
+}
+console.log(y);		// 2 
