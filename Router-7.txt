@@ -93,7 +93,7 @@ localhost:3000/
 				Home			// Clickable links
 				About
 
-				Home
+				Home page!
 
 
 
@@ -101,7 +101,7 @@ localhost:3000/about
 				Home			// Clickable links
 				About
 
-				About
+				About page!
 
 
 
@@ -258,7 +258,7 @@ export default App;
 
 // This means we have a Route that the Router is going to serve up at "/about/:id", this "id" can be any
 // number, does not matter which one, and if the user only ends up at an URL with "/about/:id" it 
-// is going to create a value for the params property in that match object at the console called id.
+// is going to create a value for the params property in that match object at the console, called id.
 
 // Now if we go back to the About page and click the About link we are not going to get the About
 // component rendered there anymore,
