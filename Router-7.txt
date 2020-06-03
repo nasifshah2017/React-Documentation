@@ -57,7 +57,7 @@ function About(props){
 export default About;
 
 
-// So we just deveoped two extremely simple stateless components like we developed many times
+// So we just developed two extremely simple stateless components like we developed many times
 // Now we will import both of them in our App.js file 
 
 
