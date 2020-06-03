@@ -82,7 +82,7 @@ function App() {
 				<Route exact path="/about" component={About}/>
 
 			</div>
-		<Route>
+		<Router>
 	)
 }
 
@@ -185,7 +185,7 @@ function App() {
 				<Route exact path="/about" component={About}/>	//
 
 			</div>
-		<Route>
+		<Router>
 	)
 }
 
@@ -335,10 +335,3 @@ match:
 
 // It will take a little bit time to get our head wrap around it, if we are not familiar
 // with it.    
-
-
-
-
-	  
-
-
