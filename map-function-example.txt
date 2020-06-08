@@ -53,7 +53,7 @@ App.js
 import React, {Component} from 'react';
 import './App.css'
 import CardSet from './CardSet';
-import cards from './cards';	// Importing the data from data.js but naming it as cards
+import cards from './cards';	// Importing the data from cards.js but naming it as cards
 
 console.log(cards)
 
