@@ -1,0 +1,116 @@
+cards.js
+
+const data = [
+    {
+        course: "React From the Beginning",
+        instructor: "Robert Bunch",
+        image: "https://udemy-images.udemy.com/course/100x100/2195280_49b2.jpg"
+    },
+    {
+        course: "Apache Kafka Series",
+        instructor: "Stephane Maarek",
+        image: "https://udemy-images.udemy.com/course/480x270/1141696_6151_3.jpg"
+    },
+    {
+        course: "Music Production in Logic Pro X",
+        instructor: "Tomas George",
+        image: "https://udemy-images.udemy.com/course/480x270/897192_2cee_6.jpg"
+
+    },
+    {
+        course: "Unity Game Development",
+        instructor: "Jonathan Weinberger",
+        image: "https://udemy-images.udemy.com/course/480x270/1328572_b05d_4.jpg"
+    }
+]
+
+export default data;
+
+
+
+card.html
+
+<!-- The structure of a card display : The basic markup -->
+
+   <div className="col s2">
+	<div className="card hoverable small">
+        	<div className="card-image">
+            		<img src={card.image} />
+        	</div>
+        	<div className="card-content">
+            		<p>{card.course}</p>
+            		<p>{card.instructor}</p>
+        	</div>
+        	<div className="card-action">
+            		<a href="#">$9.99</a>
+        	</div>
+    	</div>
+    </div>
+	
+
+App.js
+
+import React, {Component} from 'react';
+import './App.css'
+import CardSet from './CardSet';
+import cards from './cards';	// Importing the data from data.js but naming it as cards
+
+console.log(cards)
+
+class App extends Component {
+	render() {
+		return (
+			<div className="App">
+				<div className="row">
+					<CardSet cards={cards}/>     {/* Sending cards to CardSet.js as props */}
+				</div>
+			</div>
+		);
+	}
+}
+
+
+
+CardSet.js
+
+import React, {Component} from 'react';
+
+class CardSet extends Component {
+	constructor(){
+		super();
+		this.state = {
+			chosenCards: []
+		}
+	}
+	render(){
+		console.log(this.props.cards);
+
+		const cardList = this.props.cards.map((card)=>{
+		return(
+		<div className="col s2">
+			<div className="card hoverable small">
+        			<div className="card-image">
+            				<img src={card.image} />
+        			</div>
+        			<div className="card-content">
+            				<p>{card.course}</p>
+            				<p>{card.instructor}</p>
+        			</div>
+        			<div className="card-action">
+            				<a href="#">$9.99</a>
+        			</div>
+    			</div>
+    		</div>
+
+			)
+		})
+		return(
+			<div>
+			  {cardList}
+			</div>
+		)
+	}
+}
+
+
+
