@@ -111,6 +111,3 @@ class CardSet extends Component {
 		)
 	}
 }
-
-
-
