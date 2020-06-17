@@ -1,0 +1,257 @@
+App.js
+
+import React, {Component} from 'react';
+import './App.css';
+
+class App extends Component {
+	render(){
+		return (
+			<div className="App">
+				<h1>Sanity Check</h1>
+			</div>
+		);
+	}
+}
+
+export default App;
+
+
+Console coding:
+
+npm start
+
+
+Output: 
+
+	Sanity Check
+
+
+App.js
+
+import React, {Component} from 'react';
+import './App.css';
+
+class App extends Component {
+	render(){
+		return(
+			<div className="App">
+				<h1>State Check</h1>
+			</div>
+		);
+	}
+}
+
+export default App; 
+
+
+Output:
+
+State Check
+
+
+We need to make sure that our development environment is up and running. We are going to make a new
+component called StateInAction. First, we will make a new file called "StateInAction.js". Virtually, 
+every Component is going to start in the same way but it is very good in these early stages to reinforce
+this, so we are going to type it out from the scratch. 
+
+
+StateInAction.js
+
+import React, {Component} from 'react';
+
+class StateInAction extends Component {
+	render(){
+		return(
+			<h1>State In Action</h1>
+		);
+	}
+}
+
+export default StateInAction;
+
+App.js
+
+import React, {Component} from 'react';
+import './App.css';
+import StateInAction from './StateInAction';
+
+class App extends from Component {
+	render(){
+		return(
+			<div className="App">
+				<h1>State Check</h1>
+				<StateInAction/>
+			</div>
+		);
+	}
+}
+
+export default App;
+
+Output:
+
+localhost:3000
+
+		State Check
+		State In Action
+
+
+In order to use State we need to have a class and the other thing that comes with a class is a 
+constructor() method and this method will run one time and only one time and it is when the 
+particular object (in our case the component) is created. 
+
+
+StateInAction.js
+
+import React, {Component} from 'react'
+
+class StateInAction extends Component {
+	constructor(){
+	}
+	render(){
+		return(
+			<h1>StateInAction</h1>
+		)
+	}
+}
+export default StateInAction;
+
+
+So in App.js when the render method tries to run and it tries to return something to whoever called
+it, in our case that is the index.js, and as we are calling the <StateInAction/> component inside the
+<App/> component, when the index.js runs the <App/> component, the <StateInAction/> component runs inside
+the <App/> component, and that is when the constructor() runs, and again, it will run only one time. 
+
+Inside the constructor(), we need to put the super() method.
+
+The constructor() method is where we want to initialize the State. We can initialize the state by doing,
+
+			this.state = {}
+
+The "this" in our case is the class itself as we are inside of the constructor() and "state" is an instance
+variable or it's a variable for this particular object. 
+
+"State" is very special, we can make anything we want inside of our constructor, but the "state" variable is 
+very very special and it is very unique to React, and we are going to start by defining a property for our
+"state" object, the property we are going to define is "text" and the value we are going to assign to this 
+"state" is a string "State In Action".
+
+
+StateInAction.js
+
+import React, {Component} from 'react'
+
+class StateInAction extends Component {
+	constructor(){
+		super();
+		this.state = {
+			text: "State In Action"
+		}
+	}
+
+	render(){
+		return(
+			<h1>State In Action</h1>
+		);
+	}
+}
+export default StateInAction;
+
+
+We have got an instance variable for the class "StateInAction" called "state", it is an object that
+has a property of "text" with a value of "State In Action".
+
+Now inside of our render() method, we are going to go to the JSX mode and we are going to do {this.state.text}
+and here the "this" represents the class, the "state" is the instance variable of the class and text is the 
+property of this "state".
+
+
+StateInAction.js
+
+import React, {Component} from 'react';
+
+class StateInAction extends Component{
+	constructor(){
+		super();
+		this.state = {
+			text: "State In Action"
+		}
+	}
+
+	render(){
+		return(
+			<h1>{this.state.text}</h1>
+		)
+	}
+}
+export default StateInAction;
+
+App.js 
+
+import React, {Component} from 'react';
+import './App.css';
+import StateInAction from './StateInAction';
+
+class App extends Component {
+	render(){
+		return(
+			<div className="App">
+				<h1>State Check!</h1>
+				<StateInAction/>
+			</div>
+			);
+		}
+	}
+
+export default App;
+
+Output:
+
+	State Check!
+	State In Action
+
+
+Now, when we come back to our browser and we see exactly the same thing.
+ 
+Inside of our constructor() in order to update it we are going to set a setTimeout() and we are going to 
+hand it a function and we are going to have it wait 2 seconds (2000 milliseconds). This is inside our 
+constructor() and the constructor() method is going to run one time and it will run when the StateInAction
+Component is created, so that will run our super() method which will get us all the good stuffs for being a
+Component, it will set up our state variable and then the setTimeout() function will be called and inside the
+setTimeout() function we will set our state by handing it an object and inside the object we will change the 
+value of the text property from "State In Action" to "State Changed!!".
+
+
+StateInAction.js
+
+import React, {Component} from 'react';
+
+class StateInAction extends Component{
+	constructor(){
+		super();
+		this.state = {
+			text: "State In Action"
+		}
+
+		setTimeout (()=>{
+			this.setState({
+				text: "State changed!!"
+			})
+		}, 2000)
+	}
+
+	render(){
+		return(
+			<h1>{this.state.text}</h1>
+		)
+	}
+}
+
+Output:
+	localhost: 3000
+			State Check!
+			State Changed!!
+
+We just made our first state change.
+
+ 
