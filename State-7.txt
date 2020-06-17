@@ -1,0 +1,337 @@
+1. Make a new Component called StatePractice 
+
+-  import React and Component
+-  make it a class, specifically a subclass of Component
+-  export the class, specifically a subclass of Component
+-  export the class as default
+-  add the constructor and super
+-  initialize state in the constructor with a property of message
+-  add a render method
+-  return a sanity check
+
+
+2. Add StatePractice to App.js
+
+-  go to App.js and import the component (remove EventAndState)
+-  render the Component in App.js
+
+
+3. Add event and state change to StatePractice
+
+-  remove sanity check and replace it with an input box and an h3
+-  in the h3, render the message piece of State
+-  use onFocus on the input box so that when the user clicks on the input, state updates
+-  setState on "message" to notify the user that they agree to the site terms of service by filling out the form
+
+
+4. Add another event
+
+-  add the onMouseEnter event to the h3 so that it clears the text when the user hovers over it
+
+
+5. Add another tag and event
+
+-  add an image tag (point at any URL)
+-  add another property to your state variable in the constructor called imageWidth and init to an empty string
+-  use the onLoad event to grab the image width
+-  if the image width is greater than 100px, then console.log ("Your image is big!")
+
+
+i) StatePractice.js
+   
+   import React, {Component} from 'react'
+
+   class StatePractice extends Component {
+		constructor(){
+			super();
+			this.state = {		// Defining the state object
+				message: " "	// Declaring the property of the state
+			}
+		
+		render(){
+			return(
+				<h1>Sanity Check!</h1>
+			)
+		}
+	}
+
+	export default StatePractice;
+
+ii) App.js
+
+    import React, {Component} from 'react';
+    import './App.css';
+    import StatePractice from './StatePractice';
+
+    class App extends Component {
+	render(){
+		return(
+			<div className="App">
+				<StatePractice/>
+			</div>
+		);
+	}
+}
+
+export default App;
+
+iii) StatePractice.js
+
+     import React, {Component} from 'react';
+
+     class StatePractice extends Component {
+		constructor(){
+			super();
+                        this.state = {		// Defining the state object
+				message: " "	// Defining the property
+			}
+
+		handleFocus=(event)=>{
+			this.setState({
+				message: "Agree to our terms & services by filling out the form"
+			})
+			event.preventDefault();
+		}
+
+		render(){
+			return(
+				<div>
+					<h3>{this.state.message}</h3>
+					<input onFocus={this.handleFocus} type="text" placeholder="Enter some text!"/>
+				</div>
+			)
+		}
+		export default StatePractice;
+
+iv) StatePractice.js
+
+    import React, {Component} from 'react';
+    
+    class StatePractice extends Component {
+		constructor(){
+			super();
+			this.state = {		// Defining the state object
+				message: " " 	// Declaring the property
+			}
+
+			handleFocus=(event)=>{
+				this.setState({
+					message: "Agree to our terms and services by filling out the form"
+				})
+			}
+			event.preventDefault();
+
+			handleMouseEnter=(event)=>{
+				this.setState({
+					message: " "
+			})
+			event.preventDefault();
+		}
+
+		render(){
+			return(
+				<div>
+					<h3 onMouseEnter={this.handleMouseEnter}>{this.state.message}</h3>
+					<input onFocus={this.handleFocus} type="text" placeholder="Enter some text"/>
+				</div>
+			)
+		}
+		export default StatePractice;
+
+v) StatePractice.js
+
+   import React, {Component} from 'react';
+
+   class StatePractice extends Component{
+		constructor(){
+			super();
+			this.state = {
+				message: " "
+				image: " "
+			}
+
+			handleFocus=(event)=>{
+				this.setState({
+					message: "Agree to our terms and services by filling out the form"
+			})
+			event.preventDefault();
+		}
+
+
+		handleMouseEnter=(event)=>{
+			this.setState({
+				message: " "
+			})
+			event.preventDefault();
+		}
+
+		handleImage=()=>{
+			this.setState({
+				image: "https://images.freeimages.com/images/large-previews/d75/the-barn-1233027.jpg"
+			})
+		}
+
+		render(){
+			return(
+				<div>
+					<h3 onMouseEnter={this.handleMouseEnter}>{this.state.message}</h3>
+					<input onFocus={this.handleFocus} type="text" placeholder="Enter some text"/>
+					<img src=`${this.state.image}`/>
+				</div>
+			)
+		}
+		export default StatePractice;
+
+
+
+						CORRECTION	
+
+
+1. StatePractice.js
+
+   import React, {Component} from 'react';
+
+
+   class StatePractice extends Component {
+		constructor(){
+			super();
+			this.state={
+				message: " "
+			}
+		}
+
+		render(){
+			return(
+				<h1>Sanity Check!</h1>
+			)
+		}
+	}
+
+	export default StatePractice;
+
+2. App.js
+
+   import React, {Component} from 'react';
+   import './App.css';
+   import StatePractice from './StatePractice';
+
+   class App extends Component{
+		render(){
+			return(
+				<div className="App">
+					<SanityCheck/>
+				</div>
+			);
+		}
+	}
+	export default App;
+
+Output:
+	StatePractice
+
+3. StatePractice.js
+
+   import React, {Component} from 'react';
+
+   class StatePractice extends Component{
+		constructor(){
+			super();
+			this.state={
+				message: " "
+			}
+		}
+
+		handleFocus=(event)=>{
+			this.setState({
+				message: "You agree to our term of services by filling out the form"
+			})
+		}
+
+		render(){
+			return(
+				<div>
+					<h3>{this.state.message}</h3>
+					<input onFocus={this.handleFocus} type="text"/>
+				</div>
+			)
+		}
+	}
+	export default StatePractice;
+
+4. StatePractice.js
+
+   import React, {Component} from 'react';
+
+   class StatePractice extends Component{
+		constructor(){
+			super();
+			this.state={
+				message: " "
+			}
+		}
+
+		handleEnter=()={
+			this.setState({
+				message: " "
+			})
+		}
+
+		handleFocus=(event)=>{
+			this.setState({
+				message: "You agree to our terms of service by filling out the form"
+			})
+		}
+
+		render(){
+			return(
+				<div>
+					<input onFocus={this.handleFocus} type="text"/>
+					<h3 onMouseEnter={this.handleEnter}>{this.state.message}</h3>
+				</div>
+			)
+		}
+	}
+	export default StatePractice;
+
+5. StatePractice.js
+
+   import React, {Component} from 'react';
+
+   class StatePractice extends Component{
+		constructor(){
+			super();
+			this.state={
+				message: " "
+			}
+		}
+
+		handleEnter=(event)=>{
+			this.setState({
+				message: " ";
+				imageWidth: " ";
+			})
+		}
+
+		handleFocus=(event)={
+			this.setState({
+				message: "You agree to our terms of service by filling out the form"
+			})
+		}
+
+		imageLoad=(event)=>{
+			console.dir(event.target)
+			if(event.target.width>100){
+					console.log("Your image is large!")
+			}
+		}
+
+		render(){
+			return(
+				<div>
+					<input onFocus={this.handleFocus} type="text"/>
+					<h3 onMouseEnter={this.handleEnter}>{this.state.message}</h3>
+					<img onLoad={this.imageLoad} src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg"/>
+			)
+		}
+	}
+	export default StatePractice;
