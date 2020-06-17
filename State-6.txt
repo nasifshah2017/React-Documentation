@@ -1,0 +1,240 @@
+In this lesson we are going to tie the two together, event and state, and we would see how it most
+commonly works in React when we want to update the UI.
+
+
+EventAndState.js
+
+import React, {Component} from 'react';
+
+class EventAndState extends Component{
+
+	handleClick(){
+		console.log("Test");
+	}
+
+	handleChange(){
+		console.log("User changed the input!!");
+	}
+
+	handleSubmit(event){
+		console.log("Form submitted!");
+		event.preventDefault();
+	}
+
+	render(){
+		return(
+			<div>
+				<form onSubmit={this.handleSubmit}>
+					<button onClick={this.handleClick} className="btn">Click Me!</button>
+					<input onChange={this.handleChange} type="text" placeholder="Enter some text!"/>
+				</form>
+			</div>
+		);
+	}
+}
+
+export default EventAndState;
+
+
+App.js 
+
+import React, {Component} from 'react';
+import './App.css';
+import EventAndState from './EventAndState';
+
+class App extends Component{
+	render(){
+		return(
+			<div className="App">
+				<EventAndState/>
+			</div>
+		);
+	}
+}
+
+export default App;
+
+
+Here we are going to start with our onChange event, because this is the easiest in action. We are going 
+to define a constructor in our class and we need to do that because we are going to define the State. As 
+we have defined constructor, we need to call the super() method, so that we can get all the stuffs being 
+a sub-class of Component. 
+
+Inside our constructor() we also need to define our state object, and inside the object we will initialize
+the "inputText" property to the empty string " ". So, we have a variable or a piece of state called 
+"this.state.inputText".
+
+Inside the handleChange method we are console.logging, "this.state.inputText", and we are going to use the
+"event" as we did in handleSubmit(), because we are going to need it and we are also going to console.log,
+event.target, so whenever the input-box changes, we are going to log the "event.target" and that is the input
+box itself and then we will log whatever the inputText is.
+
+
+	handleChange(event){
+		console.log(event.target);
+		console.log(this.state.inputText);
+	}
+
+
+But running this code, we will get error as we are using the "this" keyword inside the handleChange() method,
+that is why the "this" here represents the handleChange() method rather than the App component, and the 
+handleChange() method does not have the state object rather the App component has it in its constructor() method.
+
+The way we can sort out this problem is by chnaging the handleChange() method from a regular function to a rocket
+function,
+
+
+	handleChange = (event)=>{
+		console.log(event.target);
+		console.log(this.state.inputText);
+	}
+
+
+Now, when we go back to our browser and type something on our input-box we do not get the error anymore, as this
+"this", now represents the Component rather than the particular method it is inside of. 
+
+Okay, now instead of console.logging the event.target inside the handleChange() method we can console.log(dir), and
+it will show us where our inputs are being stored,
+
+
+	handleChange=(event)=>{
+		console.dir(event.target);
+		console.log(this.state.inputText);
+	}
+
+
+Now, when we go to our browser and type something in our input-box,
+
+	Click Me!	a b c
+
+and then we open our console this is what we get,
+
+Console
+
+	input
+		value: a b c
+
+So, this is where any content we put on the input-box will be stored and now we know that anything we type on the
+input-box gets stored as the property of "event.target.value".
+
+Now, we will call the setState method as we pass the "event.target.value" as its parameter,
+
+
+	handlleChange = (event) => {
+		this.setState({
+			inputText: event.target.value;
+	})
+		console.log(this.state.inputText);
+}
+
+
+So, when the user changes the input box by typing something on it, then that causes the handleChange() method to
+run, handleChange() automatically has the event object, we make React change the state of inputText by assigning
+it to the value, so the new "this.state.inputText" will be whatever was entered in the input-box. 
+
+Now, we will display on our page anything the user types on the input box,
+
+	render(){
+		return(
+			<div>
+				<h1>{this.state.inputText}</h1>
+				<form onSubmit={this.handleSubmit}>
+					<button onClick={this.handleClick} className="btn">Click Me!</button>
+					<input onChange={this.handleChange} type="text" placeholder="Enter some text!"/>
+				</form>
+			</div>
+		)
+	}
+
+So, we have an h1 right above our form and as the user type something inside of the input box, the "this.state.inputText"
+property will get updated and the "h1" will display as what is being typed,
+
+
+Output:
+	localhost: 3000
+				          I love React
+			Click Me! (button)		I love React! (input-box)
+
+
+Output:
+	localhost: 3000
+				             Hello
+			Click Me! (button)		Hello (input-box)
+
+
+As state changes, the Component re-renders and everytime it re-renders the <h1> tag, React will check the old 
+virtual DOM with the new copy of the DOM, it will see that something is different and it will change the h1 
+according to that.
+
+The onChange event updates the state of the Component and it is very important that anytime a State changes in a
+React component, the render method will be run again.
+
+This is how we are getting the h1 updated, render runs the first time to start everything off and then it runs 
+again and again and again, everytime as the state is changed. 
+
+We can try this again using our handleClick() method, here we will reset the inputText property back to the empty
+string " ".
+
+
+	handleClick(){
+		this.setState({
+			inputText: " "
+	})
+}
+
+
+Now, back in our browser when we type something in our input-box,
+
+				        I love React
+			Click Me! (button)	    I love React (input-box)
+
+and now when we click the button we get an error, as we are using the "this" keyword inside our handleChange()
+method without turning it into a rocket function, which is why "this" refers to the handleClick() method rather
+than the <App/> Component class. That is why we turn it into a rocket function and then type something on the 
+input box and then click the "Click Me!" button,
+
+
+	handleClick=()=>{
+		this.setState({
+			inputText: " "
+	})
+}
+
+localhost: 3000
+			I love React
+		Click Me!	    I love React
+
+		
+		Click Me! (Clicked!) I love React
+
+After clicking the button we can see that there are no heading on our page, as the inputText property of the
+state got reset back to empty string " ".
+
+Now, we will try this with our last method handleSubmit(),
+
+	handleSubmit=(event)=>{
+		this.setState({
+			inputText: "State is cool"
+	})
+		event.preventDefault();
+}
+
+
+So, anytime the form is submitted regardless of what is inside of the input-box, the heading will change to 
+"State is cool" on hitting Enter!
+
+
+Output:
+	localhost: 3000
+			I love React
+		Click Me!           I love React
+
+After Hitting Enter while the cursor is in the input box,
+
+			State is cool
+		Click Me!            I love React
+
+
+This is awesome!! This is the power of State and we got it all in one place, and we can update the UI very 
+efficiently using the same event we are used to, but then allowing React to change the value of the property
+of our State and then manage the re-render process of our application. 
