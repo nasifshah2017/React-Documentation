@@ -1,0 +1,139 @@
+In this lesson we are going to cover Stateful Components vs. Stateless Components. We are going to use
+the state cards components that we already built to kind of explain it,
+
+
+index.js [Entry Point] ---------------------- App.js ------------------------------- CardSet.js
+
+
+The way that it is set up right now is that, we have at the very top index.js and this is the absolute
+Bootstrap, the entry point. This is where the ReactDom.render is, and everything comes down from here.
+
+index.js renders App.js and App.js renders CardSet.js. This is our component structure right now. This is
+just a basic structure and nothing special.
+
+
+index.js ------------------- App.js [cards] -------------------- CardSet.js
+
+
+Inside of App.js we have "cards", cards is that piece of JSON or that array that App.js is getting. It does
+not matter where it is coming from, at the moment it is coming from a file. In reality it might be coming from
+a server or whatever, but App.js has full control over cards, it is just an array variable at this point, it 
+is mutable.
+
+
+index.js ------------------- App.js [cards] -------------------- CardSet.js [cards]:prop
+
+
+We pass the cards variable to CardSet.js as props, so the CarSet component also has cards but it has it as props
+and props are immutable, meaning CardSet is not supposed to change that. App.js can change it, as it has cards as
+variable. App can do whatever it needs to do to cards but CardSet cannot do anything to it as it gets passed 
+down to CardSet as a prop which means it is not changeable, and it is supposed to be left alone, 
+
+
+index.js ------------------- App.js [cards] -------------------- CardSet.js [cards]:prop [chosenCard]:State
+
+
+Inside of CardSet we have another variable of the state property called "chosenCard" and this is a piece of
+state and this is something CardSet is expecting to manage and everytime it changes CardSet will re-render.
+If "cards" changes inside App.js that will cause CardSet.js to re-render but CardSet does not know anything
+about cards, CardSet does not manage "cards", it just gets cards as it is passed down to it, whereas "chosenCard"
+is managed entirely by CardSet being its own state property,
+
+
+index.js ------ App.js [cards] ------------- CardSet.js [cards]:prop [chosenCard]:State ---------- Card.js [card]:prop
+
+
+We made a new Component called Card in the Card.js file, everytime we are mapping through the cards array, which
+contains an array of objects, each object storing card information such as card image, instructor, and we are
+mapping on the cards array using the map function, and each time we are on a card we store that card's information
+on the "card" variable and then from our map function we send the card variable to the Card.js file inside the
+Card component, and the card component prints out the card, we do it for all the cards as our map function loops
+through each of the card and each of those card gets printed out one after another on the page. 
+
+We sent each individual card from chosenCard, Card.js is getting it's own prop, and it is going to be called 
+this.prop.card and it is immutable to Card.js, regardless of from where it got passed from, Card.js gets a card
+and it prints it out, it does not need to make any decisions, it does not manage any data, it's only job is to
+print some stuff out, get that stuff into the DOM, and make our lives easier and take those 15-20 lines of code,
+get them to the CardSet component and put them on Card.js.
+
+Now let's write some definitions down,
+
+				Stateful				Stateless						
+
+				has state				does not have state
+
+				input a is not equal to b		input a is equal to input b
+
+Stateful has State in it means, its managing a type of state variable, there is data inside it that is changing
+and the Component is in charge of that. A Component will have State, if its managing its own data, the consequence
+of managing State, is that, given input a is not always equal to output b. If we have a Stateful Component, and 
+we give it input a, we cannot always gurantee that the output is always going to be same as b.
+
+A Stateless Component does not have State, but the consequence of that, input a will always be equal to output
+b. It means that if we give a Stateless component a piece of input, we will always get the same output for that
+piece of input.
+
+a and b are arbitrary, but if we give it a, then we will always get b, we will never get anything else. In the 
+case of Stateful component because, the data is changing internally, that is why if we give it a, we might get b
+one time, we might get c another time, we might get d another time and so on...
+
+Stateful = complex, smart
+Stateless = simple, dumb, presentation, pure
+
+The Stateful Components are complex, and/or smart, a Stateless Component's job is to do nothing other than present
+some HTML, present something to the DOM, it does not manage any data, it is not responsible for anything other than
+present some stuffs whereas a Stateful Component needs to make decisions, and will have data that changes, and that
+is what makes it complex and/or smart.
+
+Stateless is pure, as it is more of a "pure" function, there are two different things that make up a pure function
+and it depends on whom we are talking to,
+
+
+Stateless:
+
+	function sum(x,y){
+			return x + y;
+	}
+
+sum(2,3)
+
+Output: 5
+
+
+No matter how long we run this function, we will always get 5, because it will always return the same value, given
+the same input,
+
+
+Stateful Component:
+
+	const rand = Math.random();
+
+	function sum(x, y){
+			return x + y+ rand;
+	}
+
+sum(2,3);
+
+
+Now, we will get different outputs for running the same function and passing the same parameters everytime 
+we run the function, because this function is reliant on a function or method outside of itself.
+
+We can take this method and put it inside the function,
+
+
+	function sum(x,y){
+		const rand = Math.random();
+		return x + y + rand;
+	}
+
+sum(2,3);
+
+
+even though the random method is inside, we still do not get the same output for running the same function being
+passed the same parameter. The other definition of pure function is that it's output will never get effected by 
+some other method.
+
+Our Stateless function is going to be presentational and essentially pure because they will always return the same
+thing for any given input. 
+
+ 
