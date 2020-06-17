@@ -1,0 +1,209 @@
+Why would we ever want to use State? When is this useful? This is what we are going to hit here.
+
+The really short answer lies in the fact that this is JavaScript, it is an UI that runs in the browser.
+JavaScript is an event-based language. What causes stuff to happen in any webpage? What causes the UI
+or DOM to change? It is usually because the user clicked on something, or submitted a form, or changed 
+an input-box.
+
+So, we are going to talk about on how events work because they are very closely related, the State can 
+change anytime inside of an application or a component but it is most commonly going to change with events 
+and this is the easiest way to teach it.
+
+We are going to make a new file and we are going to call it SimpleEvents.js,
+
+
+SimpleEvents.js
+
+import React, {Component} from 'react';
+
+class SimpleEvents extends Component{
+
+	handleClick(){
+		console.log("Test");
+	}
+
+	handleChange(){
+		console.log("User changed the input!!");
+	}
+	
+	handleSubmit(event){
+		console.log("Form submitted!");
+		event.preventDefault();
+	}
+
+	render(){
+		return(
+			<div>
+				<form onSubmit={this.handleSubmit}>
+					<button onClick={this.handleClick} className="btn">Click Me!</button>
+					<input onChange={this.handleChange} type="text" placeholder="Enter some text!"/>
+				</form>
+			</div>
+			)
+		}
+	}
+
+export default SimpleEvents;
+
+
+Output: 
+			Click Me!	Enter some text!
+
+Console:
+		Test
+		Form submitted!
+
+The form does not go forward and it stops because we told it to stop. 
+
+The Component needs to be defined by a class because it is going to use State.
+
+We are using a "button" in our form, and normally in Native JavaScript what we would have done is,
+
+
+	document.querySelector('.btn').addEventListener('click', ()=>{
+			console.log("Button was clicked!!")
+	})
+
+
+so this is a very Native JavaScript way, but we cannot do it in React because it has not been added to
+the DOM yet, so inside of our render() method we cannot connect the addEventListener to document.querySelector('.btn')
+because the first time render runs, document.querySelector will run and the <div> that contains the "btn"
+class which has not run yet, so we cannot use the addEventListener, we would look at the componentDidMount
+later.
+
+The other way we can do it is, we would put the "onClick()" method inside the button tag and then we can 
+put whatever JavaScript we want inside of our onClick,
+
+
+	<button onclick='myFunction()' className="btn">Click Me!</button>
+
+
+This is very similar as to how we do it in React. In React every DOM event is still available but we do it
+in camel-case, we do onClick and we hand it the callback function that we want to run, but we cannot invoke
+(run) a function inside React, instead we can only call a function,
+
+
+	<button onClick={console.log("Test")} className="btn">Click Me!</button>
+
+
+In React, unlike in Native JavaScript, we do not invoke (run) functions in our tags, but we pass functions, 
+so this is a callback that we are sending that is going to run later, the reason for this is pretty simple,
+in Native JavaScript we invoke the code that we actually want to run later, but in React we do not invoke code
+but we pass code, so we pass a callback and the function that we are passing is going to get evaluated and 
+we do not return anything in this little block of code, what we are sending back here is being sent as undefined,
+so that is why nothing happens when we click on the button because we did not tell React to do anything, that
+is because we do not run (invoke) code in React, instead we pass code, we pass a callback and there are two ways
+to pass a code, instead of running the function here, we can create a new anonymous function that runs the code
+for us,
+
+
+	<button onClick={()={console.log("Test")}} className="btn">Click Me</button>
+
+
+This is going to be fairly common in React, it might look a little bit wanky, but this is a function we are 
+passing, we are not running console.log, we are sending the function that runs the console.log.
+
+Now, if we go back to the browser and click "Click Me", it console.logs "Test" as long as we click the button.
+
+This way of doing things look a little bit complicated so we will do it by defining the function above our 
+render() method and then pass it in our tags. 
+
+
+class SimpleEvents extends Component{
+	handleClick(){
+		console.log("Test")
+	}
+
+	render(){
+		return(
+			<div>
+				<button onClick={this.handleClick} className="btn">Click Me!</button>
+			</div>
+		)
+	}
+}
+export default SimpleEvents;
+
+
+This is exactly the same code we had before, but now we have defined a function that runs it, we are not
+going to run handleClick() rather we will pass handleClick().
+
+
+				Click Me!
+
+Console:
+
+Test
+
+
+So, when we save our file and click the button and again we get the exact same behaviour. So, these are two
+ways where we define a method or a function, and pass that method, or we can define an anonymous function 
+inside our tag that runs our code.
+
+That was the click example, let's try another one and here we will do an input-box,
+
+
+	<input type="text" placeholder="Enter some text!"/>
+
+
+Now, we have our input-box, and we do not click on input boxes rather we change them, so it will be,
+
+
+	<input onChange={this.handleChange} type="text" placeholder="Enter some text!"/>
+
+
+as we have declared the handleChange method here, we need to define it above our render method,
+
+
+	handleChange(){
+			console.log("user changed the input!");
+	}  
+
+
+We will also define a form in our browser and as we submit our forms that is why we need to use onSubmit,
+
+
+	<form onSubmit={this.handleSubmit}>
+		<button onClick={this.handleClick} className="btn">Click Me</button>
+		<input onChange={this.handleChange} type="text" placeholder="Enter some text!"/>
+	</form>
+
+	handleSubmit(){
+			console.log("Form submitted!");
+	}
+
+
+So, we have got our onSubmit, onClick, onChange, all specific to their given tags, the last thing we need
+to do is manually tell the browser to not to send the form forward to the next page because we do not have
+a page after this one, normally we would have an action and a method on our page, but in this case we need to
+stop the form from going forward.
+
+This is a very important topic when it comes to handling events is that every event in React, like we got onSubmit,
+onClick, onChange, comes with an event object and that would be automatically passed, we do not need to do
+anything in order to get it,
+
+
+	handleSubmit(event){
+		console.log("Form submitted!");
+	}
+
+
+and that event object comes with a preventDefault() method. The preventDefault() method will make sure that this
+event does not do as what it normally does which for the browser is to move it forward,
+
+
+	handleSubmit(event){
+		console.log("Form submitted!");
+		event.preventDefault();
+	}
+
+
+Now if we go back to the browser and put our cursor on the input box and hit Enter then the form does not go forward,
+it simply stops because we told the browser to stop.
+
+We are going to use this method a lot with our clicks and our changes but for now this is a good start at how events
+work, we got the option of handing it a method, and we always use "this", because we refer to the class method, so
+handleClick() belongs to the class, handleChange() belongs to the class, that is why we have "this" and we hand
+it the callback function, we do not run the callback function and then we always get the event.
+
+In the next lesson we will look at couple of options we have for events and then start connecting it to the state.
