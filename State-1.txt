@@ -1,0 +1,79 @@
+State = value of variables(var) at any given time. 
+
+Let's say we go to Amazon.com, and if we think about the ordering process, what will happen at the 
+ordering process? There would be different states that Amazon would be interested in.
+
+Step-1, The first step would be that we have an Empty Cart, we never had never been here before and 
+it is a good empty cart.
+
+Step-2, would be to put an item in our cart, that would be item in cart, that is another state in our
+application. Let's say that item is a book that we put in our cart.
+
+Step-3, Now let's say we take out the book that we put in our cart, so we remove it, does that take us 
+back to Step-1? It does not take us back to Step-1, in Amazon's eye we now have a dirty empty cart, and 
+by saying dirty, we mean there used to be something in there but it is not anymore.
+
+This is very important for Amazon to know the difference between a good empty cart and a dirty empty cart
+because as we browse around the site, they would say, "Hey! Remember the book on Gardening that you had before,
+you should buy that book". They should have that information as they need to keep track of that. 
+
+Step-4, let's say now we put another item in out cart, and this time it is a book on wood-working, and now 
+Step-4 is not same as Step-2, even though we have an item in our cart, there are a lot of information that 
+engages in this whole process, we had a book on  gardening and we got rid of it, we had a book on wood-working
+and now it is still in there. 
+
+Step-5, in this step we go to the check-out phase, where we go to the cart.
+
+Step-6, after check-out we get to the payment section.
+
+Step-7, we go to the delivery phase.
+
+Step-8, we get to the customer service phase. Now there are number of things that might happen here, in the 
+customer service phase we might return the book, or we might have to go back to the delivery process, maybe 
+we go to the check-out, we get to the payment and maybe we close the window and we come back later, so we have
+been hoping back and forth between payment and checkout and Amazon be like, "Hey you forgot to checkout, do
+not forget to checkout. 
+
+So, there are any number of things that might happen, and we are going to call all of these States of us as a 
+customer to Amazon, they want to know where we are at in the process, because in that way they can serve us 
+better and they can sell us more items or they might be able to make us buy something, whatever the case might
+be, it is very important for them to know where we are at in the process.
+
+If we think about a simple web form, then the same thing will be true, if we have a user field and we have a 
+password field and down below that we have a submit button, as soon as we type something on the user field, 
+something has happened, the DOM has changed, although very slightly, the value of the input box in the DOM 
+has just changed, the same thing, the same thing would happen if we type something on the password field, 
+everytime we chnage something in the DOM, we have mutated the DOM, we changed the thing that is making up
+the HTML, making up the page, making it look like what it looks like. 
+
+Now, for a tiny form like this the changes would be totally nominal. We can also have a password-2 field and 
+the password-2 field's job is going to be to make sure that the input on it's field is same as password-1's 
+field, so everytime one of them changes the other needs to check to make sure that they are the same, that 
+would be the case where we would see multiple things happening.
+
+Another thing we might want to know is how many times this particular form has been changed? Does it seem like
+a human behaviour? Or does it seem like a robot behaviour? Have they submitted the form several times? And so
+on..., so there are lot of reasons to be interested in how the page is actually changing.
+
+DOM manipulation is very expensive, looping through the DOM and finding out what is inside something is very 
+expensive and very time consuming.
+
+The other thing we can do is keep some kind of Array in order to manage what the current state of a game in an
+app is and modify that Array as we go along but if that is a single Array we cannot really remember where the 
+game was at.  
+
+There needs to be some kind of State Managament Tool so we can figure out the order, and where we are at the 
+process. Because the app needs to make decisions about what the current state is and we want to avoid making
+mutations when they are not necessary, that is the part when we cahnge the DOM and it is very expensive, now 
+these steps (states) are not very complicated, but what if we have an app like Facebook, where there are 
+thousands and thousands of things that can change all the time?
+
+That is when the React State comes into play instead of manipulating the DOM directly we will allow Components
+to manage their states themselves and we can pass that around as needed to other Components. 
+
+We will use functional programming to update the State which means we will never change it directly, instead we
+will React know that something happened and that way React can go through all of its spaces, go through all of 
+the right channels to make sure that whoever needs to know or whatever needs to happen can happen in the 
+appropriate order.
+
+In the next lesson we will look at how to manage and change state.   
