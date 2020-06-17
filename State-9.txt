@@ -1,0 +1,147 @@
+index.js
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+
+	ReactDOM.render(
+    		<App />, 
+    		document.getElementById('root')
+	);
+
+cards.js
+
+const data = [
+    {
+        course: "React From the Beginning",
+        instructor: "Robert Bunch",
+        image: "https://udemy-images.udemy.com/course/100x100/2195280_49b2.jpg"
+    },
+    {
+        course: "Apache Kafka Series",
+        instructor: "Stephane Maarek",
+        image: "https://udemy-images.udemy.com/course/480x270/1141696_6151_3.jpg"
+    },
+    {
+        course: "Music Production in Logic Pro X",
+        instructor: "Tomas George",
+        image: "https://udemy-images.udemy.com/course/480x270/897192_2cee_6.jpg"
+
+    },
+    {
+        course: "Unity Game Development",
+        instructor: "Jonathan Weinberger",
+        image: "https://udemy-images.udemy.com/course/480x270/1328572_b05d_4.jpg"
+    }
+]
+
+export default data;
+
+App.js
+
+import React, {Component} from 'react';
+import './App.css';
+import CardSet from './CardSet';
+import cards from './cards'			// Importing the data array variable, containing array of objects as "cards"
+					 	// Each objects, carrying properties of each cards assigned to their string values
+
+	console.log(cards)
+
+	class App extends Component {
+  		render() {
+    			return (
+      				<div className="App">
+        				<div className="row">
+          					<CardSet cards={cards} />	// Sending the data array variable as "cards" props to the CardSet component 
+        				</div>
+      				</div>
+    			);
+  		}
+	}
+
+	export default App;
+
+
+CardSet.js
+
+import React, {Component} from 'react';
+import Card from './Card';
+
+class CardSet extends Component{
+	constructor(){
+		super();
+		this.state={
+				chosenCard:[]					// Declaring a state property assigning it to an empty array variable
+		}
+	}
+
+	saveCourse=(index)=>{
+			console.log(index)
+			const copyOfCards=[...this.state.chosenCards];		// Declaring and Defining copyOfCards array variable and it will carry all items from chosenCard array 
+			      copyOfCards.push(this.props.cards[index]);	// Pushing each card to the array on clicking the Save button
+
+			this.setState({
+					chosenCards: copyOfCards		// Assigning the chosenCards array variable to the copyOfCards variable
+			})
+	}
+
+	render(){
+		console.log(this.state.chosenCards);
+
+		const savedCards = this.state.chosenCards.map((card, index)=>{		// Mapping through the chosenCards array
+					return <Card key={index} card={card}/>		// On looping through each card in the chosenCards array we are 
+	})										// sending each objects and their index in the array to the Card component
+
+	const cardList = this.props.cards.map((card, i)=>{				// Mapping through the cards array of objects variable that we imported  
+		return(									// in App.js file and sent here as "cards" prop, on looping through 
+			<div className="col s2" key={i}>				// each object we send them to the Card component in the Card.js file
+				<Card card={card}/>					// The Card component prints each card with each loop one after another as we send them as props
+				<button onClick={()=>{this.saveCourse(index)}} className="btn">Save</button>	// cardList prints a button on each loop for each card
+			</div>
+		)
+	})
+
+	return(
+		<div>
+			{cardList}
+			{savedCards}
+		</div>
+	)
+}
+
+}
+
+export default CardSet;
+
+Card.js
+
+import React, from 'react';
+
+// The function receives the "card" prop as we send them from the CardSet Component
+// with each loop in the mapping function, the function has the mark-up or the structure
+// of the card built up in the function definition, we extract each of the value from each of the 
+// property inside each of the object and place them in their corresponding tag.
+// This is how each of the card gets fully set up and then the Card component prints each of the card  
+// one after another.  
+
+function Card(props){
+
+		return(
+
+			<div className="card-hoverable small">
+				<div className="card-image">
+					<img src={props.card.image}/>
+				</div>
+				<div className="card-content">
+					<p>{props.card.course}</p>
+					<p>{props.card.instructor}</p>
+				</div>
+				<div className="card-action">
+					<a href="#">$9.99</a>
+				</div>
+			</div>
+		)
+}
+
+export default Card;	
