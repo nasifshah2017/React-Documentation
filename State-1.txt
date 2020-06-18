@@ -3,7 +3,7 @@ State = value of variables(var) at any given time.
 Let's say we go to Amazon.com, and if we think about the ordering process, what will happen at the 
 ordering process? There would be different states that Amazon would be interested in.
 
-Step-1, The first step would be that we have an Empty Cart, we never had never been here before and 
+Step-1, The first step would be that we have an Empty Cart, we never had been here before and 
 it is a good empty cart.
 
 Step-2, would be to put an item in our cart, that would be item in cart, that is another state in our
