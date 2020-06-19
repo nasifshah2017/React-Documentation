@@ -1,5 +1,5 @@
 In this lesson we are going to cover Stateful Components vs. Stateless Components. We are going to use
-the state cards components that we already built to kind of explain it,
+the state cards components that we have already built, to kind of explain it,
 
 
 index.js [Entry Point] ---------------------- App.js ------------------------------- CardSet.js
@@ -18,7 +18,7 @@ index.js ------------------- App.js [cards] -------------------- CardSet.js
 Inside of App.js we have "cards", cards is that piece of JSON or that array that App.js is getting. It does
 not matter where it is coming from, at the moment it is coming from a file. In reality it might be coming from
 a server or whatever, but App.js has full control over cards, it is just an array variable at this point, it 
-is mutable.
+is mutatable.
 
 
 index.js ------------------- App.js [cards] -------------------- CardSet.js [cards]:prop
@@ -46,8 +46,8 @@ index.js ------ App.js [cards] ------------- CardSet.js [cards]:prop [chosenCard
 We made a new Component called Card in the Card.js file, everytime we are mapping through the cards array, which
 contains an array of objects, each object storing card information such as card image, instructor, and we are
 mapping on the cards array using the map function, and each time we are on a card we store that card's information
-on the "card" variable and then from our map function we send the card variable to the Card.js file inside the
-Card component, and the card component prints out the card, we do it for all the cards as our map function loops
+in the "card" variable and then from our map function we send the card variable to the Card.js file inside the
+Card component, and the Card component prints out the card, we do it for all the cards as our map function loops
 through each of the card and each of those card gets printed out one after another on the page. 
 
 We sent each individual card from chosenCard, Card.js is getting it's own prop, and it is going to be called 
@@ -66,7 +66,7 @@ Now let's write some definitions down,
 
 Stateful has State in it means, its managing a type of state variable, there is data inside it that is changing
 and the Component is in charge of that. A Component will have State, if its managing its own data, the consequence
-of managing State, is that, given input a is not always equal to output b. If we have a Stateful Component, and 
+of managing State, is that, given input 'a' is not always equal to output 'b'. If we have a Stateful Component, and 
 we give it input a, we cannot always gurantee that the output is always going to be same as b.
 
 A Stateless Component does not have State, but the consequence of that, input a will always be equal to output
