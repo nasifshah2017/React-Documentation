@@ -68,11 +68,10 @@ We are using a "button" in our form, and normally in Native JavaScript what we w
 so this is a very Native JavaScript way, but we cannot do it in React because it has not been added to
 the DOM yet, so inside of our render() method we cannot connect the addEventListener to document.querySelector('.btn')
 because the first time render runs, document.querySelector will run and the <div> that contains the "btn"
-class which has not run yet, so we cannot use the addEventListener, we would look at the componentDidMount
-later.
+class has not run yet, so we cannot use the addEventListener, we would look at the componentDidMount later.
 
-The other way we can do it is, we would put the "onClick()" method inside the button tag and then we can 
-put whatever JavaScript we want inside of our onClick,
+The other way we can do it is, we would put the "onclick()" method inside the button tag and then we can 
+put whatever JavaScript we want inside of our onclick,
 
 
 	<button onclick='myFunction()' className="btn">Click Me!</button>
