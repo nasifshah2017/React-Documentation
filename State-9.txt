@@ -53,7 +53,7 @@ import cards from './cards'			// Importing the data array variable, containing a
     			return (
       				<div className="App">
         				<div className="row">
-          					<CardSet cards={cards} />	// Sending the data array variable as "cards" props to the CardSet component 
+          					<CardSet cards={cards}/>	// Sending the data array variable as "cards" props to the CardSet component 
         				</div>
       				</div>
     			);
