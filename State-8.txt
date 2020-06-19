@@ -135,5 +135,3 @@ some other method.
 
 Our Stateless function is going to be presentational and essentially pure because they will always return the same
 thing for any given input. 
-
- 
