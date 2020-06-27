@@ -120,7 +120,7 @@ input-box gets stored as the property of "event.target.value".
 Now, we will call the setState method as we pass the "event.target.value" as its parameter,
 
 
-	handlleChange = (event) => {
+	handleChange = (event) => {
 		this.setState({
 			inputText: event.target.value;
 	})
