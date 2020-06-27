@@ -5,3 +5,5 @@ Redux: 	https://youtu.be/3sjMRS1gJys              
 React Crash Course: https://youtu.be/DLX62G4lc44
 
 Events: https://developer.mozilla.org/en-US/docs/Web/Events
+
+W3School React: https://www.w3schools.com/react/default.asp
