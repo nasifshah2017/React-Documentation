@@ -1,0 +1,12 @@
+We have touched on all of the main lifecycle methods, there are few other ones and we will touch on those later on,
+on the course and some of the projects and things, but we would like to do a project and get a little bit hands on,
+so we can do something a little bit more creative and we will see how the pieces will actually move in an app that
+we will actually build. But before we do that, we have a few more topics to cover, so we have some lessons to look
+at, at the end of this section. We are going to talk briefly about forms and React handles forms a little bit 
+differently than we might be used to, so we are going to look at forms (www.reactjs.org/docs/forms.html) and we 
+going to also look at Lifting State Up (www.reactjs.org/docs/lifting-state-up.html) and it is very common where we
+will have two different componentsthat need to know about the same piece of State that is changing and React has a 
+means of handling that and then we are going to talk about how to style components and then we will go in here in 
+few lessons and knock out a kind of a fun project, where we would be able to pull all these together before we go
+onto React Router, it will get us some good practice with the Component Lifecycle and some of the other ideas, so 
+in the next lesson we will look at how React handles forms.
