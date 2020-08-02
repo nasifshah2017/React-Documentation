@@ -1,0 +1,125 @@
+We are going to look at each Component Lifecycle method but before we do that, we will look at the documentation
+quick.
+
+	www.react.org/docs/react-component.html?utm_source=caibojan.com
+
+And what we got here is React.Component documentation. 
+
+In the pageon the side-bar we can see the list of objects, the first one starting with React object and under its
+hood we have React.Component and we have been using the React.Component all along. 
+
+When we impact React in our files, we also import the Component member of React's node module. So, on our file we 
+write, 
+
+	class App extends Component
+
+and that is exactly the same thing as if we had written,
+
+	class App extends React.Component
+
+and doing that we can only import React and not the Component module with it,
+
+	import React from 'react';
+
+And that is how it works, the Component belongs to the React object, which is coming from the React node module, we
+just take a short-cut to get there by importing the Component module with the React module and this is the most common
+way in the professional World. 
+
+If we are a Component and almost every class we make is going to be anything that extends Component, is ultimately
+going to be React.Component.
+
+"This page contains a detailed API reference for the React component class definition". So, if we want to know what
+is available because we have extended Component then that is right here.
+
+"It assumes we are familiar with fundamental React concepts, such as 'Components and Props' as well as 'State and 
+Lfecycle'. If we are not, then we need to read them first". So, we have got Components and Props, we have got State
+and we are just getting on "Lifecycle".
+
+We are going to scroll down to the page, and the page says "React lets you define components as classes or functions".
+We have done that, we have made Components those are functions, those are Stateless ones, the ones that simply returns
+the DOM elements and they do not manage State and we have made Classes and those so far has returned State but 
+"Component defined as classes currently provide more features which are described in detail on this page". So, that
+again is exactly what we are talking about here is that anything that extends Component, which is part of React, gets
+all of the extra stuffs. So, the class that we make, they do a lot more than just manage State.
+
+We keep scrolling down the page and we get to "The Component Lifecycle" and it says, "Each component has several
+'lifecycle methods' that you can override to run code at particular times in the process. You can use this lifecycle
+diagram as a cheat sheet.
+
+-----------------------------------------------------------------------------------------------------------------
+		|	Mounting		|	Updating		|	Unmounting		|
+-----------------------------------------------------------------------------------------------------------------
+"Render phase"	|	constructor		|	New props, setState()	|				|
+Pure and has no	|	render			|	render			|				|
+side effects.	|				|				|				| 
+Maybe parsed,	|				|				|				| 
+aborted or	|				|				|				| 
+restarted by	|				|				|				|
+React		|				|				|				|
+		|				|				|				|
+//////////	|				|				|				|
+		|				|				|				|
+"Commit phase"	|	ReactDOM & Ref.		|	ReactDOM & Ref.		|				|
+Can work with	|				|				|				| 
+DOM run side	|				|				|				| 
+effects,	|				|				|				| 
+schedule updates|				|				|				|
+		|				|				|				|
+		|	ComponentDidMount	|	ComponentDidUpdate	|	ComponentWillUnmount	|
+-----------------------------------------------------------------------------------------------------------------
+
+This is a nice little cheat-sheet. "In the list below, commonly used lifecycle methods are marked as bold. The rest
+of them exist for relatively rare use cases.
+
+Mounting:
+
+These methods are called in the following order when an instance of a component is being created and inserted into
+the DOM:
+
+- constructor()		[bold]
+- static getDerivedStateFromProps()
+- render()
+- componentDidMount()	[bold]
+
+This is not quite fair because once upon a time, some of these were very important but as React has evolved and gone
+through more releases, some of them gone out.
+
+First of all in Mounting, these methods are called in order when an instance of a component is being created and 
+inserted into the DOM, the first one is the constructor() method, we have talked plenty about that, it always get 
+run as soon as the Component gets created, right after that we have "static getDerivedStateFromProps()" that is a
+new one and that is not an essential one as we try and avoid using that.
+
+The render() method we have done plenty with and we will talk more about that and componentDidMount() is our next
+big one. 
+
+Updating:
+
+An update can be caused by changes to props or state. These methods are called in the following order when a 
+component is being re-rendered
+
+- static getDerivedStateFromProps()
+- shouldComponentUpdate()
+- render()	[bold]
+- getSnapshotBeforeUpdate()
+- componentDidUpdate()	[bold]
+
+In the updating section is static getDerivedStateFromProps() and shouldComponentUpdate(), where getDerivedStateFromProps()
+is new, render() method, we already talked about it.
+
+getSanpsotBeforeUpdate() - is also new and componentDidUpdate() is a very important one. The main one inside update.
+
+Unmounting:
+
+The method is called when a component is being removed from the DOM:
+
+- componentWillUnmount() - needs to happen when something is removed from the DOM. These are all the stuffs that we
+have talked about. There are a little bit more down the page that we can look at later but those are other methods or
+properties that come along being a React component. It automatically gets setState(), it automatically gets forceUpdate(),
+the Instance Properties of a given Component will always be "props" and "state".
+
+In the next lesson we will start with componentDidMount(), we will continue from where we left off.  
+
+
+ 
+
+  
