@@ -1,0 +1,297 @@
+With the refactoring out of the way we can go ahead and take a look at componentWillUnmount(). That is possible now
+because we have <Header/> and <Modal/> which are components that our App.js is rendering, we just need to pull one
+of them out of the DOM and we are going to do that confditionally.
+
+We will add a new state called showModal and we will initialize that to true,
+
+class App extends Component{
+	constructor(){
+		super();
+		this.state={
+			temp: "",
+			cityName: "",
+			weather: "",
+			high: "",
+			low: "",
+			icon: "",
+			isRaining: "",
+			showModal: true
+		}
+	}
+
+Now we have a "this.state.showModal", and for our modal there are a bunch of ways to do this and for now we will 
+show an in-line way to do it, we are going to write an iterinary statement, an iterinary statement simply means we
+are going to write a conditional first,
+
+{this.state.showModal ? <Modal iconUrl={iconUrl} weather={this.state.weather} cityName={this.state.cityName} low={this.state.low} high={this.state.high}/> : ""}
+
+So, this means if "this.state.show" is true then render the <Modal/> component, and if it is not true and you should
+only put an empty string ("").
+
+So, this is going to conditionally render our modal based on this.state.showModal is true or not. Now, we need a 
+button that will switch the "this.state.showModal" from true to false.
+
+		<button onClick={this.removeModal} className="btn">Remove from DOM!!!</button>
+
+Now we need to write the function definition of removeModal() which will change the state of showModal from true to
+false.
+
+		removeModal=()=>{
+			this.setState({
+				showModal: false
+			})
+		}
+
+We are just going to leave it here as false to make it as simple as possible, we are going to call removeModal() if
+the button is clicked on, and that is going to change the state of showModal from true to false.
+
+The state of showModal is the determining factor of whether the Modal will show up in the DOM or not. Now we need to
+add the showModal's lifecycle method of componentWillUnmount in the <Modal/> component definition. We will place it
+above the render() method, 
+
+		componentWillUnmount(){
+			console.log("Component is about to be history...")
+		}
+
+componentWillUnmount() will be run right before <Modal/> Component is taken out of the DOM. 
+
+Now, when we go back to our browser and we click on details we can see the Modal popping up no problem, now when we
+click on REMOVE FROM DOM, we see on our console,
+
+Console:
+		Component is about to be histroy....
+
+Now, if we click the DETAILS button again we get an error because the <Modal/> component has been removed. So, what
+would be a realistic used case, now if we go back to the documentation this is what we can see on the 
+componentWillUnmount() page,
+
+componentWillUnmount()- is invoked immediately before a component is unmounted and destroyed. Perform any necessary
+cleanup in this method, such as invalidating timers, cancelling network requests, or cleaning up any subscriptions
+that were created in componentDidMount().
+
+Now, we will write a componentDidMount() method and we are going to define a timer inside it and we are going to run
+it at every 500-millisecond interval. There is no way we would ever do this in the real world but this will give us
+the idea, the setInterval() will start running as soon as the modal is rendered. 
+
+class Modal extends Component{
+	componentDidMount(){
+		setInterval(()=>{
+			console.log("Test")
+		}, 500)
+	}
+
+	componentWillUnmount(){
+		console.log("Component is about to be history...")
+	}
+
+	render(){
+		return(
+			<div id="modal1" className="modal">
+				<div className="modal-content">
+					<h4>{this.props.cityName}</h4>
+					<p>{this.props.weather} <img src={this.props.iconUrl}/>
+				</div>
+				<div className="modal-footer">
+					<a href="#!" className="modal-close waves-effect waves-green btn-flat">Agree</a>
+				</div>
+			</div>
+		)
+	}
+}
+
+No way we would do this in the real world but this would give us the idea, the setInterval() will start running as 
+soon as the <Modal/> is rendered.
+
+Now when we go back to our app, we can see its already taking a bunch of time,
+
+Console:
+
+Test
+Test
+Test
+Test....
+
+Now, if we click on the "REMOVE FROM DOM" button thus it is removed from the DOM, and on the console we get,
+
+Console:
+
+		Component is about to be history....
+
+		Test
+
+We get the console.log telling us the <Modal/> component is removed, but we still get the setInterval() function 
+running at 500-millisecond interval, so the interval() is still part of the event queue, it is still on the stack
+and it is continue to be run and we have now way to stop it, beacuse once we clicked the REMOVE FROM DOM!!! button
+the <Modal/> component got destroyed.
+
+It is going to be running forever and worse if we add that <Modal/> back to the DOM, then the componentDidMount()
+will run again and it will create a new timer and then if it gets removed then we will have two timers going. We 
+can see the vicious circle, so componentWillUnmount() is exactly the place to get rid of this.
+
+The way we can do it is as below,
+
+			componentDidMount(){
+				this.timer=setInterval(()=>{
+					console.log("Test");
+				}, 500)
+			}
+
+			componentWillUnmount(){
+				console.log("Component is about to be history...")
+				clearInterval(this.timer)
+			}
+
+Now, when we go back to the browser this is what we see on the console,
+
+Console:
+
+Test
+Test
+Test...
+
+Then when we click on the "REMOVE FROM DOM!!!" button this is what we see on our console,
+
+Console:
+
+Test
+Test
+Test...
+
+Component is about to be history
+
+So, the setInterval() function was running and when we click on "REMOVE FROM DOM!!!" button, the setInterval() 
+function stops, because the function is cleared out by the clearInterval() function, so this is a very useful hook
+for the clean up we need to do. If we have a heavy workload or series of network requests at the background then
+this would be the place to do that too. We will use this as needed but the important thing is that here we got the
+idea of how it works when it runs so when we need it we will have it.
+
+Source code:
+
+App.js
+
+import React, {Component} from 'react';
+import logo from './logo.svg';
+import './App.css';
+import axios from 'axios';
+import Headers from './Headers';
+import Modal from './Modal';
+
+class App extends Component{
+	constructor(){
+		super();
+		this.state={
+			temp: "",
+			cityName: "",
+			weather: "",
+			high: "",
+			low: "",
+			icon: "",
+			isRaining: "",
+			showModal: true
+		}
+	}
+
+
+	componentDidMount(){
+		this.getCityWeather('London');
+		var elems=document.querySelectorAll('.modal');
+		var instances=window.M.Modal.init(elems);
+	}
+
+	componentDidUpdate(prevProps, prevState){
+		if(this.state.weather!==prevState.weather){
+			const isRaining=this.state.weather.includes("rain");
+			if(isRaining){
+				this.setState({
+					isRaining: "Rain rain go away!!!"
+				})
+			}
+		}
+	}
+
+	searchCity=(e)=>{
+		e.preventDefault():
+		const city=document.getElementById('city').value;
+		this.getCityWeather(city);
+	}
+
+	getCityWeather=(city)=>{
+		const url=`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=e312dbeb8840e51f92334498a261ca1d`
+
+		axios.get(url).then((resp)=>{
+			this.setState({
+				temp: resp.data.main.temp,
+				high: resp.data.main.temp_max,
+				low: resp.data.main.temp_min,
+				weather: resp.data.weather[0].description,
+				icon: resp.data.weather[0].icon,
+				cityName: resp.data.name
+			})
+		})
+	}
+
+	removeModal=()=>{
+		this.setState({
+			showModal: false
+		})
+	}
+
+	render(){
+		const iconUrl=`https://openweathermap.org/img/w/${this.state.icon}.png`
+
+	return(
+		<div className="App">
+			<div className="row">
+				<div className="col s6 offset-s3">
+					<button onClick={this.removeModal} className="btn">Remove from DOM!!!</button>
+					<Headers temp={this.state.temp} isRaining={this.state.isRaining}/>
+					<a className="waves-effect waves-light btn modal-trigger" href="#modal1">Details</a>
+					<form onSubmit={this.searchCity}>
+						<input type="text" id="city" placeholder="Enter a City Name"/>
+					</form>
+				</div>
+			</div>
+
+			{/* If this.state.showModal is true then render the Modal component orelse render the empty string ("")*/}
+
+			{this.state.showModal ? <Modal iconUrl={iconUrl} weather={this.state.weather} cityName={this.state.cityName} low={this.state.low} high:{this.state.high}/> : ""}
+		</div>
+	);
+	}
+}
+
+export default App;
+
+Modal.js
+
+import React, {Component} from 'react';
+
+class Modal extends Component{
+	componentDidMount(){
+		this.timer=setInterval(()=>{
+			console.log("Test")
+		}, 500)
+	}
+
+	componentWillUnmount(){
+		console.log("Component is about to be history...")
+		clearInterval(this.timer)
+	}
+
+	render(){
+		return(
+			<div id="modal1" className="modal">
+				<div className="modal-content">
+					<h4>{this.props.cityName}<h4/>
+					<p>High: {this.props.high} - Low: {this.props.low}/>
+					<p>{this.props.weather} <img src={this.props.iconUrl}/>
+				</div>
+				<div className="modal-footer">
+					<a href="#!" className="modal-close waves-green btn-flat">Agree</a>
+				</div>
+			</div>
+		)
+	}
+}
+
+export default Modal;	 
