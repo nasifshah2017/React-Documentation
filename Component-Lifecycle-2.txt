@@ -1,0 +1,86 @@
+We started a new section in the last lesson so the first thing we need to do is get a new directory or a folder to
+work in. So, we need to run "cd.." to return to our main folder,
+
+Console coding:
+
+section2 git:(master)x cd..
+video-code git: (master)x ls
+-> assets project1 project2 section1 section2 starterFiles
+video-code git:(master)x create-react-app section3
+video-code git:(master)x cd section3
+
+We have created our "section3" folder and we got inside it, now we will run the basic React app that we downloaded
+from the Node Package Manager (npm),
+
+Console coding:
+
+section3 git:(master)x npm start
+
+This will automatically open up our browser and display the rotating React logo on our UI. Now, we will open our
+App.js file and delete all the code that we have under '<div className="App">' and we will code our way,
+
+
+App.js
+
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+
+function App(){
+	return(
+		<div className="App">
+			<h1>Sanity Check</h1>
+		</div>
+	);
+}
+export default App;
+
+localhost: 3000
+
+		Sanity Check
+
+
+Until now everything that we have done is from hard-coded data, we were given some JSON, it was an array, that we
+included with script tag or we did the import. That is not the way the web works anymore as typically React will
+be asking data from somewhere else because React is an UI framework, it does not have access to any databases or 
+anything like that.
+
+In order to make an HTTP request we need an HTTP client, because unlike Angular or some other framework there are
+no built-in HTTP client with React. So, we can use the Fetch API (https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API),
+which  is built into native JavaScript now, there is also jQuery (www.npmjs.com/package/jquery) where we can use the
+dollar sign ($) to make AJAX Requests the same way that we have always made them, but in our lessons we are going 
+to use Axios and the reason for that is because of these three options alone with a handful of others, it is by far
+the most common.
+
+We will install the axios package from npm through our console,
+
+Console coding:
+
+section3 git:(master)x npm install axios
+
+				INSTALLATION
+
+Now we will include the axios in our App.js file by importing it,
+
+
+App.js
+
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+import axios from 'axios';
+
+function App(){
+	return(
+		<div className="App">
+			<h1>Sanity Check</h1>
+		</div>
+	);
+}
+export default App;
+
+
+The 'axios' represents the axios package that we downloaded and we are going to import the default export that 
+axios sends as "axios", and we are going to use axios to make our HTTP request, but before we do that we are 
+going to end this lesson here and in the next lesson we have an URL that we need to copy and we will use that URL
+in the next lesson after that. 
