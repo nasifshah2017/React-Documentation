@@ -1,0 +1,45 @@
+We are going to look at the render() method bit closely at this lesson. We already know mostly of what we need to
+know, there are couple of nuances and there are going to be things we will be looking at later in the course, but 
+the render() method is the only required method in a class component, we talked about that before, if we make our
+component a class then we would need to have the render() method in it, we do not need to have anything else, we
+do not even need to have a constructor() method but we do need to have the render() method or the class has no 
+purpose.
+
+"When called, it should examine 'this.props' and 'this.state' and return one of the following types:
+
+1. React elements - Typically created via JSX. For example, <div/> and <MyComponent/> are React elements that 
+instruct React to render a DOM node, or another user-defined component respectively.
+
+2. Arrays and fragments - Lets you return mutiple elements from render. See the documentation on fragments for more
+details.
+
+3. Portals - Let you render children into a different DOM subtree. See the documentation on portals for more details.
+
+4. String and numbers - These are rendered as text nodes in the DOM. 
+
+5. Booleans or Null - Render nothing (Mostly exists to support 'return test && <Child/> pattern, where test is 
+boolean.)
+
+There are Arrays and fragments we have put an Array inside of our React elements. We will talk about Portals later.
+We can return a string or number that would be for a very small component and we can return a Boolean and null 
+and that just means do not do anything basically. That is a very rare case. "The render() function should be pure,
+meaning that it does not modify component state". We should never have a setState() function inside of a render()
+method, if we end up at a situation where we try that, then it means we have organised our Component wrong. It 
+returns the same result each time it is invoked and it does not directly interact with the browser. The render()
+method's job is just to build the virtual DOM appropriately, React.DOM's job is to interact with the browser and 
+because of that they have noted , if you need to interact with the browser then perform your work in componentDidMount()
+or other lifecycle methods instead. Keeping render() pure makes components easier to think about".
+
+So, they are talking a little bit of diffrent approach here, what that means is render() does not have anything in
+the browser, does not know any of the other DOM elements or any of those stuffs, componentDidMount() can check out
+what is inside teh DOM because those things will exist and we looked at that example with the Modal. The bottomline
+here is to keep the render() method pure. It should always return the same thing given the same input, and would not
+contain any setState() function inside it. That does not mean do not use state in render(), it means do not set or
+mutate state inside of render(). That and anytime state or prop changes, it will fire, so we will get that render()
+method running everytime one of those two things change. That pretty much covers render, in the next lesson we will
+play a little bit more with our weather component and add a little bit more, so we can see how render() moves but
+that pretty much covers what we need to know for render().
+
+
+
+
