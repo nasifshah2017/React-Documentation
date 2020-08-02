@@ -1,0 +1,202 @@
+In this lesson we are going to take a closer look at componentDidMount() method, inside the same documentation we 
+were just looking at and the documentation says,
+
+"componentDidMount() is invoked immediately after a component is mounted (inserted into the DOM tree). 
+Initialization that requires DOM nodes should go here", so if we have got JavaScript that needs the DOM to already
+have something in it, then that is where it belongs, so if we want to add a listener or something like that.
+"If you need to load data from a remote endpoint, then this is a good place to instantiate the network request".
+That is exactly what we have done, we created componentDidMount(), we need a remote endpoint, we need data from that
+endpoint, so we initialized it as the const url variable, 
+
+	const url='https://api.openweathermap.org/data/2.5/weather?q=London....'
+
+Then in the last paragraph it says,
+
+"You may call setState() immediately in componentDidMount(). It will trigger an extra rendering, but it will happen
+before the browser updates the screen". We talked about that sequence as it goes like constructor(), then render(),
+then componentDidMount(), in componentDidMount() we update state using the setState() method and it causes another
+re-render, but that will happen before the browser updates the screen, that will be the case if it runs instantly,
+and it also mentions that it is a little bit dangerous as it might cause performance issues, in most cases we should
+be able to assign the initial state in the constructor() instead, that is what we have exactly done, as we assigned
+an initial state,
+
+	constructor(){
+		super();
+		this.state = {
+			temp: " "
+		}
+	}
+
+As the componentDidMount() method is asynchronous it is not going to run right after the constructor() method, and
+if we had not assigned the initial state, then that would not have been a good idea.
+
+It can be however necessary for modals and tool tips when we would need to measure a DOM node before rendering something
+that depends on its size or position. This is exactly what they mentioned above "Initialization that requires DOM 
+nodes should go here", so we are going to go to the Materialize's website (www.materialize.com), we are going to 
+click on the "GET STARTED" button and we are going to copy,
+
+	<!-- Compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.css">
+	<!-- Compiled and minified JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+We need both of these links here, we need materilize.css and we need materialize.js, so going back to our index.html
+file we are going to paste those two links, and we paste them right below our title tags, these are just statically
+loaded files.
+
+So, we have got basics for materialize.css and materialize.js inside our whole application, we are going to close 
+index.html, and return to our materialize website. So, at the sidebar of the site if we click JavaScript, and scroll
+down through the side bar we are going to click on Modals, because as they mentioned "Modals" specifically, it is a
+very common used case. Now there are React modules that have a modal of some kind in it. We are going to use the 
+basic Materialize CSS modal,
+
+<!-- Modal Trigger -->
+<a class="waves-effect waves-light btn model-trigger" href="#modal">Modal</a>
+
+<!-- Modal Structure -->
+	<div id="modal1" class="modal">
+		<div class="modal-content">
+			<h4>Modal Header</h4>
+			<p>A bunch of text</p>
+		</div>
+			<a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+	</div>
+
+We are going to copy the code and we are going to paste it in our App.js file. 
+
+App.js 
+
+impor React, {Component} from react;
+
+class App extends Component {
+	constructor(){
+		super();
+		this.state={
+			temp: " "
+		}
+	var elems = document.querySelectorAll('.modal');
+	var instances = window.M.Modal.init(elems);
+}
+
+componentDidMount(){
+	const url='https://api.openweathermap.org/data/2.5/weather?q=London&units=imperial&appid=e312dbeb8840e51f92334498a261cald'
+
+	axios.get(url).then((resp)=>{
+		this.setState({
+				temp: resp.data.main.temp
+		})
+	})
+}
+
+render(){
+	return(
+		<div className="App">
+			<h1>{this.state.temp}</h1>
+			<a className="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
+
+			<div id="modal1" className="modal">
+				<div className="modal-content">
+					<h4>Modal Header</h4>
+					<p>A bunch of text</p>
+				</div>
+				<div className="modal-footer">
+					<a href="#!" className="modal-close waves-effect waves-green btn-flat">Agree</a>
+				</div>
+			</div>
+		</div>
+	);
+}
+
+Output:
+
+		53.22
+
+		Modal	[button]
+
+So when we click on the Modal button nothing happens, because when the constructor runs for the first time, the 
+render() has not run yet, the contructor() runs first and then the render() runs, which means,
+
+	var elems = document.querySelectorAll('.modal');
+
+tries to find something with the class "modal" but the render() method has not run yet, which means there are nothing
+in the DOM as the Modal code snippet contains the modal class has not been added to the DOM, that is the problem, it
+is not there yet. That is why we need to place,
+
+	var elems = document.querySelectorAll('.modal');
+	var instances = window.M.Modal.init(elems);
+
+inside the componentDidMount() method,
+
+
+App.js
+
+import React, {Component} from 'react';
+
+class App extends Component {
+	constructor(){
+		super();
+		this.state={
+			temp: " "
+		}
+	}
+
+componentDidMount(){
+	const url = 'https://api.openweathermap.org/data/2.5/weather?q=London&units=imperial&appid=e312dbed8840e51f92334498a261ca1d'
+
+	axios.get(url).then((resp)=>{
+		this.setState({
+			temp: resp.data.main.temp
+		})
+	})
+
+	var elems = document.querySelectorAll('.modal');
+	var instances = window.M.Modal.init(elems);
+}
+
+render(){
+
+	return(
+
+		<div className="App">
+			<h1>{this.state.temp}</h1>
+			<a className="waves-effect waves-light btn modal-trigger" href="#modal">Modal</a>
+			
+			<div id="modal1" className="modal">
+				<div className="modal-content">
+					<h4>Modal Header</h4>
+					<p>A bunch of text</p>
+			</div>
+			<div className="modal-footer">
+				<a href="#!" className="modal-close waves-effect waves-green btn-flat">Agree</a>
+			</div>
+		</div>
+	</div>
+);
+
+}
+
+
+Output:
+
+		53.2
+		
+		Modal	[button]
+
+
+Now when we click the "Modal" button, it gives us a Modal;
+
+		
+				Modal Header
+			
+				A bunch of text 
+
+							Agree
+
+
+And now the Modal works just fine, that is because the constructor method ran first, then the render() method ran,
+and now we have a DOM to work with, and the componentDidMount() ran, which goes and looks at the DOM for something
+with the class of "modal", it finds it and updates it and the problem is solved. 
+
+This was just a quick overview of componentDidMount(), we will use it all the time in the projects through out the
+course, but anytime we need to wait until the first render() method has run, is when we need the componentDidMount()
+method.   
