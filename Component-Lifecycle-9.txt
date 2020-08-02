@@ -1,0 +1,87 @@
+App.js
+
+import React, {Component} from 'react';
+import logo from './logo.svg';
+import './App.css';
+import axios from 'axios';
+
+class App extends Component {
+	constructor(){
+		super();
+		this.state={
+			temp: "",
+			cityName: "",
+			weather: "",
+			high: "",
+			low: "",
+			icon: "",
+		}
+	}
+
+	componentDidMount(){
+		const url='https://api.openweathermap.org/data/2.5/weather?q=London&units=imperial&appid=e312dbed8840e51f92334498a261ca1d'
+
+		axios.get(url).then((resp)=>{
+			this.setState({
+				temp: resp.data.main.temp,
+				high: resp.data.main.temp_max,
+				low: resp.data.main.temp_min,
+				weather: resp.data.weather[0].description,
+				icon: resp.data.weather[0].icon,
+				cityName: resp.data.name
+			})
+		})
+
+			var elems=document.querySelectorAll('.modal');
+			var instances=window.M.Modal.init(elems);
+	
+		}
+
+render(){
+		const iconUrl=`https://openweathermap.org/img/w/${this.state.icon}.png`
+
+		return(
+			<div className="App">
+				<h1>{this.state.temp}</h1>
+				<a className="waves-effect waves-light btn modal-trigger" href="#modal1">Details</a>
+
+				<div id="modal1" className="modal">
+					<div className="modal-content">
+						<h4>{this.state.cityName}</h4>
+						<p>High:{this.state.high} - Low:{this.state.low}</p>
+						<p>{this.state.weather}<img src={iconUrl}/></p>
+					</div>
+					<div className="modal-footer">
+						<a href="#!" className="modal-close waves-effect waves-green btn-flat">Agree</a>
+					</div>
+				</div>
+		);
+	}
+}
+
+export default App; 
+
+
+The first thing that happens is that the constructor() runs when the App Component gets created back in index, and 
+the constructor() initializes the super() method, which means we get all the stuff that the Component is and then 
+the state gets set up, so we have "this.state.temp", "this.state.cityName", "this.state.weather" etc.
+
+After the constructor() is done running, the componentDidMount() does not run, because the render() method needs to
+run before componentDidMount() runs, so it skips down to render(), it sets up the iconUrl variable, the iconUrl
+variable is going to contain the url with "this.state.icon" after the first run of the constructor() when the 
+render(), that time the "this.state.icon" is an empty string, so the variable will contain the url link and an empty
+string at the place of "this.state.icon", which is still a valid url and then it will return all the stuff we have
+inside the return statement, so we have "this.state.high" which is an empty string, we have "this.state.cityName"
+which is an empty string and all the other states those are returning are all being returned as empty strings.
+
+Once the render() method is done running componentDidMount() kicks into gear, the axios request gets issued, each 
+of the state we initialized as empty string in the constructor() method gets updated based on the response (resp)
+we get back from the url, and as we get new state back from the server, the render() method will run again, now the
+iconUrl variable will be different as this time the url conatins state instead of the empty string and all the 
+"this.state" we have in our return statement will be populated with the contents (states) that we received from the
+server.
+
+In the next lesson we are going to add a little form, so the user search the city, they want to know the weather of,
+instead of only getting the weather of London.  
+
+			
