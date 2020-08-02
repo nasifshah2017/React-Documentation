@@ -1,0 +1,191 @@
+In this lesson we are going to add an input-box and provide the user the ability to choose what city they are looking
+for and this will go back to the event-stuff we did earlier in this section, once we are done with this we can look
+at the next lifecycle method called componentDidUpdate(). But if we look at our return statement right now then we
+will see that we are returning and right now we only have two things that the user sees load on the page,
+
+
+		<h1>{this.state.temp}</h1>
+		<a clasName="waves-effect waves-light btn modal-trigger" href="#modal1">Details</a>
+
+
+All the other things below these two tags are part of the modal and they load up when the user the user clicks on 
+the button.
+
+Now, we will place our input-box right underneath our anchor tag,
+
+
+		<h1>{this.state.temp}</h1>
+		<a className="waves-effect waves-light btn modal-trigger" href="#modal1">Details</a>
+		<input type="text" placeholder="Enter a City Name""/>
+
+		Output:
+
+				56.25
+
+				DETAILS	[Button]
+
+				Enter a City Name
+
+
+This is a little bit out of control, to make it a little bit better we will add a div with row around the content,
+and set some columns in,
+
+
+<div className="row">
+	<div className="col s6 offset-s3">
+		<h1><{this.state.temp}</h1>
+		<a className="waves-effect waves-light btn modal-trigger" href="#modal1">Details</a>
+		<input type="text" placeholder="Enter a City Name"/>
+	</div>
+</div>
+
+Output:
+
+		56.25
+
+		DETAILS  [Button]
+
+		Enter a City Name
+
+
+Now it looks a little bit better, for the input-box it is going to be just like it was before.
+
+Now we will add a form in our page,
+
+
+<div className="App">
+	<div className="row">
+		<div className="col s6 offset-s3">
+			<h1>{this.state.temp}</h1>
+			<a className="waves-effect waves-light btn modal-trigger" href="#modal1">Details</a>
+			<form onSubmit={this.searchCity}>
+				<input type="text" placeholder="Enter a City Name"/>
+			</form>
+		</div>
+	</div>
+
+
+So, when we submit our form, we want React to run the searchCity() function that we will define above our render() 
+method,
+
+
+searcCity=(e)=>{
+	e.preventDefault();
+	const city=document.getElementById('city').value;
+	console.log(city)
+}
+
+render(){
+		const iconUrl=`https://openweathermap.org/w/${this.state.icon}.png`
+
+	return(
+		<div className="App">
+			<div className="row">
+				<div className="col s6 offset-s3">
+					<h1>{this.state.temp}</h1>
+					<a className="waves-effect waves-light btn modal-trigger href="#modal1">Details</a>
+					<form onSubmit={this.searchCity}>
+						<input type="text" id="city" placeholder="Enter a City Name"/>
+					</form>
+				</div>
+			</div
+		</div>
+
+
+So, here we are picking up the entry being entered by the user. We are using "document.getElementById" to pick the 
+"city" id and using it to get a hold of the entry entered by the user, then storing it in the const variable called
+"city". Then after hitting Enter, we are console.logging the entry on our console. 
+
+Output:
+
+		56.25
+
+		DETAILS [Button]
+
+		chicago
+
+Console:
+		chicago
+				56.25
+
+				Details	[Button]
+
+				moscow 
+
+Scrolling up through our code we want our axios request to run and we will copy the axios code from the componentDidMount()
+method and we will paste it in our searchCity() function,
+
+		searchCity=(e)=>{
+				e.preventDefault():
+				const city=document.getElementById('city').value;
+
+				console.log(city)
+
+				const url=`https://api.openweather.org/data/2.5/weather?q=${city}&units=imperial&appid=e312dbeb8840e51f92334498a261ca1d`
+
+				axios.get(url).then((resp)=>{
+					this.setState({
+						temp: resp.data.main.temp,
+						high: resp.data.main.temp_max,
+						low: resp.data.main.temp_min,
+						weather: resp.data.weather[0].description,
+						cityName: resp.data.name
+					})
+				})
+		}
+
+
+This will update State with exactly the same material as before but because the API is sending different data, the
+State will also be different, that is why in our render() method the <h1> tag will display a different temperature
+and inside the modal all the other data will be updated as well.
+
+Now we will search for Chicago again on our search bar and hit "Enter",
+
+			50.02
+
+			DETAILS
+
+			Chicago
+
+
+The temperature changes to 50.02, if we click on DETAILS we get the Modal popped up showing the temperature and 
+weather of Chicago.
+
+			50.02
+
+			DETAILS	[Clicked]
+
+			Chicago
+
+
+			Chicago
+
+			High: 55 - Low: 44.01
+
+			Light rain: ;;;;
+
+
+			70.52
+
+			DETAILS	[Clicked]
+			
+			Moscow
+
+
+			Moscow
+
+			High: 75.2 - Low: 64.4
+
+			clear sky: {0}
+
+
+Everytime the form is submitted, it runs the "this.searchCity" method, onSubmit runs the "searchCity()" method, we
+pass "e" with the method as a parameter and we connect with it the built-in preventDefault method which will prevent
+the form from moving on, we get the value from the input-box, we make a new API call and most importantly once that
+API call has returned, when we get back the HTTP response from the server, we update our States, the render() method
+will re-run and the "this.state" for each State will be totally different this time.
+
+We cam change the HTML, the mark-up to something cool if we want but in the next lesson we will look at the 
+componentDidUpdate() method.  
+							 			
+	
