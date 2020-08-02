@@ -1,0 +1,51 @@
+In this section we are going to talk about the Component Lifecycle and we are going to introduce HTTP 
+in out React app.
+
+The Component Lifecycle might sound very scary or you might have tried it before and had some trouble 
+with it. It is very intuitive and simple, if it is laid out the right way and if we get a hang of it.
+
+Historically, the way the web has always worked is that we have a server (built in PHP) and we have a
+laptop in our cyber-space, and that laptop is using Chrome or Firefox or whatever and it wants to get 
+something from the server, or it wants to load up our webpage, or let's say it wants to load up our 
+webpage, or let's say it wants to load up a page from Wikipedia. Wikipedia's PHP kicks into gear, it does
+some stuff, and eventually ends up with HTML, CSS and JavaScript is what the browser in the laptop can read,
+so that is what is sent back to the browser.
+
+Let's say we have seen an interesting article and we click on that, and that takes us to a new page, and we 
+go through this whole process again, we go back to the server, the server recompiles everything, we get some 
+new HTML, JavaScript and CSS and it would get sent back to our browser. This is called server-side rendering.
+
+It is the server's job or PHP's job to get us the DOM, to get us the HTML, CSS and JavaScript, that is what the
+browser is reading, so everytime we go to a new Wikipedia page, we are going to get a completely new DOM. You
+can think of it like an umbrella, we have the server or the back-end, it is like a hood (top-part) of the umbrella
+and underneath the umbrella we have the UI (user-interface) and all the stuffs that needs to happen. The UI is just
+one component and the back-end is responsible for it. 
+
+This is how the React works. React is its own thing. Here, we also have a server (built using Node), we have our 
+laptop, from there the browser makes the HTTP request to the server, and the server verifies the request and sends
+back the package of HTML, CSS and JavaScript, because that is what the browser can read, the difference between 
+server-side rendering and what React aims to do, is that is when React needs new data for any reason at all, will
+make another HTTP request, but it will not get HTML, CSS and JS back in response, instead the server will send back
+JSON (JavaScript Object Notation), and this request-response cycle between React and the Node server will happen over
+and over again, where for each HTTP request made by React to the server, the server will always reply by sending 
+JSON file back to React in our browser.
+
+We can get back other files like XML, but the most common file always sent back from the Node server to React is 
+JSON. That is the route we are going to take, instead of loading up a new DOM, it is always going to be HTTP and
+JSON, so React can update itself. 
+
+React is purely an UI framework, which means React has no idea as how the data was made, and which server it is
+sending the HTTP request to, it can be PHP, or Node, or Go, or C++, it makes no difference, React just knows it
+got some data and it is going to do something with it. This is React's job. The server does not know who is making
+the HTTP request to it, and it does not know who is going to receive the data sent back in response, it's job is
+just to send back JSON file with each request made, and whoever receives it can do anything they want to do with 
+it. 
+
+So, we have two very specific units now, instead of server-side rendering where the server did everything, we now
+have chatter going back and forth between React and the server, which is going to provide the data.
+
+To manage this chatter as well as other things React gives us the Component Lifecycle which will help us manage
+how and when things should be happenning. 
+
+In the next lesson we will make our first HTTP request and we will build our first method in the Component 
+Lifecycle. 
