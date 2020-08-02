@@ -1,0 +1,213 @@
+Before we talk about how React handles forms, we want to just build a form. It will be so much easier to reference
+what they are talking about here(www.reactjs.org/docs/form.html) where we actually have a form to work with and 
+then we can update it.
+
+Now, we will render a new component called <FormPractice/>,
+
+index.js
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.html';
+import App from './App';
+import * as serviceWorker from './serviceWorker';
+import FormPractice from './FormPractice';
+
+ReactDom.render(<FormPractice/>, document.getElementById('root'));
+
+serviceWorker.unregister();
+
+
+FormPractice.js
+
+import React, {Component} from 'react';
+
+class FormPractice extends Component{
+	render(){
+		return(
+			<div className="container">
+				<div className="row">
+					<div className="col s6 offset-sm-3">
+						<form>
+							<input type="text" placeholder="Enter name"/>
+							<input type="submit" value="submit"/>
+						</form>
+					</div>
+				</div>
+			</div>
+		)
+	}
+}
+
+export default FormPractice;
+
+Output:
+
+			Enter name
+		-------------------------------------
+			Submit
+
+Ok so we have our form, to make it a little bit better we have added classNames "container", "row", "col s6 off-sm-3".
+
+So, just like before we are going to add a submit handler on our form,
+
+
+FormPractice.js
+
+import React, {Component} from 'react';
+
+class FormPractice extends Component{
+	handleSubmit=(e)=>{
+		e.preventDefault();
+		console.log("form submitted");
+	}
+
+	render(){
+		return(
+			<div className="container">
+				<div className="row">
+					<div className="col s6 offset-sm-3">
+						<form onSubmit={this.handleSubmit}>
+							<input type="text" placeholder="Enter name"/>
+							<input type="submit" value="submit"/>
+						</form>
+					</div>
+				</div>
+			</div>
+		)
+	}
+}
+
+export default FormPractice;
+
+Now, we want to get a hold of the data that we entered on the input-field, there are multiple ways of getting a hold
+of that data, one of the approaches we can take is document.getElementById. 
+
+We will assign a variable to the document in our handleSubmit() function,
+
+		handleSubmit=(e)=>{
+			e.preventDefault();
+			console.log("form submitted");
+			const name=document.getElementById('name').value;
+			console.log(name);
+		}
+
+		<form onSubmit={this.handleSubmit}>
+			<input type="text" id="name" placeholder="Enter name"/>
+			<input type="submit" value="submit"/>
+		</form>
+
+So, we have denoted our input-box an id as "name" and we are using that id to hold the value being entered in the 
+input-box, and we are console.logging that on our console,
+
+Output:
+
+			Rob
+		-----------------------
+			Submit
+
+Console:
+			Rob
+
+Output:
+			Robert
+		------------------------
+			Submit
+
+Console: 
+			Robert
+
+So, whatever we type on our input-box and hit Enter, it get stored in our "name" variable. So, what we have here is
+a value property that is attached to every input-box, that is already kind of managing the state for us. The DOM is
+automatically updated to whatever we type at the input-box.
+
+This is also what the heading in the Forms webpage(www.reactjs.org/docs/forms.html) says, "HTML form elements work
+a little bit differently from other DOM elements in React, because from elements naturally keep some internal state."
+
+We can always go and fetch that with .value but that is bad, that is not good in React because we all mutable state,
+so if anything is changing in our application then we want to control that inside of state, the state property of a
+given Component(this.state.whatever) and we only want to change that with the setState() method.
+
+React wants us to assign the value of our input-box as a State and not the other way around. The best way to learn
+that is by assigning the value as an State and do it from there,
+
+FormPractice.js
+
+import React from 'react';
+
+class FormPractice extends Component{
+	constructor(){
+		super();
+		this.state={
+			name: ""
+		}
+	}
+
+	handleSubmit=(e)=>{
+		e.preventDefault();
+		console.log("form submitted");
+		const name=document.getElementById('name').value;
+		console.log(name)
+	}
+
+	changeName=(e)=>{
+		console.log(e.target.value);
+		this.setState({
+			name: e.target.value;
+		})
+	}
+
+	render(){
+		return(
+			<div className="container">
+				<div className="row">
+					<div className="col s6 offset-sm-3">
+						<form onSubmit={this.handleSubmit}>
+							<input onChange={this.changeName} value={this.state.name} type="text" id="name" placeholder="Enter name"/>
+							<input type="submit" value="submit"/>
+						</form>
+					</div>
+				</div>
+			</div>
+		)
+	}
+}
+
+
+Output:
+		John
+	--------------------------
+		Submit
+
+Console:
+
+	J
+	Jo
+	Joh
+	John
+
+What is really happening here, when we as a user type 'J', we think we just changed the input-box but we did not 
+really, what we really did is, called the onChange() function and the onChange() function changed State, when State
+updated, the render() function ran again and then React changed the input-box.
+
+So, normally the DOM or the browser is managing the value here. We are taking that away because in React we never 
+want things to be like that, we want State to be where things will be changing and nowhere else.
+
+We will call this.changeName, the value={this.state.name} will not change instead changeName() will update State, 
+render() will run, because State has changed, the value={this.state.name} will change in the render().
+
+This is how we manage input-boxes in React.
+
+Normally, we are used to seeing <textarea> tags like this,
+
+	<textarea>
+		Hello there, this is some text in a text area
+	</textarea>
+
+It is like a button where we have an open and a close and everything inside the tags belong to the textarea. 
+React to keep things simple, uses a value the same way that it does in an input-box,
+
+	<textarea value={this.state.value} onChange={this.handleChange}/>
+
+The text area will be self-closing, it will have its own onChange and its own value, it does not seem like it makes
+sense but React will handle that for us. 
