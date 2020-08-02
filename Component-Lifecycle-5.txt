@@ -1,0 +1,306 @@
+We have given a little bit of info on how axios works and how the server and the API works, we have learned how to
+make a request for the data to the server and then how to get it back, and now the question is how to use that data.
+
+The way we have showed in the last lesson is going to be the most common way that we fetch data in React or in any
+other framework.
+
+
+function App() {
+	const url='https://api.openweathermap.org/data/2.5/weather?q=London&units=imperial&appid=e312dbeb8840e51f92334498a261c1d'
+
+	axios.get(url).then((resp)=>{
+		console.log(resp.data);
+	})
+
+	return(
+		<div className="App">
+			<h1>Sanity Check</h1>
+		</div>
+	);
+
+}
+
+export default App;
+
+Now, the question is how we can get the "resp.data" that we got in the response, how can we get that in our return()
+method, because whatever is inside the return() method, is getting ended up inside the Virtual DOM, which ultimately
+ends up inside the DOM. We have "resp.data" before the return() method, how can we get what is in the resp.data 
+inside of our return() method.
+
+The thing that we should remember is that the HTTP requests are asynchronous, meaning JavaScript will not wait for
+the response, instead it will keep moving on.
+
+So, the "const url" line will run as soon as App.js is created,
+
+	const url='https://api.openweathermap.org/data/2.5/weather?q=London&units=imperial&appid=e312dbeb8840e51f92334498a261c1cd'
+
+and then,
+
+	'axios.get(url)'
+
+runs but then the JavaScript needs to wait for the response before it can run,
+
+	'.then((resp)={
+		console.log(resp.data);
+	})'
+
+and it will not wait for the respnse instead it will move on with the next code,
+
+return(
+
+	<div className="App">
+		<h1>Sanity Check</h1>
+	</div>
+);
+
+Even if it takes a millisecond for the response to come from the server to the browser which is a very short time
+for us but it is not short for JavaScript, as JavaScript can get a lot done in one millisecond, and after it is done
+running the return() method, and then the "then" will finally kick in, but now it is too late to do anything because
+the return() method has already run. 
+
+That is why we need State. State is made for this very thing, where we start from the return() method but that is not
+where we want to end, we want to change the DOM, once we receive the response from the server. That is why this is
+a very good example where we would want to use State. In order to use State, we need to convert our functional 
+component to the class component,
+
+Now if we turn this into a class component then we would have naked code, as we did above our return() method inside
+our functional component. We need to put that code inside the constructor() method and we also need to include the
+super() function inside our constructor() method to get the Component functionalities. We always need to have the
+return() method in our Component,
+
+
+class App extends Component {
+	constructor(){
+		super();
+		const url='https://api.openweathermap.org/data/2.5/weather?q=London&units=imperial&appid=e312dbeb8840e51f92334498a261c1cd'
+
+		axios.get(url).then((resp)=>{
+			console.log(resp.data);
+		})
+
+		render(){
+			return(
+				<div className="App">
+					<h1>Sanity Check</h1>
+				</div>
+			);
+		}
+	}
+
+	export default App;
+
+Output:
+
+	localhost:3000
+
+			Sanity Check
+
+
+Now we will use State to extract the current temperature of our search city from the JSON file that we received from
+the server,
+
+
+App.js
+
+class App extends Component{
+	constructor(){
+		super();
+		const url='https://api.openweathermap.org/data/2.5/weather?q=London&units=imperial&appid=e312dbeb8840e51f92334498a261c1d'
+		
+		axios.get(url).then((resp)=>{
+			this.state={
+					temp:resp.data.main.temp
+			}
+		})
+	}
+
+	render(){
+			return(
+				<div className="App">
+					<h1>{this.state.temp}</h1>
+				</div>
+			);
+	}
+}
+
+export default App;
+
+
+Now, when we get back to the browser we get an error, telling us it "Cannot read property 'temp' of null", and we 
+might be thinking wait a minute State cannot be null as it is already defined inside the constructor. Well, this is
+the asynchronous part, "this.state" does not get ran until after the render() method has ran.
+
+The constructor() method runs, then the super() method runs, the "const url" variable gets set up, then the axios 
+runs, where the React makes the HTTP GET request to the server and as it takes some time for the response to arrive,
+where JavaScript goes ahead and runs the render() method, which runs the return() method, and when the return() method
+runs it runs the "{this.state.temp}" and JavaScript throws an error as "this.state.temp" is not defined as the code
+inside the then() method is not run and "this.state.temp" is defined inside the then() method. 
+
+This is why we cannot place the "axios" code inside the constructor() method as it does not belong there. So, we 
+will remove it from there. We need an asynchronous thing to happen, it cannot be in the constructor() method, we 
+cannot put it inside the render() method, because if we tried to set state inside the render() method, then it 
+would end up in an infinite loop.So, the code the axios absolutely does not belong in the constructor() or in 
+the render() method.
+
+We will initialize the state inside the constructor() to an empty string "", and we will declare a built-in React 
+method called "componentDidMount()", and this method will contain the axios code, which will be used to make the 
+HTTP GET request to the server,
+
+App.js
+
+import React, {Component} from 'react';
+import logo from './logo.svg'
+import ./App.css';
+import axios from 'axios';
+
+class App extends Component{
+	constructor(){
+		super();
+		this.state={
+			temp: ""
+		}
+	}
+
+	componentDidMount(){
+		const url="https://api.openweathermap.org/data/2.5/weather?q=London&units=imperial&appid=e312dbeb8840e51f92334498a261c1c"
+	
+		axios.get(url).then((resp)=>{
+			this.setState({
+				temp: resp.data.main.temp
+			})
+		})
+	}
+
+	render(){
+		return(
+			<div className="App">
+				<h1>{this.state.temp}</h1>
+			</div>
+		);
+	}
+}
+
+export default App;
+
+Output
+
+localhost:3000
+
+		52.36
+
+
+We get the current temperature (in Farenheit) of London. But how did we get it? We did not call the componentDidMount()
+method anywhere in our code. Why did it run?
+
+Well! componentDidMount() is the payload, it is the lifecycle of the Component at work. At the top of our program
+code we have the "class App" that extends to 'Component' and the Component is something that we get from the React
+library. As it is a Component and as we called the super() function, we automatically get all the cool stuffs for
+being a Component, one of these processes is when React will look for a method called "componentDidMount()" and if
+it exists, React will call it automatically after the render() method is ran the first time.
+
+Class
+
+	constructor()
+		super()
+		this.state={
+				temp: ""
+		}
+
+	componentDidMount(){
+	axios
+		updateState
+	}
+
+	Render(){
+			this.state.temp
+	}
+
+So, we have written here, the sudo-code of our program, this is not syntactically correct, but written to provide
+a general idea on how our code is working.
+
+At the top we have our "Class", our "Class" is a Component and the order goes like this, the constructor() will run
+first,
+
+1. Constructor - The constructor runs the very first time. Then the super() method runs where it provides us with
+all its cool stuffs, and then "this.state.temp" is defined by running 
+
+	this.state={
+		temp: ""
+	}
+
+After the constructor is done running, the render() method runs and not the componentDidMount()
+
+2. Render() - This is always the case, we will always get a constructor() followed by our first render(). The 
+constructor() methods runs the very first time, and then directly after that the render() method will run skipping
+everything in-between the constructor() and the render() method. When the constructor() method runs the very first
+and only time it defines the state as as empty string "" by running,
+
+	this.state={
+		temp: ""
+	}
+
+and then right after the render() method runs, and it renders (builds) the page by displaying state, as "this.state"
+is an empty string " " at the moment, so nothing is displayed. This is step-2,
+
+3. componentDidMount() - As soon as the render() method is done running the first time, React will see that there 
+is a componentDidMount() method and it will realize that it has done running the render method for the first time
+in the program and that is why now it will run the componentDidMount() method and there the axios request runs, it
+runs asynchronous, so it sends the HTTP GET request to the server, and it waits, as JavaScript has nothing to do,
+as render() has already ran, the constructor() has already ran, so after React has sent the axios request to the 
+server, React is just sitting there doing nothing, once it receives the response from the server, it runs the 
+updateState part (this.setState()), and updateState always runs the render() method inside it, thus the render()
+method runs again, and it again renders the page by displaying "this.state.temp" in <h1>this.state.temp</h1>. The 
+last time it rendered the page did not display anything as the "this.state.temp" was set to an empty string " "
+but this time the temp is different because we just changed it, and assigned it to the current temperature of 
+London, which React extracted from the JSON file that was sent to it from the server. That is why with this render()
+the page displays the current temperature of London on it. 
+
+We have got a process where every React component has to mount and mount is simply the term for "it was not on the
+Virtual DOM a second ago, and I am abount to put it on there", that is the entire Component as it is being rendered.
+The very first thing that happens is that the constructor() runs, once the constructor() has ran, render() will run,
+and once the render() has ran, componentDidMount() will run. This is always going to be the case in Mounting.
+
+Inside of the Updating part it will only change when we might have new props, or we might have new State, having 
+either of them means the Virtual DOM is about to change, we are going to put new content on our Component by 
+replacing the old content and our page on the browser will display the change by showing the new content.
+
+Mounting is where React started and set up the Component, then on Updating is where something has happened, we have
+received new content (New Props/New State) and that is why we need to render again, and as long as React receives
+new content, it will update the State by running "this.setState", and whenever it runs "this.setState", it will run
+the render() method afterwards, after that it will run a new method called "componentDidUpdate()". As long as React
+keeps receiving contents or data, it will run the "this.setState" which will update the state, and as long as the 
+state keeps on getting updates, the render() method will run, and after the render() method runs, componentDidUpdate()
+will run, and this process continues as long as the State gets updated with the data that is being sent to React.
+
+We need render() to run because we need React to update the Virtual DOM, and componentDidUpdate() will allow us to
+run the logic after we have an update.
+
+At the very end when React has stopped receiving content (data), it will run the componentWillUnmount() method. It
+will remove the Component from the DOM, as we do not need to render the App anymore, we need to go to something else,
+componentWillUnmount() runs as the last process right before the Component gets removed. It is normally ran to clean
+up the memory, or sometimes to alert some other Component or some other part of the application, we can do that 
+inside componentWillUnmount() method. 
+
+	Mounting		|		Updating		|		Unmounting
+---------------------------------------------------------------------------------------------------------------
+1.	Constructor		|		New Props/New State	|	6.	componentWillUnmount()	
+2.	Render			|	4.	Render			|	
+3.	componentDidMount()	|	5.	componentDidUpdate()	|
+
+
+This is the total lifecycle that components go through. There are couple of other ones, but this is mainly the one
+we are going to use. There are some other hurdles and it will take a little bit of time to get used to it.
+For example, componentDidUpdate() is not ran after the render() has run the very first time, instead the 
+componentDidMount() method runs after the very first render(), we will talk through this more and more and we will
+use all of these. The power of the Component Lifecycle, is that gives us the ability to patch into the process but
+lets React manage how and when everything happens. We can use the methods that React is giving us, the constructor(),
+the render(), componentDidMount(), we can use these and React can take care of business, as how and when it needs
+to in order to be most optimized.
+
+In the next lesson we will look closer at the componentDidMount() method and why we used it when we did and then we
+will work through the other lifecycle methods. 	
+
+ 
+			
+    
+
