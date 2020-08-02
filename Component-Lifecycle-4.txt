@@ -1,0 +1,137 @@
+We have the code from the previous lecture copied, we will paste it inside the function definition at our App.js
+file, right before the return().
+
+App.js
+
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+import axios from 'axios';
+
+function App(){
+	const url='https://api.openweathermap.org/data/2.5/weather?q=London&units=imperial&appid=e312dbeb8840e51f92334498a261ca1d'
+
+	return(
+		<div className="App'>
+			<h1>Sanity Check</h1>
+		</div>
+	);
+}
+
+export default App;
+
+
+OpenWeatherMap (www.openweathermap.org/api) is a free and easy site to work with API. It is one of our favourite
+for quick and easy access because it is free and it is very straight forward. It requires an API key, and we have
+provided one at the end of the URL link that we have copied from the previous lesson. They are free, so there is no
+real danger to use it, but please do not abuse it, or we will lock it. It is definitely worth getting one for free,
+to have an easy API to work with, so we can click on the "sign up" link and get an API key; otherwise, we are 
+specifically going to work inside "Current weather data" and we are going to click on "API doc" and we get migrated
+to "www.openweathermap.org/current" and here we can get access to the current weather data from over 200,000 cities
+and it is available on JSON format.
+
+In the page it shows us how to make a request for a given city,
+
+By city name
+
+Description:
+
+You can call by city name or city name and country code. API responds with a list of results that match a searching
+word.
+
+There is a possibility to receive a central district of the city/town with its own parameters
+(geographic coordinates/id/name) in API response. Example
+
+API call:
+
+api.openweathermap.org/data/2.5/weather?q={cityname}
+api.openweathermap.org/data/2.5/weather?q={cityname},{countrycode}
+
+Parameters:
+
+q city name and country code divided by comma, use ISO 3166 country codes
+
+Examples of API calls:
+
+api.openweathermap.org/data/2.5/weather?q=London
+api.openweathermap.org/data/2.5/weather?q=London,UK
+
+By city ID
+
+Description:
+
+You can call by city ID. API responds with exact result
+
+List of city ID city.list.json.gz can be downloaded here http://bulk.openweathermap.org/simple/
+
+We recommend to call API by cityID to get unambigous result for our city.
+
+Parameters:
+
+id City ID
+
+Examples of API calls:
+
+api.openweathermap.org/data/2.5/weather?id=2172797
+
+We can see an example up there the "API call" from the "By city name" gives us a base URL, the link has "/weather"
+at the end of it and then we hand it a query string "?q={cityname}" inside the curly brackets we can put the name
+of the city of the one whose weather we want to get, we can more specifically put the country code inside the curly
+brackets followed by the city name to make our search more specific and accurate, "?q={cityname},{countrycode}".
+
+api.openweathermap.org/data/2.5/weather?q={cityname}
+api.openweathermap.org/data/2.5/weather?q={cityname},{countrycode}
+
+There is a town called Rome in Georgia, US, so if we search Rome, using the first base URL we are going to get Rome,
+Italy, but if we want Rome, Georgia, we can search Rome, US and we would get the weather for Rome, Georgia.
+
+Now we are going to use "axios" in our App.js file to make an HTTP request to the server, it is going to be a GET
+request where we are going to send the base URL as the address of the server and then we are going to use the "then"
+keyword to let axios know that whenever you get the JSON file back in response then run the code that comes afterwords
+the "then" keyword. The JSON file that we get back in response we are going to refer it as "resp",
+
+App.js 
+
+import React from 'react';
+import logo from './logo';
+import './App.css';
+import axios from 'axios';
+
+function App(){
+	const url='https://api.openweathermap.org/data/2.5/weather?q=London&units=imperial&appid=e312dbeb8840e51f192334498a261c1d'
+
+	axios.get(url).then((resp)=>{
+		console.log(resp.data);
+	})
+	
+	return(
+		<div className="App">
+			<h1>Sanity Check</h1>
+		</div>
+	);
+}
+
+export default App;
+
+
+Here we are console.logging the JSON file that we got back in response after making the HTTP GET request to the 
+server.
+
+localhost:3000
+
+		Sanity Check
+
+Console
+
+>main: {temp: 68.31, pressure: 997, humidity: 52, temp_min: 60.8, temp_max: 75, temp: 68.31}
+
+
+We received some of the objects back in our JSON file. We can see those objects on our console. One of those objects
+is called "main" and it contains lot of details on the current weather in London. All the information are in a key-value
+format that we would expect from an object.
+
+We have got this (main) object with lot of other objects in the JSON file that was sent to us as a response from the
+server, and we can display any property we want from any of these objects and display it on the UI in our browser.
+
+For now we are going to use the current temperature and in the next lesson we are going to look at how we can display
+that on the screen, and eventually we can update that whenever we want to. 
