@@ -1,0 +1,556 @@
+In this lesson we are going to take a look at componentDidUpdate() and we have been to this page 
+(www.reactjs.org/docs/react.component.html#componentdidupdate). It says componentDidUpdate() is invoked immediately
+after updating occurs. This method is not called for the initial render.
+
+componentDidMount() runs the very first time after render(), componentDidUpdate() runs after the DOM has updated
+or after the rendering has happened. This method is not called ofr initial render, so before we go any further lets
+go back to the code base and lets pull all of these in. 
+
+Now we have put console.logs in each of the component and render() methods, so on running our code we can see the 
+sequence at which each method runs.
+
+Output:
+
+Console:
+
+	Constructor is running
+
+	render is running
+
+	ComponentDidMount is running
+
+	render is running
+
+So, here is our sequence and the reason all of these happened because we made our class a component and React calls
+these for us underneath the hood.
+
+Now, we will add the componentDidUpdate() method in our code and above our render() method.
+
+
+App.js
+
+import React, {Component} from 'react';
+import logo from './logo.svg';
+import './App.css';
+import axios from 'axios';
+
+class App extends Component{
+	constructor(){
+		console.log("Constructor running...")
+		super();
+		this.state={
+			temp: "",
+			cityName: "",
+			weather: "",
+			high: "",
+			low: "",
+			icon: "",
+		}
+	}
+
+componentDidMount(){
+		console.log("Component Did Mount running")
+		const url='https://api.openweathemap.org/data/2.5/weather?q=London&units=imperial&appid=e312dbeb8840e51f92334498a261ca1d'
+
+		axios.get(url).then((resp)=>{
+			this.setState({
+				temp: resp.data.main.temp,
+				high: resp.data.main.temp_max,
+				low: resp.data.main.temp_min,
+				weather: resp.data.weather[0].description,
+				icon: resp.data.weather[0].icon,
+				cityName: resp.data.name
+			})
+		})
+
+			var elems=document.querySelectorAll('.modal');
+			var instances=window.M.Modal.init(elems);
+		}
+
+		componentDidUpdate(){
+			console.log("Component has updated....")
+		}
+
+		searchCity=(e)=>{
+			e.preventDefault();
+			const city = document.getElementById('city').value;
+			console.log(city)
+			const url=`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=e312dbeb8840e51f92334498a261ca1d`
+
+			axios.get(url).then((resp)=>{
+				this.setState({
+					temp: resp.data.main.temp,
+					high: resp.data.main.temp_max,
+					low: resp.data.weather[0].description,
+					icon: resp.data.weather[0].icon,
+					cityName: resp.data.name
+				})
+			})
+		}
+
+	render(){
+		console.log("render is running")
+		const iconUrl=`https://openweathermap.org/img/w/${this.state.icon}.png`
+
+	return(
+		<div className="App">
+			<div className="row">
+				<div className="col s6 offset-s3">
+					<h1>{this.state.temp}</h1>
+					<a className="waves-effect waves-light btn modal-trigger" href="#modal1">Details</a>
+					<form onSubmit={this.searchCity}>
+						<input type="text" id="city" placeholder="Enter a City Name"/>
+					</form>
+				</div>
+			</div>
+		)
+	}
+}
+
+Now when we run our App, this is what we get on our console,
+
+Console:
+		Constructor running
+
+		render is running
+
+		ComponentDidMount is running
+
+		render is running
+
+		Component has updated
+
+
+So, we start off with Constructor is running, and then the first render runs and then ComponentDidMount runs after
+the first render. ComponentDidMount changes State, so render runs again, and this is not the initial render as the
+render has already run one time and as render ran again, we get Component has updated.
+
+So, render() is sandwiched between componentDidMount() and componentDidUpdate().
+
+Now on our search-bar if we type Santiago and run it,
+
+localhost:3000
+		50
+		DETAILS	[Button]
+		Santiago
+
+Console:
+
+Santiago
+
+render is running
+
+Component has updated
+
+We get Santiago print out from our form, render() runs again and then componentDidUpdate() runs again.
+
+Now, if we search for Tokyo,
+
+localhost:3000
+
+		68.56
+		DETAILS	[Button]
+		Tokyo
+
+Console:
+		Tokyo
+		render is running
+		Component has updated....
+
+
+So, everytime the Component is rendered, componentDidUpdate() will run again, or everytime State or Prop changes. 
+So, that is the how and the when all of these lifestyle methods are working together and we do not need to call 
+them as React calls them for us.
+
+So, they provide us with a little bit of note on the page, "this is a place to operate on the DOM when the Component
+has been updated", it is exactly the same thing we did in componentDidMount(), we needed to mutate the DOM, we needed
+to run the initialization,
+
+
+		var instances=window.M.Modal.init(elems);
+
+but not until the DOM has been updated with the actual markup (the mark-up that sets up the stage, when the render()
+method runs the frst time after the constructor() is done running).
+
+The page also notes, "This is also a good place to do network requests as long as you compare the current props to 
+previous props. It also gives an example on the page, 
+
+		componentDidUpdate(prevProps, prevState, snapshot)
+
+It shows that the componentDidUpdate takes three parameters previous props(prevProps), prevState(previous state) and
+then there is snapshot. Now, we will include these parameters in componentDidUpdate() method at our App.js file,
+
+		componentDidUpdate(prevProps, prevState, snapshot){
+			console.log("Component has updated...")
+			console.log(prevProps);
+		}
+
+Now, we are not using props in our component at this moment, if we open up our index.html file, we do not send any
+props to the App component that we are rendering so props are never going to change in this case, but we would put
+in there, but if props were changing that would cause the Component to update which is why componentDidUpdate()
+would run, we are changing prevState, so that should be different each time we run it,
+
+		componentDidUpdate(prevProps, prevState, snapshot){
+			console.log("Component has updated....")
+			console.log(prevProps);
+			console.log(prevState);
+		}
+
+And lastly we will include the snapshot parameter in the componentDidUpdate() method,
+
+		componentDidUpdate(prevProps, prevState, snapshot){
+			console.log("Component has updated....")
+			console.log(prevProps);
+			console.log(prevState);
+			console.log(snapshot);
+		}
+
+So, when we run our app this is what we get on our console,
+
+
+Console:
+
+		render is running
+
+		Component has updated...
+
+		{}
+
+		{temp: "", cityName: "", weather: "", high: "", low: ""}
+
+
+The previous prop (prevProp) is an empty object as we are not using prevProp in our App, the previous state (prevState)
+was the initilized state. These are the states those were initialized when the constructor() ran the first time,
+
+
+{temp:"", cityName: "", weather: "", high: "", low: ""}
+
+cityName: ""
+high: ""
+icon: ""
+low: ""
+temp: ""
+weather: ""
+
+
+The componentDidUpdate() run after componentDidMount() so the component has updated, but what we got above was the
+State before the component was updated.
+
+If we check this.state that would display the current state but previous state is what it was a minute ago which
+during the first render() would look like above.
+
+Other than that snapshot is undefined.
+
+Now, we will search Tokyo on our App,
+
+				68.05
+				DETAILS
+				Tokyo
+
+Console:
+
+	render is running....
+
+	Component has updated....
+
+	{}
+
+	{ temp: 47.84, cityName: "London", weather: "few clouds", high: 51.01, low: 44.6...}
+
+	cityName: "London"
+	high: 51.01
+	icon: "0.2n"
+	low: 44.6
+	temp: 47.84
+	weather: "few clouds"
+
+
+This time the previous state(prevState) is what we had a second ago, the prevState parameter provides us with the 
+ability to look at what was and what is to decide and what needs to happen in our application.
+
+Now, as we mentioned earlier that sanpshot is undefined. Let's see on the page what is snapshot and it says,
+"If your component implements the 'getSanpshotUpdate()' lifestyle (which is rare), the value it returns will be
+passed as a "sanpshot" parameter to 'componentDidUpdate()'. Otherwise this parameter will be undefined."
+
+getSnapshotBeforeUpdate(prevProps, prevState) is invoked right before the most recently rendered output is committed
+to the DOM."
+
+We are not really suppose to use this but this is something like componentWillUpdate() which is another lifestyle
+method but this method is out there that we can use but we are not really suppose to. 
+
+If we need some information like where the scroll position was at, or where the mouse cursor was at right before the
+DOM change then this is the way to do it. So, this is hardly we will ever use it, but that is the order the things
+are going in. So, we will get rid of the snapshot and we will erase the console.logs so that it clears our console,
+
+		componetDidUpdate(prevProps, prevState){
+		}
+
+We have a little more clean up to do, as we clearly have our axios code inside of our componentDidMount() method,
+we do not need to have that code inside our searchCity=() method,
+
+		searchCity=(e)=>{
+			e.preventDefault();
+		}
+
+We will also remove the axios code from the componentDidMount() method and will store it inside a new method called
+"getCityWeather()",
+
+		getCityWeather=(city)=>{
+			const url=`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=e312dbeb8840e51f92334498a261ca1d`
+
+			axios.get(url).then((resp)=>{
+				this.setState({
+					temp: resp.data.main.temp,
+					high: resp.data.main.temp_max,
+					low: resp.data.main.temp_min,
+					weather: resp.data.weather[0].description,
+					icon: resp.data.weather[0].icon,
+					cityName: resp.data.name
+				})
+			})
+		}
+
+
+So, the method getCityWeather() is going to expect the value city, so we have refactored our code a little bit. We 
+have the "const url" variable which is going to use "city" parameter and everything else is exactly the same as it
+was before, the "this.setState()" is going to update each state depending on the response it would get back after 
+making the axios request.Now, we will go back to our searchCity() method and call the getCityWeather() method to 
+make the axios request,
+
+
+		searchCity=(e)=>{
+			e.preventDefault();
+			const city=document.getElementById('city').value:
+			this.getCityWeather(city);
+		}
+
+
+Now, we will go back to componentDidMount() and we will get rid of all the axios code inside the componentDidMount()
+method and we will call the getCityWeather() method,
+
+
+		componentDidMount(){
+			this.getCityWeather('London');
+			var elems=document.querySelectorAll('.modal');
+			var instances=window.M.Modal.init(elems);
+		}
+
+
+We are on componentDidMount() when the first render is done, we will pass London as the parameter, meaning we are
+ordering getCityWeather() to fetch the weather data for London.
+
+getCityWeather() method will run, it will update the DOM initially. Then when the user searches for something we will
+run the searchCity() function, we will grab the city out of the DOM, we will call the getCityWeather() function, the
+axios request will run again and we will update the DOM.
+
+So, let's make sure that this works,
+
+
+					52.9
+					DETAILS
+					Santiago
+
+
+So, we have no more problems, but we have refactored our code which makes it lot easier to read. 
+
+But what we are interested in is componentDidUpdate(), there are lot of used cases, let's see how we will use it.
+Let's say, is it raining? 
+
+
+				componentDidUpdate(prevProps, prevState){
+					const isRaining=this.state.weather.includes("rain");
+				}
+
+So, what this would do, is that ".include()" is an ES-6 method, which will check to see if the string "rain" is in
+the string of "this.state.weather" and if "rain" is in "this.state.weather" then it will return true orelse it will
+return false. There are a lot of ways to search for string, this is just one of them,
+
+
+				componentDidUpdate(prevProp, prevState){
+					const isRaining=this.state.weather.includes("rain");
+					console.log(isRaining);
+				}
+
+Console:
+
+		false,
+
+
+Now, when we console.log that we get false because it is not raining in London. Now we will search Dublin,
+
+				44.69
+				DETAILS
+				Dublin
+
+Console:
+		true
+
+
+We got true, which means it is raining in Dublin. Now, if it raining in the searched city then we will display a 
+message saying, "Rain rain go away!!!"
+
+
+class App extends Component{
+	constructor(){
+		super();
+		this.state={
+			temp: "",
+			cityName: "",
+			weather: "",
+			high: "",
+			low: "",
+			icon: "",
+			isRaining: ""
+		}
+}
+
+
+So, first we declared isRaining as a piece of state, now we will update the state in the componentDidUpdate() method,
+
+
+	componentDidUpdate(prevProps, prevState){
+		const isRaining=this.state.weather.includes("rain");
+		if(isRaining){
+			this.setState({
+				isRaining: "Rain rain go away!!!"
+			})
+		}
+	}
+
+
+So, that will update the state only if the word "rain" is found in the description. Now running this method will give
+us error as it will cross the limit of updating the State for 10000 times, the way we can avoid this error is that
+if we check, if the previous city had rained, then we do not need to update the isRaining state for the current
+city, but if it is not then we need to update the state.
+
+
+		componentDidUpdate(prevProps, prevState){
+			if(this.state.weather!==prevState.weather){
+				const isRaining=this.state.weather.includes("rain");
+				if(isRaining){
+					this.setState({
+						isRaining: "Rain rain go away!!!"
+					})
+				}
+			}
+
+
+And if it is raining in the current city that we searched then we need to display that message on our page,
+
+
+		render(){
+			const iconUrl=`https://openweathermap.org/img/w/${this.state.icon}.png`
+
+			return(
+				<div className="App">
+					<div className="row">
+						<div className="col s6 offset-s3">
+							<h1>{this.state.temp}</h1>
+							<h1>{this.state.isRaining}</h1>
+							<a className="waves-effect waves-light btn modal-trigger" href="#modal1">Details</a>
+							<form onSubmit={this.searcCity}>
+								<input type="text" id="city" placeholder="Enter a City Name"/>
+							</form>
+						</div>
+					</div>
+				)
+			}
+		}
+
+
+Now, when we search a city on the page,
+
+
+				44.69
+				Rain rain go away!!!
+				DETAILS
+				Dublin
+
+
+And everything is good. So we will use this quite a bit more but that is a good introduction to componentDidUpdate(),
+it will run after every single render and the reason for that is because render() will run whenever State changes,
+or whenever Props change and when either one of those happens componentDidUpdate() will run.
+
+So, you can think about it as running after a change of State or Props or you can think about it as, "Hey! If render
+runs for any reason after the first time then componentDidUpdate() will run".
+
+
+Source code:
+
+
+App.js
+
+import React, {Component} from 'react';
+import logo from './logo.svg';
+import './App.css';
+import axios from 'axios';
+
+class App extends Component{
+	constructor(){
+		super();
+		this.state={
+			temp: "";
+			cityName: "",
+			weather: "",
+			high: "",
+			low: "",	
+			icon: "",
+			isRaining: ""
+		}
+	}
+
+
+	componentDidMount(){
+		this.getCityWeather('London');
+		var elems=documentquerySelectorAll('.modal');
+		var instances=window.M.Modal.init(elems);
+	}
+
+	componentDidUpdate(prevProps, prevState){
+		if(this.state.weather!==prevState.weather){
+			const isRaining=this.state.weather.includes("rain");
+				if(isRaining){
+					this.setState({
+						isRaining: "Rain rain go away!!!"
+					})
+				}
+		}
+
+		searchCity=(e)=>{
+			e.preventDefault();
+			const city=document.getElementById('city').value;
+			this.getCityWeather(city);
+		}
+
+		getCityWeather=(city)=>{
+			const url=`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=e312dbeb8840e51f92334498a261ca1d`
+
+			axios.get(url).then((resp)=>{
+				this.setState({
+					temp: resp.data.main.temp,
+					high: resp.data.main.temp_max,
+					low: resp.data.weather[0].description,
+					icon: resp.data.weather[0].icon,
+					cityName: resp.data.name
+				})
+			})
+		}
+
+		render(){
+			const iconUrl=`https://openweathermap.org/img/w/${this.state.icon}.png`
+
+			return(
+				<div className="App">
+					<div className="row">
+						<div className="col s6 offset-s3">
+							<h1>{this.state.temp}</h1>
+							<h1>{this.state.isRaining}</h1>
+							<a className="waves-effect waves-light btn modal-trigger" href="#modal1">Details</a>
+							<form onSubmit={this.searchCity}>
+								<input type="text" id="city" placeholder="Enter a City Name"/>
+							</form>
+						</div>
+					</div>
+			)
+		}
+}
