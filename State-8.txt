@@ -34,7 +34,7 @@ index.js ------------------- App.js [cards] -------------------- CardSet.js [car
 
 
 Inside of CardSet we have another variable of the state property called "chosenCard" and this is a piece of
-state and this is something CardSet is expecting to manage and everytime it changes CardSet will re-render.
+state and this is something CardSet is expecting to manage and everytime it changes, CardSet will re-render.
 If "cards" changes inside App.js that will cause CardSet.js to re-render but CardSet does not know anything
 about cards, CardSet does not manage "cards", it just gets cards as it is passed down to it, whereas "chosenCard"
 is managed entirely by CardSet being its own state property,
