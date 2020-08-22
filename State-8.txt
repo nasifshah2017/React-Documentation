@@ -109,7 +109,7 @@ Stateful Component:
 	const rand = Math.random();
 
 	function sum(x, y){
-			return x + y+ rand;
+			return x + y + rand;
 	}
 
 sum(2,3);
