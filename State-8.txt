@@ -24,7 +24,7 @@ is mutatable.
 index.js ------------------- App.js [cards] -------------------- CardSet.js [cards]:prop
 
 
-We pass the cards variable to CardSet.js as props, so the CarSet component also has cards but it has it as props
+We pass the cards variable to CardSet.js as props, so the CardSet component also has cards but it has it as props
 and props are immutable, meaning CardSet is not supposed to change that. App.js can change it, as it has cards as
 variable. App can do whatever it needs to do to cards but CardSet cannot do anything to it as it gets passed 
 down to CardSet as a prop which means it is not changeable, and it is supposed to be left alone, 
