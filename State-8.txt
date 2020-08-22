@@ -62,7 +62,7 @@ Now let's write some definitions down,
 
 				has state				does not have state
 
-				input a is not equal to b		input a is equal to input b
+				input a is not equal to input b		input a is equal to input b
 
 Stateful has State in it means, its managing a type of state variable, there is data inside it that is changing
 and the Component is in charge of that. A Component will have State, if its managing its own data, the consequence
