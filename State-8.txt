@@ -89,7 +89,7 @@ Stateless is pure, as it is more of a "pure" function, there are two different t
 and it depends on whom we are talking to,
 
 
-Stateless:
+Stateless Component:
 
 	function sum(x,y){
 			return x + y;
