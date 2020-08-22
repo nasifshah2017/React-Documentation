@@ -138,7 +138,7 @@ very very special and it is very unique to React, and we are going to start by d
 
 StateInAction.js
 
-import React, {Component} from 'react'
+import React, {Component} from 'react';
 
 class StateInAction extends Component {
 	constructor(){
