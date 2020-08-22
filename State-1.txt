@@ -32,7 +32,7 @@ Step-8, we get to the customer service phase. Now there are number of things tha
 customer service phase we might return the book, or we might have to go back to the delivery process, maybe 
 we go to the check-out, we get to the payment and maybe we close the window and we come back later, so we have
 been hoping back and forth between payment and checkout and Amazon be like, "Hey you forgot to checkout, do
-not forget to checkout. 
+not forget to checkout". 
 
 So, there are any number of things that might happen, and we are going to call all of these States of us as a 
 customer to Amazon, they want to know where we are at in the process, because in that way they can serve us 
