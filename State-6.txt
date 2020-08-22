@@ -80,7 +80,7 @@ But running this code, we will get error as we are using the "this" keyword insi
 that is why the "this" here represents the handleChange() method rather than the App component, and the 
 handleChange() method does not have the state object rather the App component has it in its constructor() method.
 
-The way we can sort out this problem is by chnaging the handleChange() method from a regular function to a rocket
+The way we can sort out this problem is by changing the handleChange() method from a regular function to a rocket
 function,
 
 
