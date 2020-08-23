@@ -21,7 +21,7 @@
 // the way we had been with React, but we can use the URL bar, we will see more and more and it will get obvious  
 // how valuable it is as we use it.
 
-// There are two different versions of React Router, there is React Router "Web" or React Router DOM and React Router 
-// "Native". This is a good news because if we develop a React Native app we can use the React Router and the API
-// is almost exactly the same as we are used to. We are going to use the Web version in this course but the Native
-// version is available as well.
+// There are two different versions of React Router, there is React Router "Web" or React Router DOM and there is  
+// React Router "Native". This is a good news because if we develop a React Native app we can use the React Router 
+// and the API is almost exactly the same as we are used to. We are going to use the Web version in this course but 
+// the Native version is available as well.
