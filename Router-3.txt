@@ -264,7 +264,7 @@ import {NavLink} from 'react-router-dom'
 
 
 // As we need active links in our webpage, that will indicate the user that they can click these links
-// to migrate to different pages, we can substitute the Link components for the NavLink components
+// to migrate to different pages, we can substitute the Link components for the NavLink components,
 // the Link components work same as NavLink components but it does not provide the active status
 // as the NavLink components.
 
