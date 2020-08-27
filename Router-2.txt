@@ -30,7 +30,7 @@ import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 	export default App;
 
 
-// Every component that the Router is going to manage, The Router component needs to be outside of all of them. 
+// Every component that the Router is going to manage, the Router component needs to be outside of all of them. 
 // That is important because we only want one instance of the Router, we will never want more that one Router 
 // component unless we know what we are doing, we ideally want to keep it down to one as there will be only one
 // URL bar that we will be working with. 
