@@ -50,7 +50,7 @@ function App() {
 
 
 // So here we set up the "path" prop as the root path where the Route will be directing the user, after that we 
-// will put another called "component" prop and we are going to set that equal to "Home".
+// will put another prop called the "component" prop and we are going to set that equal to "Home".
 // If we run this program we are going to get error as we have not developed a component called "Home" yet.
 // But Route is a self-closing component, it has a prop called "path" and a prop called "component".
 
