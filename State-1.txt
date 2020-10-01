@@ -19,7 +19,7 @@ you should buy that book". They should have that information as they need to kee
 
 Step-4, let's say now we put another item in our cart, and this time it is a book on wood-working, and now 
 Step-4 is not same as Step-2, even though we have an item in our cart, there are a lot of information that 
-engages in this whole process, we had a book on  gardening and we got rid of it, we had a book on wood-working
+engages in this whole process, we had a book on gardening and we got rid of it, we had a book on wood-working
 and now it is still in there. 
 
 Step-5, in this step we go to the check-out phase, where we go to the cart.
