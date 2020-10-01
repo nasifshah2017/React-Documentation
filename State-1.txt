@@ -68,7 +68,7 @@ mutations when they are not necessary, that is the part when we change the DOM a
 these steps (states) are not very complicated, but what if we have an app like Facebook, where there are 
 thousands and thousands of things that can change all the time?
 
-That is when the React State comes into play instead of manipulating the DOM directly we will allow Components
+That is when the React State comes into play, instead of manipulating the DOM directly we will allow Components
 to manage their states themselves and we can pass that around as needed to other Components. 
 
 We will use functional programming to update the State which means we will never change it directly, instead we
