@@ -125,7 +125,7 @@ export default SimpleEvents;
 
 
 This is exactly the same code we had before, but now we have defined a function that runs it, we are not
-going to run handleClick() rather we will pass handleClick().
+going to run handleClick() instead we will pass handleClick().
 
 
 				Click Me!
