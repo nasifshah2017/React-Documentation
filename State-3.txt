@@ -20,7 +20,7 @@ will make the road smoother going forward.
    do that anywhere else and the reason for that is that React needs to do a whole bunch of stuffs when 
    the "state" changes, so instead of changing it ourselves by re-initializing the property inside the 
    "state" object, we hand it to React, and React runs its own method, does a whole bunch of stuffs and
-   then it will ultimately change it for us. 
+   then it will ultimately changes it for us. 
 
    If JavaScript is our only language then it might seem strange as why would we do something like this, in 
    object-oriented programming (OOP) this is called a Setter and a Setter is a function whose job is to
