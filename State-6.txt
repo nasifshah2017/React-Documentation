@@ -57,8 +57,8 @@ export default App;
 
 Here we are going to start with our onChange event, because this is the easiest in action. We are going 
 to define a constructor in our class and we need to do that because we are going to define the State. As 
-we have defined constructor, we need to call the super() method, so that we can get all the stuffs being 
-a sub-class of Component. 
+we have defined constructor, we need to call the super() method, so that we can get all the stuffs for 
+being a sub-class of Component. 
 
 Inside our constructor() we also need to define our state object, and inside the object we will initialize
 the "inputText" property to the empty string " ". So, we have a variable or a piece of state called 
