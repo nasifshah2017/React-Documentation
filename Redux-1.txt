@@ -1,6 +1,6 @@
 Chapter-76: What is Redux
 
-Redux is a State Management Tool. redux can also be called a library. It is a bunch of JavaScript
+Redux is a State Management Tool. Redux can also be called a library. It is a bunch of JavaScript
 that someone else wrote to make our life as a developer easier. Redux is supposed to make our
 lives easier. It is very cool when it is used in the proper way in the right place. It is absolutely a
 beautiful thing that makes development easier. We know what State is, we have been using
