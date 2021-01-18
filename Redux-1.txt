@@ -35,17 +35,17 @@ FlashCard component level) and then the App component filters it down to the Qui
 FlashCard components. It was brilliant, it was super easy, there were no problems with it and it
 was a very good solution. 
 
-																---------
-															    | App |
-															    ---------
-															         |
-															         |
-								--------------------------------------------------------------------
-								|																				|
-								|																				|
-							--------																		--------
-							| QB  |																		| FC 	 |
-							---------																	   ----------			
+				-------
+				| App |
+				-------
+			   	   |
+			   	   |
+	-----------------------------------------------------------------										
+	|								|
+	|								|
+    -------							     ---------
+    | QB  |							     |  FC   |
+    -------							     ---------
 							
 We are still managing state at a component level, it is not Application state at this point, because
 even though it seems like QuizBar is changing, the app state is not. App manages its own state
