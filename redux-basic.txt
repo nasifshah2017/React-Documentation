@@ -1,4 +1,4 @@
-							Redux Stores
+								Redux Stores
 
 
 import { createStore } from 'redux';
@@ -15,7 +15,7 @@ function reducer(state = initailState, action) {
 const store = createStore(reducer);
 
 
-							Redux Actions 
+								Redux Actions 
 
 
 import { createStore } from 'redux';
@@ -59,9 +59,8 @@ Object {
 // The above data outputs on the console when we dispatch the Action to the Reducer
 // store.dispatch(addToDoAction)
 
-																				
-																						Reducers
-																					
+								Reducers
+
 import { createStore } from 'redux';
 
 const initialState = {
@@ -92,7 +91,7 @@ Object {
 	todos: []
 }
 
-							Store Subscription
+								Store Subscription
 
 import { createStore } from 'redux';
 
