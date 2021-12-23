@@ -1,4 +1,4 @@
-																								Redux Stores
+							Redux Stores
 
 
 import { createStore } from 'redux';
@@ -15,7 +15,7 @@ function reducer(state = initailState, action) {
 const store = createStore(reducer);
 
 
-																								Redux Actions 
+							Redux Actions 
 
 
 import { createStore } from 'redux';
@@ -29,9 +29,9 @@ function reducer(state = initialState, action) {
 	console.log(action, state);
 };
 
-const store = createStore(reducer); 														// Creating the Redux Store
+const store = createStore(reducer); 					// Creating the Redux Store
 const addTodoAction = { type: "ADD_TODO", payload: 'learn redux'};
-store.dispatch(addTodoAction);																// Dispatching the addToDoAction to the Reducer
+store.dispatch(addTodoAction);						// Dispatching the addToDoAction to the Reducer
 
 
 Output on the Console:
@@ -92,7 +92,7 @@ Object {
 	todos: []
 }
 
-																			Store Subscription
+							Store Subscription
 
 import { createStore } from 'redux';
 
