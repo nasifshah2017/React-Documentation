@@ -30,7 +30,7 @@ function reducer(state = initialState, action) {
 
 const store = createStore(reducer); 					// Creating the Redux Store
 const addTodoAction = { type: "ADD_TODO", payload: 'learn redux'};
-store.dispatch(addTodoAction);						// Dispatching the addToDoAction to the Reducer
+store.dispatch(addTodoAction);						// Dispatching the addTodoAction to the Reducer
 
 
 Output on the Console:
