@@ -1,6 +1,6 @@
 								Redux Stores
 
-import { createStore } from 'redux';
+import { createStore } from 'redux';					// const { createStore } = Redux; 
 
 const initialState = {
 	todos: [],
