@@ -29,7 +29,7 @@ function reducer(state = initialState, action) {
 };
 
 const store = createStore(reducer); 					// Creating the Redux Store
-const addTodoAction = { type: "ADD_TODO", payload: 'learn redux'};
+const addTodoAction = { type: "ADD_TODO", payload: 'learn redux'};	// Creating an Action
 store.dispatch(addTodoAction);						// Dispatching the addTodoAction to the Reducer
 
 
