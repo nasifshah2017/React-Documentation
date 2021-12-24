@@ -1,6 +1,5 @@
 								Redux Stores
 
-
 import { createStore } from 'redux';
 
 const initialState = {
