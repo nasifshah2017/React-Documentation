@@ -55,7 +55,7 @@ Object {
 }
 
 // The above data outputs on the console when we dispatch the Action to the Reducer
-// store.dispatch(addToDoAction)
+// store.dispatch(addTodoAction)
 
 									Reducers
 
