@@ -1,6 +1,6 @@
 								Redux Stores
 
-import { createStore } from 'redux';					// const { createStore } = Redux; 
+import { createStore } from 'redux';					
 
 const initialState = {
 	todos: [],
@@ -17,8 +17,7 @@ const store = createStore(reducer);
 								Redux Actions 
 
 
-import { createStore } from 'redux';
-
+import { createStore } from 'redux';					// const { createStore } = Redux;
 const initialState = {
 	todos: [],
 	posts: []
