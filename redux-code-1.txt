@@ -34,7 +34,6 @@ src/components/Contact.js
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-// import Modal from './Modal';
 
 // Importing the higher order 'connect' component in order to connect this
 // React component with the Redux Store
