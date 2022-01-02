@@ -1,4 +1,4 @@
-Card.js
+src/components/Card.js
 
 import React from 'react';
 import { connect } from 'react-redux';
@@ -201,7 +201,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Card);
 // action. 
 
 
-rootReducer.js
+src/reducers/rootReducer.js
 
 const initialState = {
   cards: [
