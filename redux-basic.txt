@@ -76,7 +76,7 @@ function reducer(state = initialState, action) {
 };
 
 const store = createStore(reducer);
-const addTodoAction = { type: 'ADD_TODO', payload: 'learn redux'};
+const addTodoAction = {type: 'ADD_TODO', payload: 'learn redux'};
 store.dispatch(addTodoAction);
 
 Output to the Console:
@@ -149,7 +149,7 @@ store.subscribe(() => {
 	console.log(store.getState());
 });
 
-const addTodoAction = { type: 'ADD_TODO', payload: 'learn redux' }
+const addTodoAction = {type: 'ADD_TODO', payload: 'learn redux' }
 store.dispatch(addTodoAction);
 
 Output to the Console: 
@@ -192,9 +192,9 @@ store.subscribe(() => {
 	console.log(store.getState());
 });
 
-store.dispatch({ type: 'ADD_TODO', payload: 'learn redux' });
-store.dispatch({ type: 'ADD_TODO', payload: 'learn react' });
-store.dispatch({ type: 'ADD_POST', payload: 'play football' });
+store.dispatch({type: 'ADD_TODO', payload: 'learn redux'});
+store.dispatch({type: 'ADD_TODO', payload: 'learn react'});
+store.dispatch({type: 'ADD_POST', payload: 'play football'});
 
 Output to the Console:
 
