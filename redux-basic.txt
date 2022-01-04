@@ -7,7 +7,7 @@ const initialState = {
 	posts: []
 };
 
-function reducer(state = initailState, action) {
+function reducer(state = initialState, action) {
 
 }
 
@@ -18,6 +18,7 @@ const store = createStore(reducer);
 
 
 import { createStore } from 'redux';					// const { createStore } = Redux;
+
 const initialState = {
 	todos: [],
 	posts: []
@@ -28,7 +29,7 @@ function reducer(state = initialState, action) {
 };
 
 const store = createStore(reducer); 					// Creating the Redux Store
-const addTodoAction = { type: "ADD_TODO", payload: 'learn redux'};	// Creating an Action
+const addTodoAction = {type: "ADD_TODO", payload: 'learn redux'};	// Creating an Action
 store.dispatch(addTodoAction);						// Dispatching the addTodoAction to the Reducer
 
 
