@@ -7,7 +7,7 @@ import rootReducer from './reducers/rootReducer';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer);   // The Redux Store
 
 ReactDOM.render(
   <Provider store={store}>  {/* Passing the Redux Store to the React application as a prop */ }
