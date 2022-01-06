@@ -104,5 +104,5 @@ export default connect(mapStateToProps)(Contact);
 // the Redux Store.
 
 // Then we are receiving the state as the argument in the mapStateToProps()
-// function, then we are storing it inside an object and assiging it to a key
+// function, then we are storing it inside an object and assigning it to a key
 // called 'cards' and then returning it to the Contact React Component as its props.
