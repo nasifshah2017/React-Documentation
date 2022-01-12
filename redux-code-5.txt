@@ -34,8 +34,8 @@ not want to do it from the React component and we know that we cannot do it from
 that is between dispatching an action and the reducer. 
 
 So, we can grab some data and then continue with the Dispatch and then we pass it to the reducer to carry on as normal in order to update the state. But to do
-it we will need to use some Redux middleware called Redux Thunk. Redux Thunk will be running between the Reducer and the Dispatch, so what Redux Thunk will allow
-us to do is perform asynchronous tasks inside of our action creators. 
+it we will need to use some Redux middleware called Redux Thunk. Redux Thunk will be running between the Reducer and the Dispatch, so what Redux Thunk will 
+allow us to do is perform asynchronous tasks inside of our action creators. 
 
 Now, we have seen action creators in the previous lessons where we dispatch an action in our Card component file but now Redux Thunk will make us return a 
 function instead of returning an action creator. Then inside that function we can pause the dispatch and put it on hold for a second and then we can perform
