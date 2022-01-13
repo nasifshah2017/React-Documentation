@@ -75,7 +75,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Card);
 // Then we imported the connect() function from React-Redux. Then we used that
 // higher order component to wrap our "Card" component on line-57. Then, we
 // created our mapStateToProps() function. This is where we want to grab that
-// individual card containg user data.
+// individual card containing the user data.
 
 // Now, how can we grab that data? We can take a second argument in that function.
 // Here, we are calling that argument ownProps, and this ownProps refers to the
