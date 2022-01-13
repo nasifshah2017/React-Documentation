@@ -62,18 +62,18 @@ export default connect(mapStateToProps, mapDispatchToProps)(Card);
 
 // Instead of showing the Route parameter we are going to show the data inside
 // the Redux Store in this "Card" React Component. Previously, we were getting
-// the user data from the App.js using the React Router and were showing it on
-// the user page but now we will use the Redux Store to get that data.
+// the user data from the App.js file using the React Router and were showing 
+// it on the user page but now we will use the Redux Store to get that data.
 
 // Now what we are going to do is connect the "Card" React Component to the
 // Redux Store and then get that individual card to show on the page.
 
 // First, we will comment out the componentDidMount() as we don't need that
 // anymore and we also commented the state object above it. Then we also have
-// commented out the varible on line-16 too.
+// commented out the varible on line-23 too.
 
 // Then we imported the connect() function from React-Redux. Then we used that
-// higher order component to wrap our "Card" component on line-41. Then, we
+// higher order component to wrap our "Card" component on line-57. Then, we
 // created our mapStateToProps() function. This is where we want to grab that
 // individual card containg user data.
 
