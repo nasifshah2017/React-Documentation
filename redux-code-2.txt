@@ -79,10 +79,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(Card);
 
 // Now, how can we grab that data? We can take a second argument in that function.
 // Here, we are calling that argument ownProps, and this ownProps refers to the
-// props of this "Card" component. So, the ownProps is going to contain information
-// about the Route parameters and then we can grab the Route parameter from the
-// Route and then we are going use that Route parameter to find a particular
-// card that we want to connect to/from the Redux Store.
+// props of this "Card" component. So, the ownProps is going to contain the 
+// information about the Route parameters and then we can grab the Route parameter 
+// from the Route and then we are going use that Route parameter to find a
+// particular card that we want to connect to/from the Redux Store.
 
 // Then we are using the ownProps to grab the Route parameter by assigning the
 // "title" variable to "ownProps.match.params.user", and this is from where we
