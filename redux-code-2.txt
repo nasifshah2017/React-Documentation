@@ -237,7 +237,7 @@ export default rootReducer;
 
 // So, the action is dispatched from the Card React Component inside the Card.js
 // file whenever the user clicks the delete button, the action is going to be
-// eceived here in the Redux Store at the rootReducer().
+// received here in the Redux Store at the rootReducer().
 
 // Everytime we click the Delete button its triggering the function and
 // dispatching the action to the rootReducer, but we want to permanently delete
