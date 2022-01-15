@@ -93,7 +93,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Card);
 // when we set up the route we are grabbing the route parameter from
 // "ownProps.match.params.user", whether it is Alex, Willma or whatever the user
 // it is and we are storing it in the "title" variable. Then, we return the object
-// and inside the retrun statement we need to write what we want to apply to our
+// and inside the return statement we need to write what we want to apply to our
 // props for this "Card" React Component.
 
 // So, we want an individual card and that is going to be "state.cards" that we
