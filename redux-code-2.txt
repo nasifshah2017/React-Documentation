@@ -177,7 +177,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Card);
 // mapDispatchToProps() function and we need to pass it into the connect() function
 // as an argument as we did with the mapStateToProps() function.
 
-// So, mapStateToProps() function is always going to be the first arguemnt being
+// So, mapStateToProps() function is always going to be the first argument being
 // passed and mapDispatchToProps() function is going to be the second one after
 // that.
 
