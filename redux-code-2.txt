@@ -156,8 +156,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(Card);
 // function.
 
 // This action object is going to represent properties that we will get as props
-// inside of this React component, just like we did the case of mapStateToProps()
-// function.
+// inside of this React component, just like we did with the case of the 
+// mapStateToProps() function.
 
 // So, we want to map a function called deleteCard() inside the React component
 // because we are going to delete a card inside this React component.
