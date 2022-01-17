@@ -168,8 +168,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(Card);
 // it will also take the type property.
 
 // We need to declare the id property inside the action object and assign that
-// property to the id that we receive with the deleteCard() function as an
-// argument.
+// property to the id that we are receiving with the deleteCard() function as 
+// an argument.
 
 // So, now we are dispatching this action whenever we call the mapDispatchToProps()
 // function and this function is going to be attached to our props so that we can
