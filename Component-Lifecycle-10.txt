@@ -181,10 +181,10 @@ weather of Chicago.
 
 
 Everytime the form is submitted, it runs the "this.searchCity" method, onSubmit runs the "searchCity()" method, we
-pass "e" with the method as a parameter and we connect with it the built-in preventDefault method which will prevent
+pass "e" with the method as a parameter and we connect with it the built-in preventDefault() method which will prevent
 the form from moving on, we get the value from the input-box, we make a new API call and most importantly once that
 API call has returned, when we get back the HTTP response from the server, we update our States, the render() method
 will re-run and the "this.state" for each State will be totally different this time.
 
-We cam change the HTML, the mark-up to something cool if we want but in the next lesson we will look at 
+We can change the HTML, the mark-up to something cool if we want but in the next lesson we will look at 
 the componentDidUpdate() method.
