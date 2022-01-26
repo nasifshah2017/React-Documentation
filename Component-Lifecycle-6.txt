@@ -39,8 +39,8 @@ We are going to scroll down to the page, and the page says "React lets you defin
 We have done that, we have made Components those are functions, those are Stateless ones, the ones that simply returns
 the DOM elements and they do not manage State and we have made Classes and those so far has returned State but 
 "Component defined as classes currently provide more features which are described in detail on this page". So, that
-again is exactly what we are talking about here is that anything that extends Component, which is part of React, gets
-all of the extra stuffs. So, the class that we make, they do a lot more than just manage State.
+again it is exactly what we are talking about here is that anything that extends Component, which is part of React, 
+gets all of the extra stuffs. So, the class that we make, they do a lot more than just manage State.
 
 We keep scrolling down the page and we get to "The Component Lifecycle" and it says, "Each component has several
 'lifecycle methods' that you can override to run code at particular times in the process". You can use this lifecycle
