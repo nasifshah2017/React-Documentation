@@ -292,7 +292,7 @@ This is the total lifecycle that components go through. There are couple of othe
 we are going to use. There are some other hurdles and it will take a little bit of time to get used to it.
 For example, componentDidUpdate() is not ran after the render() has run the very first time, instead the 
 componentDidMount() method runs after the very first render(), we will talk through this more and more and we will
-use all of these. The power of the Component Lifecycle, is that gives us the ability to patch into the process but
+use all of these. The power of the Component Lifecycle, is that it gives us the ability to patch into the process but
 lets React manage how and when everything happens. We can use the methods that React is giving us, the constructor(),
 the render(), componentDidMount(), we can use these and React can take care of business, as how and when it needs
 to in order to be most optimized.
