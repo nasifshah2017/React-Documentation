@@ -23,7 +23,7 @@ boolean.)
 There are Arrays and fragments we have put an Array inside of our React elements. We will talk about Portals later.
 We can return a string or number that would be for a very small component and we can return a Boolean and null 
 and that just means do not do anything basically. That is a very rare case. "The render() function should be pure,
-meaning that it does not modify component state". We should never have a setState() function inside of a render()
+meaning that it does not modify component state. We should never have a setState() function inside of a render()
 method, if we end up at a situation where we try that, then it means we have organised our Component wrong. It 
 returns the same result each time it is invoked and it does not directly interact with the browser. The render()
 method's job is just to build the virtual DOM appropriately, React.DOM's job is to interact with the browser and 
@@ -39,7 +39,3 @@ mutate state inside of render(). That and anytime state or prop changes, it will
 method running everytime one of those two things change. That pretty much covers render, in the next lesson we will
 play a little bit more with our weather component and add a little bit more, so we can see how render() moves but
 that pretty much covers what we need to know for render().
-
-
-
-
