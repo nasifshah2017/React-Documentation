@@ -256,7 +256,7 @@ London, which React extracted from the JSON file that was sent to it from the se
 the page displays the current temperature of London on it. 
 
 We have got a process where every React component has to mount and mount is simply the term for "it was not on the
-Virtual DOM a second ago, and I am abount to put it on there", that is the entire Component as it is being rendered.
+Virtual DOM a second ago, and I am about to put it on there", that is the entire Component as it is being rendered.
 The very first thing that happens is that the constructor() runs, once the constructor() has ran, render() will run,
 and once the render() has ran, componentDidMount() will run. This is always going to be the case in Mounting.
 
