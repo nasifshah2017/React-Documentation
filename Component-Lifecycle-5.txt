@@ -233,7 +233,7 @@ After the constructor is done running, the render() method runs and not the comp
 2. Render() - This is always the case, we will always get a constructor() followed by our first render(). The 
 constructor() methods runs the very first time, and then directly after that the render() method will run skipping
 everything in-between the constructor() and the render() method. When the constructor() method runs the very first
-and only time it defines the state as as empty string "" by running,
+and only time it defines the state as an empty string "" by running,
 
 	this.state={
 		temp: ""
