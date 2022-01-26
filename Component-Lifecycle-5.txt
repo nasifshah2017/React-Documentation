@@ -44,7 +44,7 @@ runs but then the JavaScript needs to wait for the response before it can run,
 		console.log(resp.data);
 	})'
 
-and it will not wait for the respnse instead it will move on with the next code,
+and it will not wait for the response instead it will move on with the next code,
 
 return(
 
@@ -298,9 +298,4 @@ the render(), componentDidMount(), we can use these and React can take care of b
 to in order to be most optimized.
 
 In the next lesson we will look closer at the componentDidMount() method and why we used it when we did and then we
-will work through the other lifecycle methods. 	
-
- 
-			
-    
-
+will work through the other lifecycle methods.
