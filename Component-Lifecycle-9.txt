@@ -69,9 +69,9 @@ the state gets set up, so we have "this.state.temp", "this.state.cityName", "thi
 After the constructor() is done running, the componentDidMount() does not run, because the render() method needs to
 run before componentDidMount() runs, so it skips down to render(), it sets up the iconUrl variable, the iconUrl
 variable is going to contain the url with "this.state.icon" after the first run of the constructor() when the 
-render(), that time the "this.state.icon" is an empty string, so the variable will contain the url link and an empty
-string at the place of "this.state.icon", which is still a valid url and then it will return all the stuff we have
-inside the return statement, so we have "this.state.high" which is an empty string, we have "this.state.cityName"
+render() runs, that time the "this.state.icon" is an empty string, so the variable will contain the url link and an 
+empty string at the place of "this.state.icon", which is still a valid url and then it will return all the stuff we 
+have inside the return statement, so we have "this.state.high" which is an empty string, we have "this.state.cityName"
 which is an empty string and all the other states those are returning are all being returned as empty strings.
 
 Once the render() method is done running componentDidMount() kicks into gear, the axios request gets issued, each 
@@ -82,6 +82,4 @@ iconUrl variable will be different as this time the url conatins state instead o
 server.
 
 In the next lesson we are going to add a little form, so the user search the city, they want to know the weather of,
-instead of only getting the weather of London.  
-
-			
+instead of only getting the weather of London.		
