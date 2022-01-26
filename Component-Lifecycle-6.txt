@@ -8,7 +8,7 @@ And what we got here is React.Component documentation.
 In the pageon the side-bar we can see the list of objects, the first one starting with React object and under its
 hood we have React.Component and we have been using the React.Component all along. 
 
-When we impact React in our files, we also import the Component member of React's node module. So, on our file we 
+When we import React in our files, we also import the Component member of React's node module. So, on our file we 
 write, 
 
 	class App extends Component
@@ -117,9 +117,4 @@ have talked about. There are a little bit more down the page that we can look at
 properties that come along being a React component. It automatically gets setState(), it automatically gets forceUpdate(),
 the Instance Properties of a given Component will always be "props" and "state".
 
-In the next lesson we will start with componentDidMount(), we will continue from where we left off.  
-
-
- 
-
-  
+In the next lesson we will start with componentDidMount(), we will continue from where we left off.
