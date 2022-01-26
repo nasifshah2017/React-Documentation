@@ -66,7 +66,7 @@ We are going to copy the code and we are going to paste it in our App.js file.
 
 App.js 
 
-impor React, {Component} from react;
+import React, {Component} from react;
 
 class App extends Component {
 	constructor(){
