@@ -40,7 +40,7 @@ click on the "GET STARTED" button and we are going to copy,
 	<!-- Compiled and minified JavaScript -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-We need both of these links here, we need materilize.css and we need materialize.js, so going back to our index.html
+We need both of these links here, we need materialize.css and we need materialize.js, so going back to our index.html
 file we are going to paste those two links, and we paste them right below our title tags, these are just statically
 loaded files.
 
