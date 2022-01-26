@@ -69,7 +69,7 @@ So, when we submit our form, we want React to run the searchCity() function that
 method,
 
 
-searcCity=(e)=>{
+searchCity = (e) => {
 	e.preventDefault();
 	const city=document.getElementById('city').value;
 	console.log(city)
