@@ -106,7 +106,7 @@ component is being re-rendered
 In the updating section is static getDerivedStateFromProps() and shouldComponentUpdate(), where getDerivedStateFromProps()
 is new, render() method, we already talked about it.
 
-getSanpsotBeforeUpdate() - is also new and componentDidUpdate() is a very important one. The main one inside update.
+getSnapshotBeforeUpdate() - is also new and componentDidUpdate() is a very important one. The main one inside update.
 
 Unmounting:
 
