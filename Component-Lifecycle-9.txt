@@ -77,7 +77,7 @@ which is an empty string and all the other states those are returning are all be
 Once the render() method is done running componentDidMount() kicks into gear, the axios request gets issued, each 
 of the state we initialized as empty string in the constructor() method gets updated based on the response (resp)
 we get back from the url, and as we get new state back from the server, the render() method will run again, now the
-iconUrl variable will be different as this time the url conatins state instead of the empty string and all the 
+iconUrl variable will be different as this time the url contains state instead of the empty string and all the 
 "this.state" we have in our return statement will be populated with the contents (states) that we received from the
 server.
 
