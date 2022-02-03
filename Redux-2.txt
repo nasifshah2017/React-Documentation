@@ -1,0 +1,143 @@
+Redux and React
+
+After the last lesson we have some notion as what Redux is and why you might want to use it, the question now is how you actually use it. 
+Well, this is the part where it is going to get confusing for a little while. I always try and manage going into something new by coding as
+well as talking about some base level concepts, but in this case we are going to go back to the kind of pep talk we mentioned in the last 
+lecture because in my experience the worst thing you can do with Redux is just start coding, there are a lot of moving pieces and so I just 
+want to talk through kind of our journey, I do not want to unnecessarily slow us down but this is my opinion is try  and set expectations 
+as we start tackling the Redux monster. I have on the screen an image from bennadel.com, but this came out about Angular-1 and I remember 
+the first time seeing it, that it is exactly how it feels where you have an x-axis of time and an y-axis of feelings and you have a slow
+steady curve going up where you learn a little bit and say this is really neat and then you work on it a little bit more and you fall back
+and think this is so lame and then again you learn a little bit more and then you have the great pop-up of 'Oh! This is pretty sweet and 
+then you have another down where you realize that things are so much diffcult then they need to be, this is so stupid, then you again have
+that pop up, and then that drop-down and then again that pop up and then you eventually get to that point where you say this is the most 
+awesome framework ever. 
+
+This is pretty common for most frameworks I would say as you get better at them provided that they are quality frameworks, you will have a 
+sentiment like this. 
+
+Unfortunately, I never found the Redux chart to look quite like this, we draw pretty much the same chart, then I will give you an y-axis of
+feelings because that will be what the y-axis represents and I am going to draw the x-axis through the middle and the x-axis will be Time. 
+
+In my experience the way it tends to go is like this where you start off you learn a little bit and you say wow its kind of cool, you have 
+a little pop-up and then you realize how do I actually do this? And then it goes all the way down where you get really fraustrated and you 
+get really confused, and you absolutely cannot use it and you get to the point where you are thinking this is so dumb why would anyone use
+this, it is so confusing and the pay off is so minimal. It would be better to manage component state and pass it around than doing this. 
+
+Well, here is what we are going for, we are going for that point where you break through and keep going up in the graph and then you
+realize this is awesome. This point is not going to come fast, you are not going to have a lot of those little wins along the way like from
+the Angular chart and what you are used to because it is kind of all at a once type thing. 
+
+The question we are looking to answer here is the how? How do we do Redux? It needs to be done in the right way in order to manage the
+entire application state. That is why it is going to feel confusing. It is just going to, unless you have gotten a lot of experience with
+functional programming, it is going to feel contrived and you are going to feel like there are too many moving parts.
+
+That is exactly how I felt when I first learned Redux. I started by thinking Wow! I see some advantages here and then I wanted to abandone 
+it as an illustration as how my process was like and how it is going to be very easy to feel this way is that I felt like I was learning
+how to juggle, it is just an illustration but I wanted to go and take juggling lessons. I do not know how to juggle and this is going to 
+be very fun. 
+
+I get to the first lesson, I do not know how to juggle and the teacher gives me 9 balls to start with, he just does not give them to me, he 
+throws them to me and just expects me to catch them and start throwing them in the air, and I want to yell at him. I want to tell him 
+that I can't even juggle three balls then why are you giving me 9 balls? 
+
+This is what Redux felt like. It felt like that all of a sudden you are asking me to start with this crazy 9 balls juggle, and I cannot do
+that. Well, as time passes and you hit that point where you figure out how to juggle with 9 balls then you will realize that this is very
+easy. 
+
+No one is ever going to ask you to get better to the point where you can juggle knives or juggle flaming torches or stand on an Elephant's
+back on one foot while people shoot bean bags at you, and you juggle knives, or chainsaw or whatever. It never gets more complicated than
+the very beginning. 
+
+So, you just need to get to that point where you understand all of the moving pieces as why are they the way they are and then you will
+redo the same thing over and over and over.
+
+cdnjs.cloudflare.com/ajax/libs/redux/4.0.1/redux.js
+
+This is the source code for redux.js, if we copy and paste it on VS-Code we can see that it is 685 lines. But if we remove all the 
+extra-lines and all the comments, then we get 250-300 lines in total. So, it is not a big chunk of JavaScript, it is actually quite small.
+It is just going to be a matter of getting those pieces down. 
+
+We will cover those pieces in two stages here. The rest of this lesson we are going to talk about how Redux works with React. 
+
+So, Redux being this thing that we know is good but we do not really know how it works but how it interacts with React, so that you have 
+a sense as how the puzzle pieces work. 
+
+In the next lesson we are going to talk more specificly about how Redux itself works. So, this is sort of macrocasm followed by a microcasm
+and then we will actually start to code it out. 
+
+In any React-Redux app we have couple of distinced pieces, we have the Redux piece, and then we have the React piece. 
+
+					Redux 					React
+
+Redux has no idea that React exists, it is not going to and it does not need to know, meanwhile React has no idea that Redux exists, in the
+same way it does not need to know and we are going to keep them completely seperate. 
+
+Redux is not meant to work exclusively with React, we can use Redux with Vue or Angular, we can also use it without an UI framework, just
+use the JavaScript to yourself if you need to. React also does not need Redux, we have not been using it all along so these two things are
+totally distinced from each other. 
+
+So, you need to keep in mind that some of the things that we talked about Redux are specific to Redux. The things those goes under Redux:
+i)   Actions
+ii)  Action Creators
+iii) Reducers
+iv)  Dispatcher
+v)   Store
+
+All of these things have nothing to do with React and React will not know that any of these exist. Whereas, React has its own things.
+Things that goes under React:
+
+i)  State
+ii) Component
+
+React has its own State, it has its own components, all of the things that make up React, Redux does not know about any of them and that is 
+fine and we are going to keep it that way. 
+
+In order to get React communicate with Redux we are going to have something in the middle called React-Redux. 
+
+React-Redux is another framework module that we are going to install. This is because React and Redux are two different libraries those are
+not made to work with each other, we can go through the extra length to make them work with each other but the developers' community has 
+already done that, and Redux will talk to React-Redux, and React will talk to React-Redux, and React-Redux will be in the middle taking 
+care of all of the business of communication between React and Redux. 
+
+The React-Redux framework will also have its own built-in components. The things that React-Redux will have:
+i)  Provider
+ii) connect()
+
+We will look all into these so please be patient. The point is there are things in our application those are going to be totally Redux 
+specific. These are concepts that can be applied anywhere. There are naturally the React stuffs those we have been using all along, we are
+not going to change any of that because React will not have any idea that any of these are going on. Then there are going to be parts those
+are going to be specific to React-Redux that we would have been using if we had taken Redux somewhere else but are very necessary in order 
+to get React and Redux to talk to each other. 
+
+So, we have gotten the Store under Redux, and we are going to refer to it as an object. We can put as much in there or as little in there,
+remember as in the last lesson, the Store is going to be the place where any component can go to and then the component can update the
+Store and get stuffs from the Store. It is a little bit more complicated than that but it is going to be the gist.
+
+We have our React App and our React App has all been pretty much the same, since we started using create-react-app, we have the index.js at
+the top, and then we have the app.js and then it funnels down to whatever the component structure looks like. 
+
+Our goal is to make any of the components, under the App component, talk to the Store. Whatever the component it happens to be, and the way
+we are going to do that as React and Redux do not know anything about each other, so the Provider (React-Redux) component is going to know
+about the Store, and we are going to cover the entire React application, which means we are going to render the Provider component inside
+of the index.js file. 
+
+Index.js is going to have the Provider component inside of it, and the App component is going to have the Router component. So, we are
+going to have both things. In that way any component inside of React needs to access something from the Store, then that component is
+already inside of the Provider component being under the App component, and using the connect() function, the Provider component
+(React-Redux) will be able to connect to the Store (Redux). The connect() function which is part of React-Redux will be inside of a React
+component that needs to know about Redux and because that component is already inside of the Provider, it will be able to connect to the 
+Store.
+
+As we practically do it, it will get more and more clear. The main point of this lesson is that React and Redux are not connected in any
+way by default.
+
+Redux has its own moving parts, React has its own moving parts and React-Redux will get them to work together, because we want our
+components in React to be able to go to the Store and grab State or update State from anywhere in the application in a seamless and 
+trouble-free way as possible, that is why this whole architecture exists. 
+
+We are going to use the Provider component and the connect() function inorder to communicate between React and Redux. We will not have 
+enough involvement in that process but this is how we at the high-level we are going to get them to work. 
+
+In the next lesson we are going to breakdown how Redux is going to work because that is going to be a fairly substantial part of any Redux
+application is the Redux specific part and then we will tie it altogether.  
