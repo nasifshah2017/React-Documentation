@@ -144,6 +144,8 @@ Store {}			Reducers
 				() => {}
 				() => {}
 				() => {}
+				
+				Dispatch
 
 Action Creators () => Action
 
