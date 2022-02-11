@@ -1,0 +1,387 @@
+Wiring Up Redux
+
+
+In this lesson we are finally going to code, we are going to set up the basic pieces of a Redux app. We are going to get the structure down
+and we are slowly going to add piece by piece until we get to the end. 
+
+i) In order to wire up a redux/react app, we need react-redux. Specifically, we need the Provider component to be around everything!!
+
+
+index.js
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css'
+import App from './App';
+
+
+// In order to wie up a react/redux app, we need react-redux. We need the Provider component to be around everything!!
+
+
+import { Provider } from 'react-redux';
+
+
+// We are not going to render the <App /> anymore, instead we are going to render the Provider component that is coming from react-redux
+// and that is going to go around everything. We are going to place it around the <App /> component,
+
+
+	ReactDOM.render(
+
+		<Provider>
+
+			<App />
+
+		</Provider>,
+
+			document.getElementById('root');
+	);
+
+
+// This is how our App is always going to look like at the top-level when we are making Redux.
+
+
+We need everything inside the Provider component. Now, as we are using the new module, react-redux, we need to install react-redux from our
+command line,
+
+
+Terminal coding:
+
+npm install react-redux
+
+
+Now, we will run our app and see what we get,
+
+
+Terminal coding:
+
+npm start
+
+
+Now, we will see what is running on the browser and we get an error,
+
+
+Module not found: Can't resolve 'redux' in '/Users/robertbunch/udemy/reactCourse/video-code/redux101/node_modules/react-redux/es/connect'
+
+
+So, we cannot use react-redux without also having redux, as they necessarily depend on each other.
+
+So, we will install redux,
+
+
+Terminal coding:
+
+npm install redux
+
+
+Whenever that is done we need to run npm start again,
+
+
+Terminal coding:
+
+
+npm start
+
+
+Now, we can see on the browser that we are still getting errors,
+
+
+TypeError: Cannot read property 'getState' of undefined
+
+
+So, the browser is fraustrated that it cannot get the State.
+
+
+TypeError: Cannot read property 'getState' of undefined 
+
+25 -this.previousState = store.getState();
+
+
+Now, if we look deep into the State we can see that it tried to get State from the Store and there is no Store. 
+
+Remember, when we looked at React-Redux we saw that the Provider (React-Redux) component was in the middle and it connected to the 
+Store (Redux) with React and right now we are trying to render a Provider component without a Store and that is not okay!!
+
+So, we solved our first problem by importing react-redux, we are still having some errors and that is okay. The second step, inorder to 
+solve this problem is that we need to create the redux store, so the Provider component has a Store. Or you can say that however you want 
+to but Redux does not exist without the Store, because we included Redux.
+
+
+index.js 
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+
+
+// 1. In order to wire up a redux/react app, we need react-redux. We need the Provider Component to be around everything!
+
+
+import { Provider } from 'react-redux';
+
+
+// 2. We need to create the Redux Store, so that redux exists, and the Provider has a Store!!
+
+
+import { createStore } from 'redux';
+
+
+// Remember where things are coming from, we have the 'react-redux' here that is the module or the library from where the Provider
+// component comes from, we have gotten the 'redux' module here, that is from where the createStore() function comes from. If you see 
+// 'redux' as the module you are importing from that means 'react' does not know about this thing.
+
+// We can also use 'redux' in any other framework or also in native JavaScript. The createStore() function is part of 'redux' and now we 
+// are going to give the Store to the Provider component but at this point the createStore() function has nothing to do with anything, it 
+// is just pure redux. 
+
+// Now what makes up the 'redux' store? If you remember the 'reducer' functions those return a piece of state but what we need are reducers
+// to populate the Store. 
+
+// The Store itself is just like a building, it is just a building with the word Grocery Store on it. We need the 'reducers' which are 
+// going to be the Produce department and so on. All these little individual departments will populate the Store together. So, the Store is
+// just an aggregate of the 'reducers', we need to have atleast one reducer inorder to have any Store. 
+
+// 3.  reducers to populate the Store
+// 3a. We always start with the rootReducer
+
+// It means we will make one sort of master reducer, you can think about it like a Store Manager that will import all of the other
+// 'reducers'.
+
+// We will make a new folder and we are going to call it 'reducers'. We are going to name it starting with lowercase 'r' because it is not 
+// a component. 
+
+// Inside of this 'reducers' folder we are going to make a new file called 'rootReducer.js'. Now, again it is not a component file so we 
+// name it starting with a lowercase letter. 
+
+// A lot of times people call this 'rootReducer.js' as 'index.js' and that is perfectly fine and that is probably more conventional. We are
+// going to call it 'rootReducer.js' to keep us from getting confused because the more 'index.js' we have, ususally the quicker the 
+// developers are to give up, so we have got the 'rootReducer.js' because we are on a learning phase we can always rename it to 'index.js'
+// if we wish. 
+
+
+rootReducer.js
+
+// This is the rootReducer!! It is the Store Manager for all the reducers. 
+
+// It is the manager of the Store. It collects all the departments and get them to the right place. 
+
+// To make a rootReducer we need to:
+
+// i) Get a method from redux, called combineReducers()
+
+// The method combineReducers() will combine each of the individual reducer to one big store.
+
+
+import { combineReducers } from 'redux';
+
+
+// ii) Get each individual reducer
+
+// Now, we need to make each of these individual reducers and import those reducers to this 'rootReducers.js' file.
+
+// We are going to make a new file in the 'reducers' folder with the name 'frozenReducer.js'. It is like the department containing all the 
+// frozen food. 
+
+// So, think back what are reducers? frozenReducer is a reducer, it has it's name starting with a lower-case letter, it is not a component. 
+// A reducer is just a function.
+
+
+frozenReducer.js
+
+src/reducers/frozenReducer.js
+
+export default () => {
+
+	return [];
+
+}
+
+// So, here we are directly 'export defaulting' an anonymous function but we can also provide a name to the function, it will not make any
+// difference as there is no context here to worry about. For now we are returning an array in the function. This is the simplest possible
+// reducer we could have. 
+
+
+frozenReducer.js
+
+// All reducers have 2 params (parameters)
+// 1. Current State, usually provide a default state
+// 2. Info that came from any action
+
+export default (state = [], action) => {
+
+	return [];
+
+}
+
+// So, with this function we are passing two arguments 'state' and 'action'. These are the two parameters (arguments), and we initially 
+// provide a default state that is because if the state is not assigned to anything then we will return the state,
+
+frozenReducer.js
+
+// All reducers have 2 params.
+// 1. Current State, usually provide a default state
+// 2. Info that came from any action
+
+export default (state = [], action) => {
+
+	return state;
+
+}
+
+// This reducer is totally useless, because it will always return an empty array, but this qualifies as a reducer because it is just a 
+// function. This function is written in the ES-6 version of JavaScript but we can re-write it in the Vanilla JavaScript format too, 
+
+export dafault (state = [], action) => {
+	
+	return state;
+
+}
+
+
+is equivalent to
+
+
+function frozenReducer(state = [], action) {
+	
+	return state;
+
+}
+
+export default frozen;
+
+// We will soon import this frozenReducer.js file in the rootReducer file and that will export this function in the rootReducer, which will 
+// provide the state sent in it.
+
+// We do not need to give this function a name, again you can give it a name, you might end up in situations where you have got lot of 
+// different functions in the same file or you are collecting a bunch of like reducers in the same file but we have got a small function 
+// here so we are exporting it as an anonymous function. 
+
+// Now, we will go back to our rootReducer.js file and there we will import the frozenReducer() function from the frozenReducer.js file,
+
+
+rootReducer.js
+
+// This is the root reducer! It is the store manager for all the reducers!
+
+// To make a rootReducer we need to:
+
+// 1. Get a method from redux, called combineReducers()
+
+import { combineReducers } from 'redux';
+
+// 2. Get each individual reducer 
+
+import frozenReducer from './frozenReducer';
+
+// We have now imported our (frozenReducer()) function. We imported the default export of the frozenReducer.js file which is the
+// frozenReducer() function. 
+
+// 3. Call combineReducers() and hand it an object. Each key in combineReducers() will be a piece of state in the Redux Store. 
+
+// Each value will be the value of that piece of state, which is the reducer, and that reducer (function) will return a piece of state to 
+// the Redux Store. 
+
+// We will make a constant (const) variable, we will call it rootReducer and we will assign it to the combineReducers() function that we 
+// imported from the 'redux' module. We will hand the combineReducers() function an object where we will have the key on the left and we 
+// will call it 'frozen' and on the right we will have the value to this key which is the frozenReducer() function that we imported from 
+// the frozenReducer.js file. 
+
+
+	const rootReducer = combineReducers( {
+
+		frozen: frozenReducer
+	} )
+
+
+// This means that in our Redux Store we will have a little piece of state called 'frozen' and the value of 'frozen' is going to be 
+// whatever the frozenReducer() function returns.
+
+// What does it return? Well, right now it is returning state and right now that state is assigned to an empty array. 
+
+// This is how Redux works, is that we will add another reducer for the 'produce' department and the 'produce' will be another little piece
+// of state inside of 'redux'. 
+
+// In this way we can add as many features as we want and we can also remove the old ones, access any particular part of the Redux Store by
+// grabbing the return value of a little piece of state or of a reducer. 
+
+// Lastly, we are going to export default the rootReducer,
+
+
+rootReducer.js
+
+// This is the rootReducer!! It is the store manager for all the reducers. 
+
+// To make a rootReducer we need: 
+
+// 1. Get a method from 'redux' called combineReducers()
+
+import { combineReducers } from 'redux';
+
+// 2. Get each individual Reducer
+
+import frozenReducer from './frozenReducer';
+
+// 3. Call combineReducers() and hand it an object. Each key in the combineReducers() will be a piece of state in the Redux Store.
+
+// Each value in the combineReducers() will be the value of that piece of state in the Redux Store.
+
+
+	const rootReducer = combineReducers( {
+	
+		frozen: frozenReducer
+
+	} )
+
+
+export default rootReducer; 
+
+
+// Now, our rootReducer got set up and we will go to the index.js file of the app, and then we will import the rootReducer.
+
+
+index.js
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+
+// 1. In order to wire up a redux/react app we need react-redux. We need the Provider component to be around everything,
+
+import { Provider } from 'react-redux';
+
+// 2. Create the Redux Store, so that Redux exists, and the Provider has a Store!
+
+import { createStore } from 'redux';
+
+// 3.  Reducers to populate the Store
+// 3a. We always start with a rootReducer
+// 4.  Make individual reducers to hand to the rootReducer (3.)
+
+import rootReducer from './reducers/rootReducer';
+
+// 5. Create the store (2.) by passing it the rootReducer, which is made up of all the reducers. 
+
+// The rootReducer containing all the reducers is in the Store
+
+
+	const theStore = createStore(rootReducer);
+
+
+// The Provider component is the glue between the 'React' and 'Redux'. Give it the Store!
+
+
+	ReactDOM.render( 
+
+		<Provider store = {theStore}>
+
+			<App />
+
+		</Provider>,
+
+			document.getElementById('root')
+	);
+
+
+// We can now go to the browser and we can see that we have succeeded in bootstrapping a Redux application. It does not do anything yet but
+// we are on our way.
