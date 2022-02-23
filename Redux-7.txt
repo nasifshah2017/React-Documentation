@@ -1,6 +1,5 @@
 Adding an Action Creator and Action
 
-
 The question now comes is what if we want to update the quantity of an item in any department. So, we need a 'plus' or a 'minus' button 
 for all the items so as we click them, it will go up and down. 
 
