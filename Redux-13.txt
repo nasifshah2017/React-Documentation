@@ -1,0 +1,1032 @@
+Code:
+
+1. Reducers
+
+Redux-101/src/reducers
+
+frozenReducer.js
+
+// This is the frozen reducer. The back-end frozen department. Its just a function. Returning the "state" which is an array of objects. 
+// Each item in the object contains two properties, the first property is "food" and its value is the type of food this department carries,,
+// the second property is "quantity" and its value is the amount of that food we have in the department. 
+
+
+// Creating demo data
+
+const seedData = [
+
+	{
+
+		food: "TV Dinners",
+
+		quantity: 10
+
+	},
+	{
+
+		food: "Frozen Veggies",
+
+		quantity: 21
+
+	},
+	{
+
+		food: "Frozen Pizzas",
+
+		quantity: 25
+
+	}
+
+];
+
+
+
+// All reducers have 2 params:
+
+// 1. Current state, ussually provide a default state. Here, we are providing it as an array.
+
+// 2. Info that came from any action.
+
+export default (state = seedData, action) => {
+
+	console.log("Frozen Reducer is running!!!");
+
+	console.log(action);
+
+	if(action.type === "updateFrozen") {
+
+		console.log("I care about this action!!!");
+
+		// We make a copy of state, because WE NEVER EVER EVER mutate state
+
+		let newState = [...state];
+
+		if(action.payload.operation === "+") {
+
+			newState[action.payload.index].quantity++
+
+		} else if(action.payload.operation === "-") {
+
+			newState[action.payload.index].quantity--
+
+		}
+
+		return newState;
+
+		} else if(action.type === "clearInventory") {
+
+			let newState = [...state];
+
+			newState.forEach((item, i) => {
+
+				item.quantity = 0;
+
+			})
+
+			return newState;
+
+		} else {
+
+			return state;
+
+		}
+
+	}
+
+
+/* function frozen(state = [], action) {
+
+	return state;
+
+}
+
+export default frozen */
+
+
+
+meatReducer.js
+
+// This is the meat reducer. The back-end meat department.
+
+// It's just a function. 
+
+
+// Creating demo data 
+
+
+const seedData = [
+
+	{
+
+		food: "Chicken",
+
+		quantity: 10
+
+	},
+	{
+
+		food: "Beef",
+
+		quantity: 21
+
+	},
+	{
+
+		food: "Mutton",
+
+		quantity: 25
+
+	},
+	{
+
+		food: "Turkey",
+
+		quantity: 35
+
+	}
+
+];
+
+
+// All reducers have 2 params:
+
+// 1. Current state, usually provide a default state. Here, we are providing it as an array.
+
+// 2. Info that came from any action.
+
+
+export default (state = seedData, action) => {
+
+	console.log("Meat Reducer is running!!!");
+
+	console.log(action);
+
+	if(action.type === "updateMeat") {
+
+		let newState = [...state];
+
+		const payload = action.payload;
+
+		newState[payload.index].quantity = newState[payload.index].quantity + payload.qChange;
+
+		return newState;
+
+	} else if(action.type === "clearInventory") {
+
+		let newState = [...state];
+
+		newState.forEach((item, i) => {
+
+			item.quantity = 0;
+
+		})
+
+		return newState;
+
+	} else {
+
+		return state;
+
+	}
+}
+
+
+/* function frozen (state = [], action) {
+
+	return state;
+
+}
+
+export default frozen */
+
+
+
+produceReducer.js
+
+// This is the Produce reducer. The back-end produce department.
+
+
+// Creating demo data
+
+const seedData = [
+
+	{
+
+		food: "Lettuce",
+
+		quantity: 15
+
+	},
+	{
+
+		food: "Spinach",
+
+		quantity: 22
+
+	},
+	{
+
+		food: "Cucumbers",
+
+		quantity: 35
+
+	}
+
+];
+
+
+
+export deafult (state = seedData, action) => {
+
+	console.log("Produce Reducer is running!!!");
+
+	if(action.type === "updateProduce"){
+
+		const payload = action.payload;
+
+		let newState = [...state];
+
+		newState[payload.index].quantity = newState[payload.index].quantity + payload.qChange;
+
+		return newState;
+
+	} else if(action.type === "clearInventory") {
+
+		let newState = [...state];
+
+		newState.forEach((item, i) => {
+
+			item.quantity = 0;
+
+		})
+
+		return newState;
+
+	} else {
+
+		return state;
+
+	}
+
+
+
+
+rootReducer.js
+
+// This is the root reducer !!
+
+// It is the store manager for all reducers.
+
+
+// To make a root reducer:
+
+// 1. We need to get a method from Redux, called combineReducers. 
+
+// Each individual Reducers will get combined together into one big store.
+
+
+import { combineReducers } from "redux";
+
+
+// 2. Get each individual Reducer
+
+
+import frozenReducer from "./frozenReducer";
+
+import produceReducer from "./produceReducer";
+
+import meatReducer from "./meatReducer";
+
+
+// 3. Call combineReducers and hand it an object.
+
+// Each key in the combineReducers will be a piece of state in the Redux store, 
+// and each value will be a reducer and that reducer will return a piece of state to the Redux store. 
+
+
+const rootReducer = combineReducers({
+
+	frozen: frozenReducer, 	// Importing from frozenReducer.js
+
+	produce: produceReducer, 
+
+	meat: meatReducer
+
+});
+
+
+export default rootReducer;
+
+
+3. Actions
+
+Redux-101/src/actions
+
+frozenInvUpdate.js
+
+// This file is an action creator!!!
+
+// Action creator returns actions. 
+
+// An action creator is going to be handed to the Dispatch.
+
+
+export default(operation, index) => {
+
+	console.log(operation, index);
+
+	return {
+
+		type: "updateFrozen"
+
+		payload: {
+
+				operation,
+
+				index
+
+		}
+
+	}
+
+}
+
+
+
+meatInvUpdate.js
+
+// This file is an action creator!!
+
+// Action creators return actions.
+
+// An action is an object that has atleast a property of type. This action creator is going to be handed to the Dispatch.
+
+
+export default (qChange, index) => {
+
+	return {
+
+		type: "updateMeat",
+
+		payload: {
+
+				qChange,
+
+				index
+
+		}
+
+	}
+
+}
+
+
+
+produceInvUpdate.js
+
+// This file is an action creator!!
+
+// Action creators return actions!!
+
+// An action is an object that has atleast a property of type.
+
+// This action creator is going to be handed to the Dispatch
+
+
+export default(qChange, index) => {
+
+	console.log("Updating produce inventory!!!");
+
+	return {
+
+		type: "updateProduce",
+
+		payload: {
+
+			qChange,
+
+			index
+
+		}
+
+	}
+
+}
+
+
+clearInventory.js
+
+export default () => {
+
+	console.log("Clear Inventory!!!");
+
+	return {
+
+		type: "clearInventory"
+
+	}
+
+}
+
+
+4. Components
+
+Redux-101/src/components
+
+FrozenDept.js
+
+import React, { Component } from "react";
+
+// We want this React component to know about Redux.
+
+// To do that we need some help... or some glue
+
+// The glue is React-Redux!!!
+
+
+// We need the connect() function to connect this React component with the Store (rootReducer).
+
+import { connect } from "react-redux";
+
+import updateFrozen from "../actions/frozenInvUpdate";
+
+import { bindActionCreators } from "redux";
+
+
+class FrozenDept extends Component {
+
+	increment = (operation, index) => {
+
+		// console.log(operation, index);
+
+		this.props.updateFrozen(operation, index);
+
+	}
+
+	render() {
+
+		// Mapping through the frozenReducer state array, which was imported from the rootReducer via the mapStateToProps() function,
+		// connecting that function to the FrozenDept component.
+
+		const frozenInventory = this.props.frozenData.map((item, i) => {
+
+			return(
+
+				<div key = {i}>
+
+					<li>{item.food}: {item.quantity}</li>
+
+					<input type = "button" onClick = {() => {this.increment("+", i)}} value = "+" />
+
+					<input type = "button" onClick = {() => {this.increment("-", i)}} value = "-" />
+
+				</div>
+
+			)
+
+		}) 
+
+
+		return(
+
+			<div>
+
+				<h1>The Frozen Food Department</h1>
+
+				<ul>
+
+					{frozenInventory}
+
+				</ul>
+
+			</div>
+
+		)
+
+	}
+
+}
+
+
+
+// The mapStateToProps takes 1 arg, "state" and that is the rootReducer (or the Store). 
+
+function mapStateToProps(state) {	// Importing from rootReducer.js
+
+	// mapStateToProps returns an object, the property is the local prop name to this component. The value will be the property in the 
+	// root reducer that is a piece of the store
+
+	return {
+
+		frozenData: state.frozen
+
+	}
+
+}
+
+
+// mapDispatchToProps() is how we tie our Component to the Dispatch. It takes 1 argument and that is the Dispatch. This function returns 
+// bindActionCreators() method an object, where each property will be a local prop and each value will be a function which is dispatched 
+// when run.
+
+// The 2nd argument for bindActionCreators() is the dispatch itself that we imported from Redux.
+
+
+function mapDispatchToProps(dispatch) {
+
+	return bindActionCreators({ 
+
+		updateFrozen: updateFrozen
+
+	}, dispatch)
+
+}
+
+// The updateFrozen property on the left-hand side is a local prop we now have "this.props.updateFrozen" and this is going to be assigned 
+// to the updateFrozen() function that we are importing at the top from the frozenInvUpdate.js file. 
+
+// This function is now going to be avialable inside the bindActionCreators() function as "this.props.updateFrozen". We added one more 
+// argument in bindActionCreators() function and that is the "dispatch".
+
+
+// export default FrozenDept;
+
+
+// Connecting the React Component with the Redux Store (rootReducer). 
+
+// 2nd argument to the connect() function is mapDispatchToProps()
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(FrozenDept);
+
+
+
+// The connect() function takes 2 args, the first one is a function that is going to map a piece of redux state to this FrozenDept
+// React Component.
+
+
+// function x(n) {
+//        return (m) => {
+//            console.log(n+m);
+//        } 
+//  }
+
+
+// x(1)(2); 	3
+
+
+// f connect (mapStateToProps, mapDispatchToProps, mergeProps, _ref2) {
+//  if (_ref2 === void 0) {
+//      _ref2 = {};
+//  }
+
+
+MeatDept.js
+
+import React, { Component } from "react;
+import { connect } from "react-redux";
+import updateMeat from "../actions/meatInvUpdate";
+import { bindActionCreators } from "redux";
+
+
+class MeatDept extends Component {
+
+	increment = (qChange, index) => {
+
+		this.props.updateMeat(qChange, index);
+
+	}
+
+	render() {
+
+		const meatInventory = this.props.meatData.map((item, i) => {
+
+			return(
+
+				<div key = {i}>
+
+					<li>{item.food}: {item.quantity}</li>
+
+					<input type = "button" onClick = {() => {this.increment(1, i)}} value = "+" />
+
+					<input type = "button" onClick = {() => {this.increment(-1, i)}} value = "-" />
+
+				</div>
+
+			)
+
+		})
+
+		return(
+
+			<div>
+
+				<h1>The Meat Department</h1>
+
+				<ul>
+
+					{meatInventory}
+
+				</ul>
+
+			</div>
+
+		)
+
+	}
+
+}
+
+
+function mapStateToProps(state) {
+
+	return {
+
+		meatData: state.meat
+
+	}
+
+}
+
+
+function mapDispatchToProps(dispatch) {
+
+	return bindActionCreators({
+
+		updateMeat: updateMeat
+
+	}, dispatch)
+
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(MeatDept);
+
+
+ProduceDept.js
+
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import updateProduce from "../actions/produceInvUpdate";
+
+
+class ProduceDept extends Component {
+
+	increment = (qChange, index) => {
+
+		this.props.updateProduce(qChange, index);
+
+	}
+
+	render() {
+
+		const produceInventory = this.props.produceData.map((item, i) => {
+
+			return(
+
+				<div key = {i}>
+
+					<li>{item.food}: {item.quantity}</li>
+
+					<input type = "button" onClick = {() => {this.increment(1, i)}} value = "+" />
+
+					<input type = "button" onClick = {() => {this.increment(-1, i)}} value = "-" />
+
+				</div>
+
+			)
+
+		})
+
+		return(
+
+			<div> 
+
+				<h1>The Produce Department</h1>
+
+				<ul>
+
+					{produceInventory}
+
+				</ul>
+
+			</div>
+
+		)
+
+	}
+
+}
+
+
+function mapStateToProps(state) {
+
+	return {
+
+		produceData: state.produce
+
+	}
+
+}
+
+
+function mapDispatchToProps(dispatch) {
+
+	return bindActionCreators({
+
+		updateProduce: updateProduce
+
+	}, dispatch)
+
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProduceDept);
+
+
+Main.js
+
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import clearInventory from "./actions/clearInventory";
+import { bindActionCreators } from "redux";
+
+
+class Main extends Component {
+
+	render() {
+
+		const frozenQuantity = this.props.frozenData.reduce((accum, frozenItem) => accum + frozenItem.quantity, 0);
+
+		const meatQuantity = this.props.meatData.reduce((accum, meatItem) => accum + meatItem.quantity, 0);
+
+		const produceQuantity = this.props.produceData.reduce((accum, produceItem) => accum + produceItem.quantity, 0);
+
+		
+		return(
+
+			<div> 
+
+				<h2>FrozenDept: {frozenQuantity}</h2>
+
+				<h2>MeatDept: {meatQuantity}</h2>
+
+				<h2>ProduceDept: {produceQuantity}</h2>
+
+				<button onClick = {this.props.clearInventory}>Clear all Inventory!!!</button>
+
+			</div>
+
+		)
+
+	}
+
+}
+
+
+
+function mapStateToProps(state) {
+
+	return {
+
+		frozenData: state.frozen,
+
+		meatData: state.meat,
+
+		produceData: state.produce,
+
+	}
+
+}
+
+
+
+function mapDispatchToProps(dispatch) {
+
+	return binadActionCreators({
+
+		clearInventory: clearInventory
+
+	}, dispatch)
+
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
+
+
+NavBar.js
+
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+
+
+class NavBar extends Component {
+
+	render(){
+
+		return(
+
+			<div>
+                                        
+				<ul>
+
+					<li><Link to = "/main">Entire Store</Link></li>
+
+					<li><Link to = "/produce-dept">Produce Department</Link></li>
+
+					<li><Link to = "/frozen-dept">Frozen Department</Link></li>
+
+				</ul>
+                                 
+			</div>
+
+		)
+
+	}
+
+}
+
+
+export default NavBar;
+
+
+6. Source (src)
+
+Redux-101/src
+
+
+App.js
+
+import "./App.css";
+import FrozenDept from "./components/FrozenDept";
+import MeatDept from "./components/MeatDept";
+import ProduceDept from "./components/ProduceDept";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import NavBar from "./components/NavBar";
+import Main from "./components/Main";
+
+
+function App() {
+
+	return(
+
+		<Router>
+
+			<div className = "App">
+
+				<Route path = "/" component = {NavBar} />
+
+				<Route path = "/main" component = {Main} />
+
+				<Route path = "/frozen-dept" component = {FrozzenDept} />
+
+				<Route path = "/meat-dept" component = {MeatDept} />
+
+				<Route path = "/produce-dept" component = {ProduceDept} />
+
+			</div>
+
+		</Router>
+
+	);
+
+}
+
+
+export default App;
+
+
+index.js
+
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+
+
+// 1. In order to wire up a redux/react app we need react-redux
+
+// We need the Provider Component to be around everything!!
+
+import { Provider } from "react-redux";
+
+// 2. Create the Redux Store, so that Redux exists and the Provider has a store!!
+
+import { createStore } from "redux";
+
+// 3. We need Reducers to populate the store!!
+
+// 3a. We always start with a rootReducer. Its more like a manager of all reducers
+
+// 4. Make individual Reducers to hand to the root reducer (3.)
+
+// 5. Create the store (2.) by passing it the rootReducer, which is made up of the reducers.
+
+
+const theStore = createStore(rootReducer);
+
+
+// Provider is the glue between React and Redux, so give it the store...
+
+
+ReactDOM.render(
+
+	<Provider store = {theStore}>
+
+		<App />
+
+	</Provider>,
+
+	document.getElementById("root");
+
+);
+
+
+// If you want to start measuring in your app, pass a function to log results (for example: reportWebVitals(console.log)) or send to an 
+// analysis endpoint. Learn more: https://bit.ly/CRA-vitals
+
+reportWebVitals();
+
+
+6. public
+
+Redux-101/public/index.html
+
+index.html
+
+
+<!DOCTYPE html>
+
+<html lang = "en">
+
+	<head>
+
+		<meta charset = "uft-8"/>
+
+		<link rel = "icon" href = "%PUBLIC_URL%/favicon.ico" />
+
+		<meta name = "viewport" content = "width=device-width, initial-scale=1" />
+
+		<meta name = "theme-color" content = "#000000" />
+
+		<meta 
+
+			name = "description"
+
+			content = "Web site created using create-react-app"
+
+		/>
+
+		<!--
+
+			manifest.json provides metadata used when your web appis installed on a user's mobile device or desktop. See
+
+			https://developers.google.com/web/fundamentals/web-app-manifest/
+
+		-->
+
+		<link rel = "manifest" href = "%PUBLIC_URL%/manifest.json" />
+
+		<!--
+
+			Notice the use of %PUBLIC_URL% in the tags above. It will be replaced with the URL of the `public` folder during the 
+
+			build. Only files inside the `public` folder can be referenced from the HTML.
+
+			Unlike "/fevicon.ico" or "fevicon.ico", "%PUBLIC_URL%/ favicon.ico" will work correctly both with client-side routing 
+			
+			and a non-root public URL. Learn how to configure a non-root public URL by running `npm run build`.
+
+		-->
+
+		<title>React App</title>
+
+	</head>
+
+	<body>
+
+		<noscript>You need to enable JavaScript to run this app.</noscript>
+
+		<div id = "root"></div>
+
+		<!--
+
+			This HTML file is a template.
+
+			If you open it directly in the browser, you will see an empty page.
+
+			You can add webfronts, meta tags, or analytics to this file. The build step will place the bundled scripts into the 
+	
+			<body> tag.
+
+			To beginthe development, run `npm start` or `yarn start`. To create a production bundle, use `npm run build` or 
+
+			`yarn build`.
+
+		-->
+
+	</body>
+
+</html>

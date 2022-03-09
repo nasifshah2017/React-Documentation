@@ -1,0 +1,306 @@
+Getting A Little More Out of Redux
+
+In this lesson we are going to set up the entire store component, the Main route that we have in our NavBar. We will make a new file in our
+components folder and we will name it Main.js and we will set up a class in Main.js,
+
+
+Main.js
+
+import React, { Component } from "react";
+
+
+class Main extends Component {
+
+	render() {
+
+		return(
+
+			<div>
+
+				<h1>Sanity Check - Main</h1>
+
+			</div>
+
+		)
+
+	}
+
+}
+
+
+export default Main;
+
+
+Now, we will go back to App.js and import this Main component in our App.js file and we will set up a Route in our App component,
+
+
+App.js
+
+import React from "react";
+import "./App.css";
+import FrozenDept from "./components/FrozenDept";
+import MeatDept from "./components/MeatDept";
+import ProduceDept from "./components/ProduceDept";
+import { BrowseRouter as Router, Route } from "react-router-dom";
+import NavBar from "./components/NavBar";
+import Main from "./components/Main";
+
+
+function App() {
+
+	return(
+
+		<Router>
+
+			<div className="App">
+
+				<Route path="/" component={NavBar} />
+
+				<Route path="/main" component={Main} />
+
+				<Route path="/frozen-dept" component={FrozenDept} />
+
+				<Route path="/meat-dept" component={ProduceDept} />
+
+			</div>
+
+		</Router>
+
+	);
+
+}
+
+
+export default App;
+
+
+Now, this is what we get on our browser,
+
+
+localhost:3000/main
+
+
+							Entire Store
+
+						    Produce Department	
+
+						      Meat Department
+
+						     Frozen Department
+
+
+localhost:3000/produce-dept
+
+
+								Entire Store
+
+						    	    Produce Department	
+
+						            Meat Department
+
+						           Frozen Department
+
+
+
+						     The Produce Food Department
+
+								Lettuce: 14
+
+								   |+| |-|
+
+							       Turnips: 11
+
+								   |+| |-|
+
+								 Apples: 35
+
+								   |+| |-|
+
+							      Cilantro: 135
+
+								   |+| |-|
+									
+
+Everything looks good as of now, and now we will develop our Main component,
+
+What we need to do inside of this Main component is that we need to make a component that has the data but does not allow you to change 
+any of the quantities, so we cannot use the component that already exists instead we need to connect to Redux. 
+
+This is the big win or the big pay-off for Redux is that we do not need to re-architect this application at all instead of needing pass up
+the state like we normally would. The FrozenDept is not using its own state, its using Redux's state, so the Main component can pull from 
+that same thing, the Main component can pull from state.frozen, the same thing is true for the MeatDept, instead of having the state 
+managed here with an onClick() that is also managed in the MeatDept and then having those pass to the App component so that they can all 
+pass down to the Route components inside the App component. Instead of needing to worry about any of that, all we need to do is import the 
+connect() method from the react-redux module and create a mapStateToProps() function and then we can grab anything out of the Redux Store
+that we want,
+
+
+Main.js 
+
+import React, { Component } from "react";
+import { connect } from "react-redux";
+
+class Main extends Component {
+
+	render() {
+
+		return(
+
+			<div>
+
+			</div>
+
+		)
+
+	}
+
+}
+
+
+function mapStateToProps(state){
+
+	return {
+
+		frozenData: state.frozen,
+
+		meatData: state.meat,
+
+		produceData: state.produce
+
+	}
+
+}
+
+
+export default connect(mapStateToProps)(Main);
+
+
+If all went well then frozenData, produceData and meatData should all now be connected to this Main component's props. 
+
+Now, we will go back to our browser,
+
+
+localhost:3000/main
+
+						Entire Store
+
+					    Produce Department
+
+					     Meat Department
+
+					    Frozen Department
+
+
+And here everything is still working properly, on click any of these links should render that department with the items in it. 
+
+Now, we will test it out,
+
+
+	class Main extends Component {
+
+		render() {
+
+			console.log(this.props.frozenData);
+
+			return(
+
+				<div>
+
+				</div>
+
+			)
+
+		}
+
+	} 
+
+
+Now, we will view our console,
+
+
+Console:
+
+Array(3)
+
+0: {food: "TV Dinners", quantity: 10}
+1: {food: "Frozen Veggies", quantity: 21}
+2: {food: "Frozen Pizzas", quantity: 25}
+
+
+This is what is awesome about Redux with React, without doing any re-architecture or any serious lifting or moving, we added a component 
+that needs access to a piece of state that used to be only used inside one component and not only do we have access to it, we have it 
+at the right way because the way Redux is structured and because it is functional and it is predictable, if it gets changed anywhere, it 
+will cycle down through appropriate React process and it will get updated the way it is supposed to. That is instead of us trying to 
+mutate it like in the old days with jQuery, pulling stuffs out of the DOM, the source of the truth is that it is always a disaster. React
+does one better, React plus Redux make it so much easier that once you get Redux set up, you can grab the data that you want. We will put
+some data on our Main component to display the total amount of items we have in each department,
+
+
+Main.js
+
+import React, { Component } from "react";
+import { connect } from "react-redux";
+
+
+class Main extends Component {
+
+	render() {
+
+		const frozenQuantity = this.props.frozenData.reduce((accum, frozenItem) => accum + frozenItem.quantity, 0);  
+
+		const meatQuantity = this.props.meatData.reduce((accum, meatItem) => accum + meatItem.quantity, 0); 
+
+		const produceQuantity = this.props.produceData.reduce((accum, produceItem) => accum + produceItem.quantity, 0);
+
+		
+		return(
+
+			<div>
+
+				<h2>FrozenDept: {frozenQuantity}</h2>
+
+				<h2>MeatDept: {meatQuantity}</h2>
+
+				<h2>ProduceDept: {produceQuantity}</h2> 
+
+			</div>
+
+		)
+
+
+function mapStateToProps(state) {
+
+	return {
+
+			frozenData: state.frozen,
+
+			meatData: state.meat,
+
+			produceData: state.produce
+
+	}
+
+}
+
+
+export default connect(mapStateToProps)(Main);
+
+
+so, here we made a "const" variable called "frozenQuantity" and we assigned it to "this.props.frozenData.reduce()". So, if you have not 
+used reduce() before then we are letting you know that it is very similar to map() except instead of building a new array called 
+frozenQuantity we are going to reduce this.props.frozenData array into a single value, so we are going to add the quantity property as we 
+loop through the frozenData and we are just ultimately going to build a single primitive value, so in our reduce() method we took our 
+first argument called "accum", which is the accumulator and the second argument is the one that we are going to donate the item that we 
+are on, which here we are calling "frozenItem" and we are returning the accumulator (accum) plus the frozenItem quantity because that is 
+the property we are interested in and then default value is zero (0).
+
+So, each item through the loop in the frozenQuantity[] array will start with a zero, that is what our initial value is, and we are going 
+to loop through "this.props.frozenData", the first time through the accumulator is going to be zero, because that is the initial value and 
+then the first item in the frozenItem is going to be the first item in the loop or in the array, so we are going to take zero and we are 
+going to add 10 with it, 10 gets returned and now frozenQuantity is now 10, the next time through the loop accum will be 10, so we will 
+add accum to whatever is the next frozenItem, which is frozen veggies and the quantity of frozen veggies is 15, so now the frozenQuantity 
+will be 25 and accum the next time will be 25 and so on and that is how we add up the quantities of each items at each department and then
+display them on our Main component's page. Now, incrementing or decrementing any quantity at any department will also change the numbers 
+on the Main page. 
+
+This is the advantage of Redux and this is how it operates.

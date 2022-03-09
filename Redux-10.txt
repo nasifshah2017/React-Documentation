@@ -1,0 +1,460 @@
+Adding the Router
+
+In this lesson we are going to add the React Router to our application. So, we have already got Redux. Redux has pretty much taken over our
+index.js file. Now, we are going to add the Router as we showed in the last lesson. We can place the Router component around our App 
+component, but in our experience index.js gets really crowded really fast if we have both the Router and all of the Redux setup both of them
+are going to need more and more code. So, instead we will close the index.js file and we are going to set up our Router component on the 
+App.js file. This is our convention. There are multiple ways to do it, but the main thing you never ever want, is more than one Router, and
+it is very easy to fall in that trap. If you do not have a standard convention, and you get all kinds of strange behaviour. 
+
+
+App.js
+
+import React from "react';
+import "./App.css";
+import FrozenDept from "./components/FrozenDept";
+import MeatDept from "./components/MeatDept";
+import ProduceDept from "./components/ProduceDept";
+
+function App() {
+
+	return(
+
+		<div className="App">
+
+			<FrozenDept />
+
+			<MeatDept />
+
+			<ProduceDept />
+
+		</div>
+	);
+
+}
+
+
+export default App;
+
+
+This will hopefully go fairly quickly, we are going to open up the terminal and in the redux-101 folder we are going to 
+"npm install react-router-dom",
+
+
+Terminal:
+
+npm install react-router-dom
+
+
+Now, we are going to get rid of our terminal window and inside of our App.js file we are going to import "BrowserRouter" as the "Router" 
+and the "Route" from the "react-router-dom". 
+
+
+App.js
+
+import React from "react";
+import "./App.css";
+import FrozenDept from "./components/FrozenDept";
+import MeatDept from "./components/MeatDept";
+import ProduceDept from "./components/ProduceDept";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+
+
+// So, now we have the Router component and now around the div tags of the App class we are going to drop the Router component,
+
+
+function App() {
+
+	return (
+
+			<Router>
+
+				<div class="App">
+
+					<FrozenDept />
+
+					<MeatDept />
+
+					<ProduceDept />
+
+				</div>
+
+			</Router>
+
+	);
+
+}
+
+
+export default App;
+
+
+The Router component has one child, our div, and then the div has multiple childrens (FrozenDept component, MeatDept component and Produce
+component). 
+
+So, after we save this file and we go to our browser we see nothing changed,
+
+
+							The Frozen Food Department!
+
+								TV Dinners: 9
+
+								  |+| |-|  
+
+							   Frozen Veggies: 21
+
+								  |+| |-|
+
+							   Frozen Pizzas: 25
+
+								  |+| |-|
+
+
+							   The Meat Department
+
+							   Chicken Breast: 14
+
+								  |+| |-|
+
+							       Bacon: 11
+
+								  |+| |-|
+
+							     Mahi Mahi: 35
+
+								  |+| |-|
+
+							      Salmon: 135
+
+							        |+| |-| 
+
+
+							  The Produce Food Department
+
+								Lettuce: 14
+
+								   |+| |-|
+
+							       Turnips: 11
+
+								   |+| |-|
+
+								 Apples: 35
+
+								   |+| |-|
+
+							      Cilantro: 135
+
+								   |+| |-|
+
+
+It is still working the way it had and all the Components are working the way they had. 
+
+Now, we will set up the Route component for each component, and we will set up the "path" for each component, and if the user visits a 
+particular path, then that path will render that component,
+
+
+App.js
+
+import React from "react";
+import "./App.css";
+import FrozenDept from "./components/FrozenDept";
+import MeatDept from "./components/MeatDept";
+import ProduceDept from "./components/ProduceDept";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+
+
+function App() {
+
+	return(
+
+		<Router>
+
+			<div className="App>
+
+				<Route path="/frozen-dept" component={FrozenDept} />
+
+				<Route path="/meat-dept" component={MeatDept} />
+
+				<Route path="/produce-dept" component={ProduceDept} />
+
+			</div>
+
+		</Router>
+
+	);
+
+}
+
+
+export default App;
+
+
+Now, if we save this file and go back to our app, we are not going to see anything on our screen because the home page link 
+(localhost: 3000) does not match any of the routes that we have defined. 
+
+Now, if we manually put the frozen-dept route that we have defined, 
+
+
+localhost:3000/frozen-dept
+
+
+							The Frozen Dept Department
+
+								TV Dinners: 10
+
+								   |+| |-|
+
+							    Frozen Veggies: 21
+
+								   |+| |-|
+
+							     Frozen Pizzas: 25
+
+								   |+| |-|
+
+
+Then we get the FrozenDept component rendered on our page, and Redux is working the same, it always has, as we click the plus(+) button 
+the quantity increases and as we click the minue(-) button the quantity decreases. Now, we have a way to navigate to each particular 
+component. 
+
+Now, we will make a nav-bar, so the user can move from page to page by clicking the buttons.
+
+So, inside of our file structure, inside the components folder we will make a new file called NavBar.js. 
+
+Now, we will build our NavBar component in this file,
+
+
+NavBar.js
+
+
+import React, { Component } from "react";
+
+
+class NavBar extends Component {
+
+	render() {
+
+		return(
+
+				<div>
+
+					<h1>Sanity Check</h1>
+
+				</div>
+
+		)
+
+	}
+}
+
+export default NavBar;
+
+
+So, we have just built the basic structure of the NavBar component and now we will import this component in our App.js file and we will 
+add another Route component,
+
+
+App.js 
+
+import React from "react";
+import "./App.css";
+import FrozenDept from "./components/FrozenDept";
+import MeatDept from "./components/MeatDept";
+import ProduceDept from "./components/ProduceDept";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import NavBar from "./components/NavBar";
+
+
+function App() {
+
+	return(
+
+		<Router>
+
+			<div className="App">
+
+				<Route path="/" component={NavBar} />
+
+				<Route path="/frozen-dept" component={FrozenDept} />
+
+				<Route path="/meat-dept" component={MeatDept} />
+
+				<Route path="/produce-dept" component={ProduceDept} />
+
+			</div>
+
+		</Router>
+
+	);
+
+}
+
+
+export default App;
+
+
+So, we put another Route component with path="/", so the NavBar component now will render at every page no matter what, and the component 
+that we are going to render will be the NavBar component and we will have the NavBar Sanity Check at the top of the screen no matter what.
+
+
+localhost:3000/frozen-dept
+
+
+								Sanity Check  
+
+							 The Frozen Dept Department
+
+								TV Dinners: 10
+
+								   |+| |-|
+
+							    Frozen Veggies: 21
+
+								   |+| |-|
+
+							     Frozen Pizzas: 25
+
+								   |+| |-|
+
+
+localhost:3000
+
+
+								Sanity Check 
+
+
+Hopefully, these all are easy review. The Router components are not interfering with Redux at all. It is inside of Redux or rather it is 
+inside of the Provider component which has access to the Redux Store. So, these two things are not in conflict at all. 
+
+Now, we will develop our NavBar component,
+
+
+NavBar.js
+
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+
+
+class NavBar extends Component {
+
+	render() {
+
+		return(
+
+			<div>
+
+				<ul>
+
+					<li><Link to="/produce-dept">Produce Department</Link></li>
+
+					<li><Link to="/meat-dept">Meat Department</Link></li>
+
+					<li><Link to="/frozen-dept">Frozen Department</Link></li>
+
+				</ul>
+
+			</div>
+
+
+export default NavBar;
+
+
+If you remember the Router section, we do not use anchor tags anymore because we do not want to leave the application we use Link tags and 
+then the "react-router-dom" module will manage the JavaScript that will just re-write the URL instead of actually taking us away. It will 
+update the DOM for us without actually taking us away. 
+
+Now, when we go back to the browser this is what we see,
+
+
+localhost:3000
+
+
+							Produce Department
+
+							 Meat Department
+
+						     Frozen Department <- Click
+
+
+							
+							The Frozen Dept Department
+
+								TV Dinners: 10
+
+								   |+| |-|
+
+							    Frozen Veggies: 21
+
+								   |+| |-|
+
+							     Frozen Pizzas: 25
+
+								   |+| |-|
+
+
+
+Now, coming to the browser and clicking each component's link will render the corresponding component. Then, clicking the plus(+) button 
+will increase the corresponding quantity and clicking the minus(-) button will decrease the corresponding quantity.
+
+The components are mounting and unmounting just like we talked about inside of the Router section, we are popping components in and out of
+this mainframe of App.js and when it pops back in, it grabs the data it needs from Redux, and as Redux is outside of React that is why 
+nothing changes.
+
+This is really really handy. Let's add one more Link component in this page,
+
+
+App.js
+
+import React from "react";
+import "./App.css";
+import FrozenDept from "./components/FrozenDept";
+import MeatDept from "./components/MeatDept";
+import ProduceDept from "./components/ProduceDept";
+import { BrowserRouter as Router, Route} from "react-router-dom";
+import NavBar from "./components/NavBar";
+
+function App() {
+
+	return(
+
+		<div>
+
+			<ul>
+
+				<li><Link to="/main">Entire Store</Link></li>
+
+				<li><Link to="/produce-dept">Produce Dept</Link></li>
+
+				<li><Link to="/meat-dept">Meat Dept</Link></li>
+
+				<li><Link to="/frozen-dept">Frozen Dept</Link></li>
+
+			</ul>
+
+		</div>
+
+	)
+}
+
+export default NavBar;
+
+
+localhost:3000/main
+
+
+									Entire Store
+
+								    Produce Department
+
+								     Meat Department 
+
+								     Frozen Department
+
+
+This not going to link us to anything useful right now because we do not have a Route component set up for that but let's go and put there 
+for the moment and we got the basics for the Router set up, and it is really that simple. It might still be confusing because everytime we 
+add something new, the code gets longer and you have more to shift through but the NavBar is showing up on every page via the Router, we 
+have got Routes that determines whether or not to render a particular component, NavBar shows up on every page and that is what getting 
+from place to place. In the next lesson we will create the Entire Store component which will kind of merge the other components together.
+Great job!

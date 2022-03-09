@@ -1,0 +1,796 @@
+Getting a Little More Out of Redux - An Action
+
+In this lesson we are going to add the clearInventory action. 
+
+
+Main.js
+
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import clearInventory from "./actions/clearInventory";
+import { bindActionCreators } from "redux";
+
+
+class Main extends Component {
+
+	render() {
+
+		const frozenQuantity = this.props.frozenData.reduce((accum, frozenItem) => (accum + frozenItem.quantity, 0);
+
+		const meatQuantity = this.props.meatData.reduce((accum, meatItem) => (accum + meatItem.quantity, 0);
+
+		const produceQuantity = this.props.produceData.reduce((accum, produceItem) => (accum + produceItem.quantity, 0);
+
+
+		return(
+
+			<div>
+
+				<h2>FrozenDept: {frozenQuantity}</h2>
+
+				<h2>MeatDept: {meatQuantity}</h2>
+
+				<h2>ProduceDept: {produceQuantity}</h2>
+
+			</div>
+
+		)
+
+	}
+
+}
+
+
+function mapStateToProps(state) {
+
+	return {
+
+		frozenData: state.frozen,
+
+		meatData: state.meat,
+
+		produceData: state.produce
+
+	}
+
+}
+
+
+function mapDispatchToProps(dispatch) {
+
+	return bindActionCreators({
+
+		clearInventory: clearInventory
+
+	}, dispatch)
+
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
+
+
+
+clearInventory.js
+
+export default() => {
+
+	return {
+
+		type: "clearInventory"
+
+	}
+
+}
+
+
+On the Main.js we are importing the clearInventory() action function from the actions folder and we will visit the actions folder, where 
+we placed the clearInventory.js action file. That file contains a function that returns an object with a key called "type" and its value 
+is called "clearInventory". 
+
+This is the simplest possible action that we can have. So, back in Main.js we are importing that function stored in the clearInventory 
+variable. We are importing bindActionCreators from redux, because we have added the function mapDispatchToProps() in the Main.js file,
+
+
+function mapDispatchToProps(dispatch) {
+
+	return bindActionCreators({
+
+		clearInventory: clearInventory
+
+	}, dispatch)
+
+}
+
+
+The function is returning the bindActionCreators() method, we are passing an object to this method, we are going to call the local
+variable this.props.clearInventory and that variable, here in the bindActionCreators, is assigned to the clearInventory() action function 
+that we are importing from the clearInventory action file in the actions folder as the clearInventory variable. 
+
+Then, we pass the mapDispatchToProps() function as an argument in our connect() function, so that we have access to this function here 
+inside the Main.js file. Now, we will go back to the clearInventory.js file and we will console.log inside the clearInventory.js file to 
+see if it got properly connected with our Main react component or not. 
+
+
+clearInventory.js
+
+export default () => {
+
+	console.log("Clear Inventory");
+
+	return {
+
+		type: "clearInventory",
+
+	}
+
+}
+
+
+Now, we will go back to our Main react component and we will place "this.props.clearInventory()" inside the React component, so on load 
+this function will run,
+
+
+class Main extends Component {
+
+	render() {
+
+			this.props.clearInventory();
+
+			const frozenQuantity = this.props.frozenData.reduce((accum, frozenItem) => (accum + frozenItem.quantity, 0);
+
+			const meatQuantity = this.props.meatData.reduce((accum, meatItem) => (accum + meatItem.quantity, 0);
+
+			const produceQuantity = this.props.produceData.reduce((accum, produceItem) => (accum + produceItem.quantity, 0);
+
+			
+			return(
+
+			<div>
+
+				<h2>FrozenDept: {frozenQuantity}</h2>
+
+				<h2>MeatDept: {meatQuantity}</h2>
+
+				<h2>ProduceDept: {produceQuantity}</h2>
+
+			</div>
+
+		)
+
+	}
+
+}
+
+
+
+Now, we will go back to our browser and open up the console,
+
+ 
+								Entire Store
+
+							   Produce Department
+
+							    Meat Department
+
+							   Frozen Department
+
+
+							    FrozenDept: 56
+
+							     MeatDept: 195
+
+							    ProduceDept: 195
+
+
+Console:
+
+Produce Reducer is running
+
+Meat Reducer is running
+
+> Object
+
+Clear Inventory
+
+This is something to notice real quick, we have all kinds of things happening and may be it might seem like a bizzare order, this is one 
+of the reasons why we do not change state directly ourselves because Redux and React and then React-Redux can manage things as efficiently
+as possible, sometimes State is changed at the same time with setState(), sometimes it is changed at different times, it all just depends 
+on what is the most efficient, so we can see on the console this kind of crazy print out.
+
+It may come back on a small application always the same but on a big application it may not always come back the same. 
+
+So, we will make a good use of this. We will remove the "this.props.clearInventory" and we will place a button on our Main component 
+called "Clear all Inventory", and we can do an onClick() on that button where we have the option of doing, "this.props.clearInventory" and
+we can do an onClick() on that button where we have the option of doing, "this.props.clearInventory" and that should run our code because
+we do not call code insead we pass code and that function is already defined per Redux,
+
+
+class Main extends Component {
+
+	render() {
+
+		const frozenQuantity = this.props.frozenData.reduce((accum, frozenItem) => (accum + frozenItem.quantity, 0);
+
+		const meatQuantity = this.props.meatData.reduce((accum, meatItem) => (accum + meatItem.quantity, 0);
+
+		const produceQuantity = this.props.produceData.reduce((accum, produceItem) => (accum + produceItem.quantity, 0);
+
+			
+			return(
+
+			<div>
+												
+				<h2>FrozenDept: {frozenQuantity}</h2>
+
+				<h2>MeatDept: {meatQuantity}</h2>
+
+				<h2>ProduceDept: {produceQuantity}</h2>
+
+				<button onClick={this.props.clearInventory}>Clear All Inventory</button>
+
+			</div>
+
+			)
+
+	}
+
+}
+
+
+Now, if we save this file and go back to our browser then this is what we will see,
+
+
+localhost:3000/main
+
+						
+							Entire Store
+
+						   Produce Department 
+
+						     Meat Department
+
+						    Frozen Department
+
+
+							FrozenDept: 56
+
+							 MeatDept: 195
+
+							ProduceDept: 195
+
+						    | Clear Inventory!! |
+							
+
+Now, if we click on the "Clear all Inventory!!" button then this is what we will see on the console,
+
+
+Clear Inventory
+
+
+Frozen Reducer is running!
+
+> {type: "clearInventory"}
+
+Produce Reducer is running
+
+Meat Reducer is running
+
+> {type: "clearInventory"}
+
+
+It looks like it is working fine, this is one option, the other way we can do it is that we can take that out and do as following,
+
+
+class Main extends Component{
+
+	clearInventoryAction = () => {
+
+		this.props.clearInventory();
+
+	}
+
+}
+
+
+	render() {
+
+		const frozenQuantity = this.props.frozenData.reduce((accum, frozenItem) => (accum + frozenItem.quantity, 0);
+
+		const meatQuantity = this.props.meatData.reduce((accum, meatItem) => (accum + meatItem.quantity, 0);
+
+		const produceQuantity = this.props.produceData.reduce((accum, produceItem) => (accum + produceItem.quantity, 0);
+
+
+		return(
+
+			<div>
+												
+				<h2>FrozenDept: {frozenQuantity}</h2>
+
+				<h2>MeatDept: {meatQuantity}</h2>
+
+				<h2>ProduceDept: {produceQuantity}</h2>
+
+				<button onClick={this.props.clearInventoryAction}>Clear All Inventory</button>
+
+			</div>
+
+			)
+
+	}
+
+}
+
+
+Okay! So, here we have defined a function called clearInventoryAction(), then we are calling that function on click of the bottom, that 
+function is returning the clearInventory variable which stores the clearInventoryAction() function. 
+
+These two methods do the same thing, the second method adds couple of extra lines but it gives us leverage later on, so that if we need to
+do more than just calling the action function then we can do that.
+
+For example, we might need to put a fancy dialog-box or a modal, which might say, "Hey! Are you sure you want to clear the inventory?" 
+then we should do it this way as it would allow us to add more funtionalities. But for now we will comment out the clearInventoryAction() 
+function and we will follow the first method,
+
+
+ class Main extends Component {
+
+	// clearInventoryAction = () => {
+
+	// 	this.props.clearInventory();
+
+	//}
+
+
+	render() {
+
+		const frozenQuantity = this.props.frozenData.reduce((accum, frozenItem) => (accum + frozenItem.quantity, 0);
+
+		const meatQuantity = this.props.meatData.reduce((accum, meatItem) => (accum + meatItem.quantity, 0);
+
+		const produceQuantity = this.props.produceData.reduce((accum, produceItem) => (accum + produceItem.quantity, 0);	
+
+ 
+		return(
+
+			<div>
+												
+				<h2>FrozenDept: {frozenQuantity}</h2>
+
+				<h2>MeatDept: {meatQuantity}</h2>
+
+				<h2>ProduceDept: {produceQuantity}</h2>
+
+				<button onClick={this.props.clearInventory}>Clear All Inventory</button>
+
+			</div>
+
+			)
+
+	}
+
+}
+
+
+We will work this where we are grabbing the redux action and we will go straight to it. We can go stright to it because we do not need to 
+pass anything and the function is all ready to go but the other method is necessary if we need to do anymore logic. 
+
+Now, the clearInventory() function is running and what we are seeing on the console,
+
+
+Clear Inventory
+
+Frozen Reducer is running!
+
+> {type: "clearInventory"}
+
+Produce Reducer is running!
+
+Meat Reducer is running!
+
+> {type: "clearInventory"}
+
+
+What we are actually seeing here is that the Frozen Reducer, the Produce Reducer and the Meat Reducer all ran their codes, because the 
+clearInventory() action function is sent to the reducers by the dispatch,
+
+
+	function mapDispatchToProps(dispatch){
+
+		return bindActionCreators({
+
+				clearInventory: clearInventory
+
+		}, dispatch)
+
+
+	export default connect(mapStateToProps, mapDispatchToProps)(Main);
+
+
+The dispatch sends it out to all the individual reducers, so an action happens and the reducers know that an action happened, 
+
+
+frozenReducer.js
+
+// All reducers have 2 param:
+
+// 1. Current State, usually provide a default state
+
+// 2. Info that came from any action
+
+
+const seedData = [
+
+	{
+
+		food: "TV dinners",
+
+		quantity: 10
+
+	}
+	{
+
+		food: "Frozen Veggies",
+
+		quantity: 21
+
+	},
+	{
+
+		food: "Frozen Pizzas",
+
+		quantity: 25
+
+	}
+
+];
+
+
+export default (state = seedData, action) => {
+
+	console.log("Frozen Reducer is running!");
+
+	console.log(action);
+
+	if(action.type === "updateFrozen") {
+
+			console.log("I care about this action!!!");
+
+			// We make a copy of state, because WE NEVER EVER EVER mutate the state
+
+			const newState = [...state];
+
+			if(action.payload.operation === "+"){
+
+				newState[action.payload.index].quantity++
+
+			} else if(action.payload.operation === "-"){
+
+				newState[action.payload.index].quantity--
+
+			}
+
+			return newState;
+
+			} else {
+
+				return state;
+
+			}
+
+	}
+
+
+The frozenReducer knows that something happened, it is running because an action got dispatched to it, now it checks that is the 
+action.type is "updateFrozen"?, no it is not, its action.type is "clearInventory". That is why the frozenReducer does not care about that, 
+so it juts returns its regular piece of state.
+
+Now, we need to add another condition in this frozenReducer so that it executes an action when the action.type is 'clearInventory',
+
+
+export default(state = seedData, action) => {
+
+	console.log("Frozen Reducer is running!");
+
+	console.log(action);
+
+	if(action.type === "updateFrozen"){
+
+		console.log("I care about this!!!");
+
+		// We make a copy of state, because WE NEVER EVER EVER mutate state
+
+		const newState = [...state];
+
+		if(action.payload.operation === "+"){
+
+			newState[action.payload.index].quantity++
+
+		} else if(action.payload.operation === "-") {
+
+			newState[action.payload.index].quantity--
+
+		}
+
+			return newState;
+
+		} else if(action.type === "clearInventory"){
+
+			return [];
+
+		} else {
+
+			return state;
+
+		}
+
+	}
+
+
+So, if the action.type is equal to 'clearInventory' then the frozenReducer will return an empty array that will clear out the array that 
+was initially assigned to the seedData variable.
+
+Whatever changes has been happening as the result of the 'updateFrozen' those will get completely wiped out and returned as an empty 
+array.
+
+So, we will add this same condition for the other two reducers too,
+
+
+export default(state = seedData, action) => {
+
+	console.log("Meat Reducer is running!");
+
+	console.log(action);
+
+	if(action.type === "updateMeat"){
+
+		const newState = [...state];
+
+		const payload = action.payload;
+
+		newState[payload.index].quantity = newState[payload.index].quantity + payload.qChange;
+
+		return state;
+
+	} else if(action.type === "clearInventory") {
+
+		return [];
+
+	} else {
+
+		return state;
+
+	}
+
+}
+
+
+export default (state = seedData, action) => {
+
+	console.log("Produce Reducer is running!");
+
+	if(action.type === "updateProduce") {
+
+		const payload = action.payload;
+
+		const newState = [...state];
+
+		newState[payload.index].quantity = newState[payload.index].quantity + payload.qChange;
+
+		return newState;
+
+		} else if(action.type === "clearInventory") {
+
+			return [];
+
+		} else {
+
+			return state;
+
+		}
+
+}
+
+
+So, each reducer has an 'else if' statement that checks if 'action.type' is equal to 'clearInventory' if it is then it returns an empty 
+array. Now, we will go back to the browser and we will click "Clear All Inventory",
+
+
+localhost:3000/main
+
+						Entire Store
+
+					    Produce Department 
+
+					      Meat Department
+
+					     Frozen Department
+
+
+					      FrozenDept: 56
+
+					       MeatDept: 195
+
+					      ProduceDept: 195
+
+				      | Clear All Inventory !!! | <- Click
+
+
+					       Entire Store 
+
+				           Produce Department
+
+				             Meat Department
+
+				            Frozen Department
+
+					        FrozenDept: 0
+
+					         MeatDept: 0
+
+					        ProduceDept: 0
+
+
+After clicking "Clear All Inventory!!!" all the departments' quantities falls to zero. Now, if we click the link of Frozen Department then
+this is what we see,
+
+
+				     Entire Store
+
+				   Produce Department
+
+				    Meat Department 
+
+				   Frozen Department
+
+				
+			    The frozen food department!
+
+
+We have created a trouble for ourselves as we have erased the type of food in each department, so instead of returning an empty array, we 
+need to return items while assign each of their quantity to zero,
+
+
+export default (state = seedData, action) => {
+
+	console.log("Frozen Reducer is running!");
+
+	console.log(action);
+
+	if(action.type === "updateFrozen"){
+
+		console.log("I care about this action!!!");
+
+		// We make a copy of state, because WE NEVER EVER EVER mutate state
+
+		let newState = [...state]; 
+
+		if(action.payload.operation === "+"){
+
+			newState[action.payload.index].quantity++
+
+		} else if(action.payload.operation === "-"){
+
+			newState[action.payload.index].quantity--
+
+		}
+
+		return newState;
+
+		} else if(action.type === "clearInventory") {
+
+			let newState = [...state];
+
+			newState.forEach((item, i) => {
+
+				item.quantity = 0;
+
+			})
+
+			return newState;
+
+			} else {
+
+				return state;
+
+			}
+
+}
+
+
+We will be assigning the newState variable twice this time which is why we need to denote it with 'let' instead of 'const', technically 
+JavaScript does not care about it but this is just better practice. We have again declared the newState array variable in the if-else 
+statement of 'clearInventory', we are going to run a forEach on it, as it is a copy of the real state, so we can mutate it and it is not a
+big deal. Then on the newState variable we apply forEach and using the forEach we will loop through each item while assigning their 
+quantity to zero. Then when we are all done, instead of returning an empty array we will return newState. So, this will preserve our 
+frozenReducer, instead of clearing out the array completely we only want to reset the quantity back down to zero. 
+
+Now, we will go back to the browser,
+
+
+							Entire Store
+
+						   Produce Department 
+
+						    Meat Department
+
+						    Frozen Department
+
+
+							FrozenDept: 56
+
+							 MeatDept: 195
+
+						     ProduceDept: 195
+
+						| Clear All Inventory!!! | <- Click
+
+
+Clicking "Clear All Inventory!!!" will take each quantity of each department to zero,
+
+
+							Entire Store 
+
+						    Produce Department
+
+						     Meat Department
+
+						    Frozen Department
+
+							FrozenDept: 0
+
+							 MeatDept: 0
+
+							ProduceDept: 0
+
+					      | Clear All Inventory !!! |
+
+
+Now, we can go to the Frozen Department and this is what we will see,
+
+
+				   		     Entire Store
+
+				  		  Produce Department
+
+				   		    Meat Department 
+
+				  		   Frozen Department
+
+				
+			   		   The frozen food department!
+
+
+							TV Dinners: 0
+
+						         |+| |-|  
+
+					          Frozen Veggies: 0
+
+							   |+| |-|
+
+						     Frozen Pizzas: 0
+
+							   |+| |-|
+
+
+
+Now, we have all the food items but they are just set to zero. 
+
+
+We also need to do the same for other two reducers, but we hope that you are seeing the power here, because we have taken a reducer which 
+up until now has been in charge of one variable during one thing, either that thing happen otherwise return the existing piece of state.
+
+You might have an application that has ten different actions that effect the same reducer, you might have things happening all over the 
+applications, it gives you the ability to add features later on without needing to re-architecture the whole application. This is just an 
+awesome place to abstract application state into the redux store and then we can use the 'dispatch' to let any reducer know and then that 
+reducer can manage itself whether that is one action like we have been doing it or like we said there maybe ten different actions, maybe 
+there are all in ten different components, maybe couple of them are in the same component or whatever it happens to be, we have gotten the 
+immense power over our application state, from the very beginning as well as to our maintenance phase of our software. This brings us to 
+the end of the basic redux section.
+
+We will do review which will give us the opportunity to go back through and make sure that we understand what the moving parts are, but 
+again the best place and the best way to learn Redux is through a project, which will be a great practice.
+
+Congratulations! You have survived the most difficult part of all most any React-Redux course. We will see you in the next section. 
