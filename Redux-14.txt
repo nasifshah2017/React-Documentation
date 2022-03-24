@@ -1,0 +1,21 @@
+Redux Middleware - Async Action Creators
+
+In this section we are going to talk about Redux Middleware. You might be thinking, "Wait! A minute Rob, why have you not told us about 
+Redux Middleware before? And what in the World is it?
+
+Well, other than mentioning it very briefly in passing, the reason is that we do not like bringing it up until it is absolutely necessary 
+is because React and Redux together is already confusing enough as it is and now as we are at a point where we need to talk about it, you 
+need to have a grasp as how React and Redux work together, then this is the perfect time for it. As for what it is? We are going to draw it
+out along with a little review with all the moving pieces here in the next lesson but the really short answer is in the really bold print
+here,
+
+"It provides a third-party extension point between dispatching an action, and the moment it reaches the reducer".
+
+It gives us a chance to run some code in-between dispatching the action and the moment it actually gets to the Reducer. This might not make
+any sense at all but Redux Middleware is absolutely critical to being able to use Redux and React and we will see why. 
+
+To demonstrate that in the next lesson we are going to draw a little bit, and we will also code a little bit, just would get a basic 
+React-Redux application set up and we will show you where the problem comes in and then we will show you our 2 favourite pieces of Redux 
+Middleware and Redux Promise which we will use basically in every single React app that we work with and then Redux Thunk which is kind of
+like Tier-2 Redux Promise and then eventually down the road we will talk about Redux Saga, and then potentially some other custom middleware
+that we can write.   

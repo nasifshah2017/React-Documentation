@@ -1,0 +1,771 @@
+Redux Thunk 
+
+In this lesson we are going to take a look at our next piece of middleware which is called Redux Thunk. So, we have come to the npm page of
+Redux Thunk (npmjs.com/package/redux-thunk). This is sort of the step-2 process. We did Redux Promise which gives us some power but not 
+really any control at all. Redux Thunk is going to be more manual than Redux Promise for when we need more control.
+
+Now, if we scroll down a bit we can see it says why do we need it.
+
+Why Do I Need This?
+
+If you're not sure whether you need it or not, then you don't.
+
+Read this for an in-depth introduction to thunks in Redux. 
+
+Motivation 
+
+Redux Thunk middleware allows you to write action creators that return a function instead of an action. The Thunk can be used to delay the
+dispatch of an action, or to dispatch only if a certain condition is met. The inner function receives the store methods 'dispatch' and 
+'getState' as parameters.
+
+It starts by saying that if we are not sure that we need it then we probably do not. Now, you probably do not like seeing that. I did not
+like seeing it when I first saw it, but just remember to not to try and force this middleware because most of the times you do not need it
+and just let Redux do its job. Just remember that you have it in your back pocket so when you do get in a situation where you need more 
+direct control over the dispatch or the access to the Store then you can get it. The description then says that the Redux Thunk Middleware 
+allows us to write Action Creators that return a function instead of an Action. This goes against everything that we have told you in this 
+course up to date. 
+
+Back over at fetchWeather.js we have our action creator, which is a function and it returns an action, an action which is an object with 
+the property of type. Well, what Redux Thunk is promising us is that we can take our Action Creators and instead of returning an Action we
+can return a function. 
+
+So, instead of returning an Action like this,
+
+	
+	return {
+
+		type: "cityUpdate",
+
+		payload: response.data
+
+	},
+
+
+we can make a return like this,
+
+
+	return () => {}
+
+
+Now, why would you want to do that?
+
+
+Well, remember if you do not know the answer to that question then you probably do not need it but we are going to show you how we can do 
+it. 
+
+We are going to scroll down a little bit further down the page and stop at the part where it says,
+
+"What's a thunk?" and the answer to that is,
+
+"A Thunk is a function that wraps an expression to delay its evaluation".
+
+What does it mean? Well, let's hop over to Repl and we are going to give you a quick example here,
+
+const x = 1 + 2;
+
+console.log(x);
+
+You will perfectly know what it will display, it is going to print out 3 because it is going to run the expression "1 + 2" and store the 
+value 3 inside of x. That is very obvious. "1 + 2" is an expression and it needs to be run in order to store something inside of a 
+variable.
+
+
+const x = 1 + 2
+
+console.log(x);
+
+
+const sum = () => 1 + 2;
+
+console.log(sum);
+
+
+Now, if we define a function called "sum()" and we make this function add 1 and 2 and if we console.log that function name, then we are 
+going to get 3? Well, the answer is ofcourse not. "sum()" is a function and it is not going to be the return value of that function.
+
+Output:
+
+3
+
+[Function: sum]
+
+
+Then, if we do this,
+
+
+const x = 1 + 2
+
+console.log(x);
+
+
+const sum = () => 1 + 2
+
+console.log(sum());
+
+
+Now, we will get 3, because the function will actually run, 
+
+
+Output: 
+
+3
+
+3
+
+
+This function is a thunk, beacuse it is wrapped around an expression so that we can run it later. To make it look a bit easy we will 
+rewrite it in the ES-5 way,
+
+
+const x = 1 + 2
+
+console.log(x);
+
+
+const sum = function() {
+
+	return 1 + 2;
+
+}
+
+
+console.log(sum());
+
+
+Output:
+
+3
+
+3
+
+
+So, we have gotten a function that returns an expression and it is set inside the variable "sum". So, the function "sum()" when we call 
+it we will run this code,
+
+
+{
+
+	return 1 + 2;
+
+}
+
+
+which runs the expression "1 + 2". This function is a thunk, because it is wrapped around an expression so that we can run it later. 
+
+So, back in the description it says that, "a thuk is a function that wraps an expression to delay its evaluation". We do not want to run 
+"1 + 2" yet we want to wait and then we will call sum() when we are ready to actually find out what "1 + 2" is. 
+
+Let's go ahead and give it a try. We are going to open up the terminal and on the terminal we are going to do "npm install redux-thunk".
+
+When it is done installing, we are going to go back to index.js and we are going to import "redux-thunk" there. 
+
+
+index.js
+
+(src/index.js)
+
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux";
+import rootReducer from "./reducers/rootReducer";
+import reduxPromise from "redux-promise";
+import reduxThunk from "redux-thunk";
+
+
+const theStore = applyMiddleware(reduxPromise)(createStore)(rootReducer);
+
+
+// const middlewareApplied = applyMiddleware(reduxPromise);
+// const storeWithMiddleWare = middlewareApplied(createStore);
+// const finalStore = storeWithMiddleWare(rootReducer);
+
+
+ReactDOM.render(
+
+	<Provider store = {theStore}>
+
+		<App />
+
+	</Provider>,
+
+	document.getElementById("root");
+
+);   
+
+
+Now, we are going to hand reduxThunk to applyMiddleware,
+
+const theStore = applyMiddleware(reduxPromise, reduxThunk)(createStore)(rootReducer);
+
+
+This is how we hand multiple pieces of middleware. Now, another way we are going to see it just because this is where we are going to stop
+for a little while, we will eventually have the Redux saga and maybe some custom middleware but we will see it like this as well, 
+
+
+const middleWare = [reduxPromise, reduxThunk];
+
+
+where we will have constant and we will say it is a middleWare and we will define it as an array ad then in there we will put reduxPromise,
+and reduxThunk and then down on the store we can do a spread syntax,
+
+
+const theStore = applyMiddleware(...middleWare)(createStore)(rootReducer);
+
+
+This is another way we will see it. Either way is totally fine, this one is going to end up being that anyway. We are going to leave it 
+this way. Again, you can do it either way. This is unnecessary because we only have two pieces of middleware but you will see it. 
+
+So, this will apply both reduxPromise and reduxThunk and we are going to introduce a new file inside our actions folder called 
+textThunk.js, and inside of testThunk.js we are going to show a continued example here,
+
+
+testThunk.js
+
+export default () => {
+
+	return() => {
+
+		setTimeout(() => {
+
+			console.log("I waited for 2 seconds");
+
+		}, 2000)
+
+	}
+
+}
+
+
+So, we are exporting the return value of an anonymous function here. The return value is also a function itself. Inside of this function 
+we have the setTimeout() method, and inside of the setTimeout() method we are just running a console.log() which is having the string "I 
+waited for 2 seconds", and we are putting a time interval of 2 seconds (2000 milliseconds).
+
+This is really simple function. It returns a function, and we can do that because Redux Thunk will allow us to and after 2 seconds, the 
+function is going to console.log, "I waited for 2 seconds". 
+
+This is very silly but we will get to the payload here but lets go back to Weather.js. We will import the testThunk.js file there,
+
+
+Weather.js	(src/Weather.js)
+
+import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import fetchWeather from "./actions/fetchWeather";
+import testThunk from "./actions/testThunk";
+
+
+class Weather extends React.Component {
+
+	state = {city: "London"};
+
+	changeCity = (e) => {this.setState({city: e.target.value});
+
+	componentDidMount() {
+
+		this.props.testThunk();
+
+	}
+
+
+	render() {
+
+
+		console.log(this.props.weather);
+
+		const weather = this.props.weather;
+
+		if(!weather.main) {
+
+				return(
+
+					<div>
+
+						<input type = "text" onChange = {this.changeCity} value = {this.state.city} />
+
+						<button onClick = {() => this.props.fetchWeather(this.state.city)}}>Fetch Weather!</button>
+
+					</div>
+
+				)
+
+		}
+
+		
+		return(
+
+			<h3>It's currently {weather.main.temp}</h3>
+
+		)
+
+	}
+
+}
+
+
+function mapStateToProps(state) {
+
+	return {
+
+		weather: state.weather
+
+	}
+
+}
+
+
+function mapDispatchToProps(dispatch) {
+
+	return bindActionCreators({
+
+		fetchWeather: fetchWeather
+
+		testThunk
+
+	}, dispatch);
+
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Weather);
+
+
+So, first we exported the function here from the testThunk.js file. Then we are calling this function inside the bindActionCreators() 
+method, inside the mapDispatchToProps() function. We want to run it through the bindActionCreators() method and then wire it up with the 
+dispatch. Then, we added a componentDidMount() method, and inside that we are calling the testThunk() function using this.props.
+
+So, as soon as the Weather component is mounted, the componentDidMount() method will run and it will call "this.props.testThunk()", and 
+testThunk() is defined inside the bindActionCreators() method inside the mapDispatchToProps() method as a prop. Again, its been ran 
+through the binActionCreators() method and then mapped to the "dispatch" which is coming as an argument in the mapDispatchToProps() method.
+The testThunk() function is being imported from the testThunk.js file. 
+
+Now, we will go back to our app and open our console and we can see that it is displaying "I waited for 2 seconds", and after that we 
+refresh the browser and it displays the same message again after 2 seconds, so there is nothing good about this. We could have put this 
+function over inside the React component definition, but the reason we did this way is because in Redux Thunk we get two arguments handed 
+to our function here in testThunk.js. 
+
+The first argument is the "dispatch" and the second argument is "getState",
+
+
+testThunk.js
+
+export default () => {
+
+	return(dispatch, getState) => {
+
+		setTimeout(() => {
+
+			console.log("I waited for 2 seconds");
+
+		}, 2000)
+
+	}
+
+}
+
+
+We have not interacted with this in our course at all. It is entirely react-redux's job to call the dispatch. It is react-redux's job to 
+fiddle with the Store and grab the state out. Right back in the Weather.js we can see that we get our store information from the 
+mapStateToProps() function and we interact with the dispatch from the mapDispatchToProps() function. We have not written any code that 
+needs either of those. 
+
+Well, with Redux Thunk we get that power. We have the testThunk() function in the testThunk.js file and we can manually call the dispatch.
+
+So, what we are going to do is that inside the setTimeout() function of the testThunk() function we are going to dispatch and we are going
+to pass an object which has a property of type assigned to the string "testThunk",
+
+
+testThunk.js
+
+export default () => {
+
+	return(dispatch, getState) => {
+
+		setTimeout(() => {
+
+			console.log("I waited for 2 seconds");
+
+			dispatch({
+
+				type: "testThunk"
+
+			})
+
+		}, 2000)
+
+	}
+
+}
+
+
+Okay, this might kind of blow your mind here, but this action (object) is going to get sent out but it is going to wait for 2 seconds 
+before it actually does sent out. Now, if we go back to the app this is what we will see on out console,
+
+
+Console:
+
+> {}
+
+I waited for 2 seconds 													testThunk.js
+
+testThunk															weatherReducer.js
+
+
+We can already see it showed up on our console, then when we refresh our application we again get the same message and "testThunk" is 
+displayed on the console after 2 seconds. 
+
+So, we got testThunk and run inside the weather reducer, So, testThunk() fuction is manually calling the dispatch in order to send out the
+object to all of the reducers, and the reason we are getting that console.log is because over in the weatherReducer.js file we are logging
+the action type everytime an action gets sent to a reducer.
+
+The weatherReducer is the only one we have in this program,
+
+
+weatherReducer.js
+
+export default (state = {}, action) => {
+
+	console.log(action.type);
+
+	if(action.type === "cityUpdate") {
+
+		console.log(action.payload);
+
+		return action.payload;
+
+	} else {
+
+		return state;
+
+	}
+
+}
+
+
+This weatherReducer() function will run on every single dispatched action which is what we are doing right here in the setTimeout() 
+function,
+
+
+testThunk.js 
+
+export default () => {
+
+	return(dispatch, getState) => {
+
+		setTimeout(() => {
+
+			console.log("I waited for 2 seconds");
+
+			dispatch({
+
+				type: "testThunk"
+
+			})
+
+		}, 2000)
+
+	}
+
+}
+
+
+This is super-powerful, the other option that we have here is getState, and now we will assign this function a constant variable and 
+console.log() that variable so that it runs every 2 seconds and we will comment out the "I waited for 2 seconds".
+
+
+testThunk.js
+
+export default() => {
+
+	return(dispatch, getState) => {
+
+		setTimeout(() => {
+
+			// console.log("I waited for 2 seconds");
+
+			const reduxState = getState();
+
+			console.log(reduxState);
+
+			dispatch({
+
+				type: "testThunk"
+
+			})
+
+		}, 2000)
+
+	}
+
+}
+
+
+So, our setTimeout() function will get called, it will wait for 2 seconds, it will fetch the entire redux state and then put it inside the 
+reduxState variable. Then it will console.log() it and then it will dispatch our action. 
+
+Now, we will go back to our application and refresh our browser. After refreshing our browser this is what we see on our console,
+
+
+Console:
+
+> {weather: {{...}}
+
+
+This is our weatherReducer, our weather piece of state. That is in the rootReducer, 
+
+
+rootReducer.js
+
+import { combineReducers } from "redux";
+import weatherReducer from "./weatherReducer";
+
+
+const rootReducer = combineReducers({
+
+	weather: weatherReducer
+
+});
+
+
+export default rootReducer;
+
+
+The "weather" property that we have inside the object of the combineReducer() is what we are seeing on our console, and it is an empty 
+object, because that is the default of the weatherReducer.
+
+Now, if we are fast enough and we go back to our browser and we refresh and click on the "Fetch Weather!" button, then we get "testThunk"
+and the {weather: {...}} on the console,
+
+> {weather: {...}}
+
+testThunk
+
+If we open up the object with the weather property,
+
+v {weather: {...}}
+
+	v weather:
+
+		> coord: {lon: -0.13, lat: 51.51}
+
+			> weather: [{...}]
+
+				base: "stations"
+
+				> main: {temp: 60.3, pressure: 1002, humidity: 93, temp_min: 57.99, temp_max: 63} 
+
+				visibility: 10000
+
+				> wind: {speed: 12.75, deg: 230}
+				
+Then, we can see that the object is not empty. The weather property is assigned to something here, there are lot of other objects inside 
+this object and these are all our information. 
+
+So, we have access to both our entire store (const reduxState = getState()) and the dispatch({type: "testThunk"}) inside of our Thunk. 
+What is the value of getting the state here? Well! There might be things going on in our application that we need to know before we 
+actually submit. 
+
+Let's say there is a component that is dependent on the user having already grabbing the weather and in order to actually update it. Well!
+We grab the redux state here, 
+
+
+	const reduxState = geState();
+
+     
+Let's say we check to see if reduxState.weather.main exists, then and only then we are going to call the dispatch like this, 
+
+
+testThunk.js
+
+export default () => {
+
+	return (dispatch, getState) => {
+
+		setTimeout(() => {
+
+			// console.log("I waited for 2 seconds");
+
+			const reduxState = getState();
+
+			if(reduxState.weather.main){
+
+				dispatch({
+
+					type: "testThunk"
+
+				})
+
+			}
+
+			console.log(reduxState);
+
+			}, 2000);
+
+		}
+
+}
+
+
+Now, if we go back to our application and look at our browser,
+
+
+							Fetch the weather to find out if it's warm!
+
+
+								| London |		| Fetch Weather! |
+
+
+Console:
+
+> {weather: {...}}
+
+
+We can see that it is not going to dispatch, we did get the testThunk to run but it did not dispatch because I had not fetched the weather.
+
+Well! Now, if we refresh our browser and clear out the console and now click the Fetch Weather button,
+
+
+							Fetch the weather to find out if it's warm! 
+
+
+								| London |		| Fetch Weather! | <- click 
+
+
+
+Then this is what we get on our browser and on our console,
+
+
+								 It's cold :(
+
+								 It's currently 60.3
+
+
+Console:
+
+> {coord: {...}, weather: Array(1), base: "stations", main: {...}, visibility: 10,000, ...}
+
+> {coord: {...}, weather: Array(1), base: "stations", main: {...}, visibility: 10,000, ...}
+
+testThunk
+
+> {weather: {...}}
+
+
+Now, we can see testThunk on our console which means this does go through actually this time to the weatherReducer because now the store 
+is actually populated.
+
+This if-statement is very important in our application for whatever reason. Here, we want to dispatch only when the store the information 
+(reduxState.weather.main) or it could be that we want to dispatch four different actions all with different information all reliant on 
+something else, or we can wait for it. We can write our Promise like we did in the last video, we can manually write it here. 
+
+We can import axios from 'axios' at the top of our file. We can issue an axios request in our function like 
+axios.get(url).then(( )=>{ }) and then we can return something inside this function, 
+
+
+testThunk.js
+
+import axios from "axios";
+
+
+export default () => {
+
+	return (dispatch, getState) => {
+
+		axios.get(url).then(() => {
+
+
+			});
+
+
+		setTimeout(() => {
+
+			// console.log("I waited for 2 seconds");
+
+			const reduxState = getState();
+
+			if(reduxState.weather.main) {
+
+				dispatch({
+
+					type: "testThunk"
+
+				});
+
+			}
+
+			console.log(reduxState);
+
+			}, 2000);
+
+		}
+
+}
+
+
+We can manually write all these ourselves. The important thing here is that the Middleware gives us the power to run that function. 
+
+If we go back to index.js and we remove reduxThunk from our middleware,
+
+
+index.js
+
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux";
+import rootReducer from "./reducers/rootReducer";
+import reduxPromise from "redux-promise";
+import reduxThunk from "redux-thunk";
+
+
+const middleware = [reduxPromise];
+
+const theStore = applyMiddleware(...middleWare)(createStore)(rootReducer);
+
+// const middlewareApplied = applyMiddleware(reduxPromise);
+
+// const storeWithMiddleWare = middlewareApplied(createStore);
+
+// const finalStore = storeWithMiddleWare(rootReducer);
+
+
+ReactDOM.render(
+
+	<Provider store = {theStore}>
+
+		<App />
+
+	</Provider>,
+
+	document.getElementById("root");
+
+);
+
+
+Now, as we have removed reduxThunk from our Middleware we get a big error on our browser, 
+
+Error: Actions must be plain objects. Use custom middleware for async actions. 
+
+
+It says that Actions must be plain objects. It tried to run on ComponentDidMount() and our testThunk() function does not return an action. 
+
+If we bring our Middleware reduxThunk back in we can actually run the application without any problem, we can do anything inside of there
+that we want.
+
+So, this is a brief example if there is enough request then we can go a little bit deeper or we can do a little bit later on, on the 
+project but Thunk is really powerful because when we need control inside of an action then we can get it. 
+
+fetchWeather.js is incredibly simple because all we want to do is wait to have the dispatch send our action away. 
+
+Our Redux Thunk is very powerful because we can write any code inside of our testThunk() function definition and that is sort of just the 
+way that Redux works. 
+
+Okay, so that does it for this section. It is a fantastic section. Again, we included almost every Redux project that we have but we only 
+use it when we actually need it. 

@@ -1,0 +1,601 @@
+Trying axios/http without middleware (overview of codebase)
+
+index.js
+
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import rootReducer from "./reducers/rootReducer";
+
+
+const theStore = createStore(rootReducer);
+
+
+ReactDOM.render(
+
+	<Provider store = {theStore}>
+
+		<App />
+
+	</Provder>,
+
+	document.getElementById("root");
+
+);
+
+
+This is the codebase that we told you to get up and running. This is the redux middleware and we are going to run through the 
+file-structure fairly quickly. In index.js we started importing our regular files and then we set the Redux part exactly the way we did in
+our grocery store. We have the Provider component which is coming from the "react-redux" module, we have the "createStore" which is coming 
+from the "redux" module and then we have the "rootReducer" that we have made and we have the rootReducer as below,
+
+
+rootReducer.js
+
+import { combineReducers } from "redux";
+import weatherReducer from "./weatherReducer";
+
+
+const rootReducer = combineReducers({
+
+	weather: weatherReducer
+
+})
+
+
+export default rootReducer;
+
+
+The rootReducer fetches the "combineReducers" and then after that we have the weatherReducer which we have imported from its file as below,
+
+
+weatherReducer.js
+
+export default (state = {}, action) = {
+
+	if(action.type === "cityUpdate") {
+
+		console.log(action.payload);
+
+		return action.payload;
+
+	} else {
+
+		return state;
+
+	}
+
+}
+
+
+weatherReducer is just a function and it has an if statement, which we are not going to worry about right now. The function returns a 
+state, and the state that it returns is just an empty object. We will comeback and look at all these in a little bit. The point is that 
+the rootReducer has a piece of state called "weather" which is coming from the weatherReducer and we pass that to the combineReducers to 
+create a final product which gets send back over to the rootReducer, and then we hand that to the createStore() and then that sets up an 
+actual store which we then hand it to the Provider component and then the Provider component wraps the whole application inside it, it has
+access to the Store and then we render the app. 
+
+Now we will look at the App.js file, 
+
+App.js 
+
+import React from "react";
+import Weather from "./Weather";
+import WarmOrNot from "./WarmOrNot";
+import "./App.css";
+
+function App() {
+
+	return(
+
+		<div className = "App">
+
+			<WarmOrNot />
+
+			<Weather />
+
+		</div>
+
+	);
+
+}
+
+
+export default App;
+
+
+In the App.js file, once again we got the as usual React imported and then we have made two components, one is the Weather component and 
+the other one is WarmOrNot.
+
+On our Application the title is being rendered by the WarmOrNot component and the field and the button are being rendered by the Weather 
+component.  
+
+These two are sibling components so they cannot talk to each other. They can only go through Redux or they can only communicate with the 
+parent component. 
+
+Now, we will look on to the WarmOrNot component,
+
+
+WarmOrNot.js
+
+import React from "react";
+import { connect } from "react-redux";
+
+class WarmOrNot extends React.Component {
+
+	render(){
+
+		const weather = this.props.weather;
+
+		// There is no weather object
+
+		if(!weather.main) {
+
+			return(
+
+				<h3>Fetch the weather to find out if it's warm!</h3>
+
+			)
+
+	}
+
+	// There is a weather object!
+
+	if(weather.main.temp > 70) {
+
+		return (
+
+			<h3>It's warm!</h3>
+
+		)
+
+		} else {
+
+			return(
+
+				<h3>It's cold :( </h3>
+
+			)
+
+		}
+
+	}
+
+}
+
+
+function mapStateToProps(state) {
+
+	return {
+
+		weather: state.weather
+
+	}
+
+}
+
+
+export default connect(mapStateToProps)(WarmOrNot);
+
+
+So, in this file we have imported React and the connect() function, and that should signal to you right there that this thing needs to 
+know about Redux or we would not have the connect() function. The class is called "WarmOrNot" and we just have one big render in this 
+class. Here, we grab this.props.weather and we are adding that in the mapStateToProps() function.
+
+We are mapping the state, the "redux" state, which is "state.weather", we are mapping to the props. 
+
+So, this component is going to have a local prop called weather, and it is the one for mapping, so we are mapping from the "redux" state 
+to the WarmOrNot "react" component's props. 
+
+So, we have gotten "this.props.weather" and in the connect() function we send that out. Up in the render we check to see if that has a 
+main property (!weather.main).
+
+So, weather is a variable assigned to this.props.weather and we check to see if weather.main exists or not. 
+
+If it does not then we put up an h3,
+
+
+			<h3>Fetch the weather to find out if it's warm!</h3>
+
+
+Well, remember what is this.props.weather? Or what is state.weather? Or what is the weatherReducer returning? On load it is just returning
+state and state by default is an empty object so "weather.main" is not true.  
+
+It does not have a main property so it renders the h3 content. 
+
+Then eventually "weather" is going to have a main property and if the main.temp is greater than 70 then we return "it is warm" and if it 
+is less than 70 or equal to 70 then we will return "it is cold",
+
+
+			if(weather.main.temp > 70) {
+
+				return (
+
+					<h3>It's warm!</h3>
+
+				)
+
+			} else {
+
+				return (
+
+					<h3>It's cold :(</h3>
+
+				)
+
+			}
+
+
+This is how the "WarmOrNot" component works. It's only job is to pull a piece of state back and to check and see what is it's values is. 
+
+Now, we will look on to our React Weather component,
+
+
+Weather.js
+
+import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import fetchWeather from "./actions/fetchWeather";
+
+class Weather extends React.Component {
+
+	state = {city: "London"}
+
+	changeCity = (e) => {this.setState({city: e.target.value})};
+
+	render() {
+
+		console.log(this.props.weather);
+
+		const weather = this.props.weather;
+
+		if(!weather.main) {
+
+			return (
+			
+				<div>
+
+					<input type = "text" onChange = {this.changeCity} value = {this.state.city} />
+
+					<button onClick = {() => {this.props.fetchWeather(this.state.city)}}>Fetch Weather!</button>
+
+				</div>
+
+			)
+		}
+
+	}
+
+	
+	function mapStateToProps(state) {
+
+		return {
+
+			weather: state.weather
+
+		}
+
+	}
+
+
+	function mapDispatchToProps(dispatch) {
+
+		return bindActionCreators({
+
+			fetchWeather: fetchWeather
+
+		}, dispatch);
+
+	}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Weather);
+
+
+So, in this component also we started by importing React, we have the connect() function imported from the react-redux module. We have 
+imported the bindActionCreators() method from "redux" which tells us that we are going to run an action inside of this component. Then, at
+the end we have imported the action called 'fetchWeather'. 
+
+We have gotten a class called Weather, but as we can see that it is defined in a bit different way where we do not have any constructor or
+super() method that is because in React-16 if we do not need the constructor, which means if we do not need to do any of the "this" stuffs
+in it then we can go straight to state assigning it to an object and React will take care of this under the hood. It works kind of like a 
+field does, in other languages if you are familiar then there are fields in Ecme-script now but that is not quite this is but it is a 
+short hand way of writing a constructor. 
+
+We have gotten a render() and our render gets this.props.weather as well, because if we scroll down we can see that in mapStateToProps() 
+we are returning a prop called weather from the Redux store. So, we are mapping the Redux state to this Weatehr React component's props, 
+this.props.weather is whatever in the Redux Store for the weather. Again, that is an empty object.
+
+So, the weather on load is going to be an empty object. If weather.main does not exist then we are going to return the div, inside the div 
+we are going to return an input-box with an onChange property, assigned to control change stuff that we talked about, and we are going to 
+call this.changeCity and all the this.changeCity does is that it updates this.state.city,
+
+
+						changeCity = (e) => {this.setState({city: e.target.value})
+
+It updates this.state.city to whatever the user has typed in and the value of this input-box is "this.state.city". Remember, this is just 
+the controlled component stuff that we talked about earlier. React is our source of truth. Then after that we have a button and on that 
+button we have an onClick() function which calls our function, "this.props.fetchWeather(this.state.city)" and the function passes 
+"this.state.city" as an argument to this function, so whatever happens to be on that input-box, is what is going to be passed to the 
+fetchWeather() function as an argument.  
+
+So, what is fetchWeather()?, down below we have the mapDispatchToProps() function, where we are mapping the dispatch to the Weather React
+component's props. So, the "this.props.fetchWeather" is going to be the props and it is assigned to the fetchWeather action that we are 
+importing from the actions' folder is what is going to be mapped to the dispatch. We are running the action through bindActionCreators() 
+method, so the "this.props.fetchWeather" is an action-creator that is bound to the Dispatch and then when the user clicks on the Fetch 
+button, the mapDispatchToProps() function fires up that action.
+
+So, again just the action that we have done it. We are going to call the action on click of the Fetch button and we are going to pass it 
+the city (this.state.city) as an argument.
+
+Now, we will look into our fetchWeather.js action file, 
+
+
+fetchWeather.js
+
+import axios from "axios";
+
+
+const weatherApi = "http://api.openweathermap.org/data/2.5/weather";
+
+const weatherAPIKey = "6f3f23c0f1a2fcb7edee25d08eb9cf62";
+
+const scale = "imperial"	// metric
+
+
+export default (city) => {
+
+	const weatherUrl = `${weatherApi}?q=${city}&units=${scale}&appid=${weatherAPIKey}`;
+
+	console.log(city);
+
+	return {
+
+		type: "cityUpdate",
+
+		payload: {}
+
+	}
+
+}  
+
+
+So, here at the top we are importing "axios" from the "axios" module. Then we are assigning the "weatherApi" variable to the 
+"Open Weather Map" server's endpoint. Then we assigned the API key to the "weatherAPIKey" variable which works as an ID to access the 
+contents in the server. Then we have the variable called "scale" which we have assigned to the string "imperial" because we live in the 
+United States, if you do not live in the United States or Liberia or Myanmar, because these might be the only countries those do not use 
+the metric system, or else you can change the scale to "metric" if you want to use the metric system. 
+
+So, we have just three varaibles here, there is nothing fancy about it, the weatherApi variable is an endpoint, then the next one is an 
+API key that we are going to need and then the last one is a scale that we are going to use. 
+
+In our actual function after the variables, we are expecting an argument called 'city'. If we go back to the file Weather.js we are 
+passing the state, city as "this.props.city" that we are getting from the input-box and then we set up our endpoint by assigning it to the
+variable called "weatherApi", the we add the city that we are getting from the Weather.js file, then we pass the 'scale' variable as the 
+unit and then we pass the API key.
+
+Then we have the console.log taking city as its argument, so that we can check that we get the right city.
+
+Then we will console.log the weatherUrl to see what pops up,
+
+
+fetchWeather.js
+
+import axios from "axios";
+
+const weatherApi = "http://api.openweathermap.org/data/2.5/weather"; 
+
+const weatherAPIKey = "6f3f23c0f1a2fcb7edee25d08eb9cf62";
+
+const scale = "imperial"	// metric
+
+
+export default (city) => {
+
+	const weatherUrl = `${weatherApi}?q=${city}&units=${scale}&appid=${weatherAPIKey}`;
+
+	console.log(city);
+
+	console.log(weatherUrl);
+
+	return {
+
+		type: "cityUpdate",
+
+		payload: {}
+
+	}
+
+}
+
+
+Then we return 'cityUpdate' which is the type and that is what our weatherReducer is expecting.
+
+
+weatherReducer.js
+
+export default (state = {}, action) => {
+
+	if(action.type === "cityUpdate") {
+
+		console.log(action.payload);
+
+		return action.payload
+
+	} else {
+
+		return state;
+
+	}
+
+} 
+
+
+if the action.type is "cityUpdate", then we are sending a payload which is an empty object at the moment, so the reducer will return an 
+empty object, 
+
+
+ weatherReducer.js
+
+export default (state = {}, action) => {
+
+	if(action.type === "cityUpdate") {
+
+		console.log(action.payload);
+
+		return {}
+
+	} else {
+
+		return state;
+
+	}
+
+} 
+
+
+Now, we will go back to our application and we will open up the inspector and we are going to clear the console and we are going to click 
+the "Fetch Weather!" button and "London" is the name of the city on the field,
+
+
+							Fetch the weather to find out if it's warm! 
+
+								| London |		| Fetch Weather! |   
+
+
+Console:
+
+London
+
+http://api.openweathermap.org/data/2.5/weather?q=London&units=imperial&appid=63f23c.....
+
+> {}
+> {}
+
+
+So, the console kicks back our city and the open weather map url and if we click on the URL it will open a new tab on the browser, 
+displaying the JSON format of the information of London that got returned to us.
+
+The JSON file shows what the weather currently is in London, and we have one object in the JSON called main,
+
+	"main" : {
+
+		"temp": 55.63,
+
+		"pressure": 1004,
+
+		"humidity": 87,
+
+		"temp_min": 53.01,
+
+		"temp_max": 57.99
+
+	}
+
+
+And weather.main is what we are interested in and this is where the teperature (temp) is at, and it is 55.63 degrees Farenheit in London 
+at the moment. 
+
+This brings us up to date with where we ended in our drawing, can we now do this, 
+
+
+fetchWeather.js
+
+import axios from "axios";
+
+const weatherApi = "http://api.openweathermap.org/data/2.5/weather"; 
+
+const weatherAPIKey = "6f3f23c0f1a2fcb7edee25d08eb9cf62";
+
+const scale = "imperial"	// metric
+
+
+export default (city) => {
+
+	const weatherUrl = `${weatherApi}?q=${city}&units=${scale}&appid=${weatherAPIKey}`;
+
+	axios.get(weatherUrl).then((response) => {
+
+		return {
+
+			type: "cityUpdate",
+
+			payload: response.data
+
+		}
+
+	})
+
+}
+
+
+If you have never used axios before, then you can console.log() the response. As, we have mentioned before that the way axios works is 
+that it is the same as HTTP request, that you use with Ajax or the fetchAPI, there are varieties of ways, and Angular JS has an HTTP 
+client built into it etc.
+
+It returns a promise, once it gets the data, we can attach .then() and whatever it received from the server, it will store it in the 
+'response' variable that we are sending as an argument and the response contains all the items received, which we will put it in 
+console.log() to see what those are, it comes with 'Headers', it comes with a 'config', it comes with 'status code', we are interested in 
+the 'data' that will be the JSON or the actual payload that it found there, so this is our goal, is that to return this action inside of 
+our then,
+
+
+export default (city) => {
+
+	const weatherUrl = `${weatherApi}?q=${city}&units=${scale}&appid=${weatherAPIKey}`;
+
+	axios.get(weatherUrl).then((response) => {
+
+		console.log(response);
+
+		return {
+
+			type: "cityUpdate",
+
+			payload: response.data
+
+		}
+
+	})
+
+}
+
+
+Now, we will go back to our application and we are going to click the "Fetch Weather" button and we get a crazy error,
+
+
+		Uncaught Error: Actions must be plain objects. Use custom middleware for async actions
+
+
+It says actions must be plain objects and then it is a dead giveaway for the title of the section, use custom middleware for async actions.
+
+So, the answer to our question is no, we cannot do .then(), not that .then() does not work, it is that Redux runs synchronously, meaning 
+it immediatley sends the action to the dispatch() and the dispatch() immediately sends it to the reducer, so we need to stop the process 
+here, we need to do something to cut this off and then dispatch the action when we are ready. Well, that is exactly where our good friend
+custom middleware comes in. In the next lesson we will apply Redux promise and get this work in the way we want to. 
+ 
+
+
+
+
+
+
+	    
+
+
+		
+
+
+			
+
+					 
+
+
+ 
+
+ 

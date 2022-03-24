@@ -1,0 +1,205 @@
+Redux - Promise
+
+Picking up right from where we left in the last lesson. We are going to solve the current problem by using a piece of Redux Middleware, and
+I know that it sounds scary, I know Redux is already scary enough and then when you throw Middleware on anything, then that makes it much
+worse but it is going to be really simple. 
+
+For the first piece of Middleware it is going to be installing a module and adding one line. The explanation and the understanding is what 
+is important here. 
+
+
+fetchWeather.js
+
+import axios from "axios";
+
+const weatherApi = "http://api.openweathermap.org/data/2.5/weather";
+
+const weatherAPIKey = "6f3f23c0f1a2fcb7edee2508cb9cf62";
+
+const scale = "imperial";	// metric
+
+
+export default async(city) => {
+
+	const weatherUrl = `${weatherApi}?q=${city}&units=${scale}&appid=${weatherAPIKey}`;
+
+	const response = await axios.get(weatherUrl);
+
+	return {
+
+		type: "cityUpdate",
+
+		payload: response.data
+
+	}
+
+}
+
+
+We have gotten a function here, and it is an action creator, because back in Weather.js we processed it through using the method called 
+bindActionCreators(), so we have an action creator which does its job and returns an action. An action is just an object with the property 
+of type, well in this case we have gotten a property of payload which is a promise. That is what this thing is and Redux is made to work 
+as automatically as possible. Right out of the box and straightforward. It may not seem like that but in this case Redux works 
+synchronously where all actions are expected to be dispatched and processed immediately, and this object cannot be processed immediately
+because it is a promise. It will not run until the .then() runs.
+
+Well! In order to solve this problem, we are going to use a piece of middleware called redux-promise (www.npmjs.com/package/redux-promise),
+and I use this in every app that I build just because it solves such an obvious problem. It is incredibly useful so that we do not need to
+write any code to get what we want but it is not useful in the case that we do not have anymore control. We will talk about that in the 
+next piece of Middleware. 
+
+
+redux-promise
+
+Terminal:
+
+npm install --save redux-promise
+
+Usage: 
+
+import promiseMiddleware from "redux-promise";
+
+
+The default export is a middleware function. If it receives a promise, it will dispatch the resolved value of the promise. It will not 
+dispatch anything if the promise rejects. 
+
+If it receives a Flux Standard Action whose payload is a promise, it will either
+
+- dispatch a copy of the action with the resolved value of the promise, and set the status to success. 
+
+- dispatch a copy of the action with the rejected value of the promise, and set the status to error. 
+
+The middleware returns a promise to the caller so that it can wait for the operation to finish before continuing. This is especially 
+useful for the server-side rendering. If you find that a promise is not being returned, ensure that all middleware before it in the chain 
+is also returning its next() call to the caller.
+
+The description above says that when we export redux-middleware, we export a middleware function and if it receives a promise, then it 
+will dispatch the resolved value of the promise. This is exactly what we wanted to happen. 
+
+Now, we will open our terminal and we will install redux-promise, 
+
+
+Console coding:
+
+npm install redux-promise
+
+
+And in order to apply middleware we are going to go all the way to the index.js where the store is created because this is the file where 
+it will be applied to the Store. The line where we are importing the createStore(), we are also going to import applyMiddleware(),
+
+
+index.js
+
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux";
+import rootReducer from "./reducers/rootReducer";
+import reduxPromise from "redux-promise";
+
+
+const theStore = applyMiddleware(reduxPromise)(createStore)(rootReducer);
+
+
+// The above line can be written in short-cut
+
+// const middlewareApplied = applyMiddleware(reduxPromise);
+
+// const storeWithMiddleware = middlewareApplied(createStore);
+
+// const finalStore = storeWithMiddleware(rootReducer);
+
+
+ReactDOM.render(
+
+	<Provider store = {theStore}>
+
+		<App />
+
+	</Provider>,
+
+	document.getElementById("root");
+
+);
+
+
+So, applyMiddleware is coming from the "redux" module, it has gotten nothing to do with "react" or "react-redux". This is entirely a 
+"redux" thing and we had the "theStore" variable assigned to the createStore() function to which we sent the rootReducer as an argument.
+
+But, now we are going to assign "theStore" to the applyMiddleware() method. First, we imported "reduxPromise" from the "redux-promise"
+module that we downloaded on our terminal using the npm install and then we pass the reduxPromise() method to the applyMiddleware().
+
+And if you remember from the redux-promise description that the default export is a middleware function, which means applyMiddleware() is
+a function and it returns a function which takes createStore(rootReducer) as an argument,
+
+		
+			const theStore = applyMiddleware(reduxPromise)(createStore)(rootReducer);
+
+
+this might hurt our mind but we have gotten applyMiddleware() which takes redux-promise, a piece of middleware as an argument, and then 
+that whole function takes createStore(rootReducer) as an argument.
+
+If it seems complicated then we can break it down,
+
+
+const middlewareApplied = appliedMiddleware(reduxPromise);
+
+const storeWithMiddleware = middlewareApplied(createStore); 
+
+const finalStore = storeWithMiddleware(rootReducer);
+
+
+This seems a little bit wordy for us, but these three lines do exactly the same thing as that one line. You did it all the time but you 
+just do not realize it, but this right here,
+
+
+		const theStore = applyMiddleware(reduxPromise)(createStore)(rootReducer);
+
+
+will create a variable called "theStore" which already has our Middleware applied the reduxPromise middleware, with that one line, since 
+we are already passing theStore to the Provider component which now has the Middleware applied to it and now if we go back to our 
+application browser and click the Fetch Weather! button then it instantly works,
+
+
+		Fetch the weather to find out if it's warm!
+
+			| London |		| Fetch Weather |	<- Click
+
+
+					It's cold :(
+
+				  It's currently 50.52
+
+
+It works out because as it was written on the description, that if it receives a promise, or if the Middleware function receives a promise,
+because that is what the Middleware function is going to do, it is going to cut the Store up whenever there is an action that gets 
+dispatched, if the Middleware function receives a promise, it will dispatch the resolved value of the promise. 
+
+So, it is cutting that process off, and back in the fetchWeather.js file it gets a promise and it is going to wait,
+
+
+		return {
+
+			type: "cityUpdate",
+
+			payload: respose.data
+
+		}
+
+
+the "payload: response.data" is the promise it is going to get that and then it is going to wait and then once it resolves then it is 
+going to dispatch it.
+
+You will see a little bit more on how it works in the next lesson when we go over redux-thunk, but that is all you need to do to get this 
+work, to get Redux to play with an asynchronous operation which is one of the most common thing you will do as a developer is to make an 
+HTTP request.   
+
+Why is it not part of "redux" out of the box? Well, that was not just how "redux" was organized, it was made to work synchronously and if 
+you want to handle asynchronous actions, then it is on you to figure out the best way to deal with them. 
+
+So, if you have gotten your first piece of Middleware down, in the next lesson we will go over redux-thunk which will be a little more and
+it will give us a little bit more power.  
+
+
+
+    
+
+  

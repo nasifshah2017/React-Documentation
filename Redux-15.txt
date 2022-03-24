@@ -1,0 +1,120 @@
+Quick Review of Reducers, Actions and Action Creators
+
+In this lesson we are going to answer the question as what is Redux Middleware and hopefully very clearly explain why we need it. 
+
+So, we have an example here, if you go to the class repository then there we have gotten a folder called redux-middleware-starter. We need 
+to clone this repository in our folder. This is a create-react-app and all we need to do is "npm install" and then we should be able to do 
+an "npm start" and then it should get something on the browser that looks like this,
+
+
+						Fetch the weather to find out if it's warm!
+
+							| London |		| Fetch Weather |
+
+
+We will show you the code base, we followed exactly the same template that we did for the grocery store but here we have gotten two 
+different components. Here, we have gotten one at the top which is the title on the App and then we have gotten another one right below it
+which is the search-field and the button.
+
+On the search field you enter a city name and it should display the weather of that city on clicking the button. The app does not work yet
+or it does not work right out of the box but when we click on the 'Fetch Weather' button, then it will go out to the weather API, it will 
+find the temperature and if its greater than 70 degrees farenheit then the app will say that it is warm outside and if it is less than 70 
+degrees farenheit then the app will say it is not warm and then we can print out the actual temperature.
+
+Now, we will draw the process of how Redux middleware interacts with the process of React-Redux. 
+
+
+React				React-Redux				Redux
+
+index.js			Provider				Store
+
+App				connect()				Reducers
+
+									() => {}
+									() => {}
+									() => {}
+
+				Dispatch				Action creators
+
+									() => {type: }
+									() => {type: }
+									() => {type: }
+
+
+So, its just a quick review of all of the moving pieces. We have React and you already know how React works that is the purpose of this 
+course. Inside of React we always have index.js because we are using the create-react-app, and index.js atleast in our case renders App.js 
+and the App.js renders the React components inside it.
+
+Over on the other side we have Redux and Redux is not related to React at all. They are totally seperate and they do not know that each 
+other exists. And Redux is primarily called the Store where state is managed. 
+
+One big object is maintained inside of that Store and the Store is informed by functions that return a piece of state and those are called
+the Reducers. 
+
+So, the Reducers are informing the Store or building it up. Each one of those Reducer functions are in charge of managing a piece of Redux
+state. 
+
+In order to get React to Redux, we had the module called React-Redux and that is the official bindings for React to talk to Redux. It is 
+maintained by the same people that maintains Redux. This is the official way that we are supposed to do it. And the React-Redux module 
+gave us the Provider component and it also gave us the connect() function. 
+
+The Provider component is actually rendered by index.js. So, index.js grabs the Provider component and then the Provider component renders 
+the App component. The index grabs the Provider component and then the Provider component wraps around everything else. 
+
+Now, because we do that, because we export the React components using the connect() function, the connect() function gives us access to 
+the Store. In this way the React components connect with the Store, where the React components subscribe to the things those are happening 
+inside the Store. 
+
+Anytime, something happens inside of Redux, then the React components subscribed to the Store, will get notified and it will essentially 
+re-render with the new prop. This happens through the mapStateToProps() function that we pass to the connect() function. 
+
+Now, the other very important way of doing it is using the Action Creators. Action Creators are just regular JavaScript functions, and 
+Action Creators return Actions, and an Action Creator must be an object that has a type of something. The Action Creator is a function 
+itself and the Action is the object that the function returns.
+
+We do not write the Action Creators out of the box instead we write them as regular JavaScript functions. The Action Creators are not 
+Action Creators until we hand them to the bindActionCreator() function. 
+
+That is something we did in all of our Actions. Anytime, we had a mapDispatchToProps(), we first ran it through the bindActionCreators(), 
+that is what takes it from being just a function to being an Action Creator. 
+
+The other thing that we did is that we used the connect() function and we ran our Action Creators through the connect() function by 
+sending it through the mapDispatchToProps() function, so the Action Creator goes via the connect() function and can be called by our React
+components so that we can initiate the Action Creators from a component through the connect() function because we mapped it to the 
+dispatch, once the Action Creator returned its Action, the Action is going to be sent to the Dispatch.
+
+This is the confusing part but it is a very very important part of Redux, is that Dispatch gets the Action, which is that plain object 
+with the property of type and it takes it and then it sends it out to all of the Reducers. It notifies all of them. 
+
+Then the Reducers decide whether they need to update their states in them or not and after that they send that information to the Store. 
+
+This is a review of all the moving pieces that goes into a React app that uses Redux. 
+
+We have the React-Redux in the middle that allows them to communicate over on the left-hand side, the components were just the way that 
+they always have but because we ran them through the connect() function, they were able to grab the pieces of State out of the Store and 
+they were able to run the Action Creators that will run through the Dispatch when they return their actions, and then the Store will get 
+updated.
+
+We are going to simplify this down and we are going to focus on the Redux part, so it will be a little repetative of what we just did. 
+
+So, we have gotten the Store, and as we said before, the Reducers inform the Store by returning the state to the Store and somehow a 
+component has called one of our Action Creators and an Action Creator is just a regular function that returns an object and that object is
+going to get sent to the Dispatch, and the Dispatch is going to all of the individual Reducers, the Reducers will know that the Action 
+happened and then the Reducers can decide whether they need to update their states or not depending on that Action. 
+
+Meanwhile, any component that has subscribed to the Store or listenning to a piece of state, will get notified if and when something 
+happened. 
+
+So, the Action Creator gets called, the Action gets sent to the Dispatch, the Dispatch informs each Reducer, the Reducers decide whether 
+to update their state or not and then they send their states to the Store, and then the components those are interested will get updated. 
+
+Here is where the Redux Middleware comes into play. There are times when we would need to interupt where an Action gets dispatched and we 
+need to do something before it actually gets to the Reducer. Something needs to happen in that process, we need to interupt or maybe we 
+want to stop it from happening all together. Maybe we need to validate it. There are any number of things that might happen. 
+
+What is the most obvious example that I can think of?
+
+Well, lets say that our Action Creator needs to fetch something from the web, then it might need to make an API request.
+
+So, inside an Action Creator we are going to make an Axios request and an Axios request automatically returns a promise, so now the 
+question is can we use the then() method in that Axios request and then return an Action?         
