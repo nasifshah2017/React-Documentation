@@ -9,7 +9,7 @@ an "npm start" and then it should get something on the browser that looks like t
 
 						Fetch the weather to find out if it's warm!
 
-							| London |		| Fetch Weather |
+						 | London |		 | Fetch Weather |
 
 
 We will show you the code base, we followed exactly the same template that we did for the grocery store but here we have gotten two 
