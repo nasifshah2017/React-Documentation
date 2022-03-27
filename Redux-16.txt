@@ -230,7 +230,7 @@ is less than 70 or equal to 70 then we will return "it is cold",
 			}
 
 
-This is how the "WarmOrNot" component works. It's only job is to pull a piece of state back and to check and see what is it's values is. 
+This is how the "WarmOrNot" component works. It's only job is to pull a piece of state back and to check and see what is it's value is. 
 
 Now, we will look on to our React Weather component,
 
