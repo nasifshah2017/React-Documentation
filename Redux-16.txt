@@ -308,7 +308,7 @@ field does, in other languages if you are familiar then there are fields in Ecme
 short hand way of writing a constructor. 
 
 We have gotten a render() and our render gets this.props.weather as well, because if we scroll down we can see that in mapStateToProps() 
-we are returning a prop called weather from the Redux store. So, we are mapping the Redux state to this Weatehr React component's props, 
+we are returning a prop called weather from the Redux store. So, we are mapping the Redux state to this Weather React component's props, 
 this.props.weather is whatever in the Redux Store for the weather. Again, that is an empty object.
 
 So, the weather on load is going to be an empty object. If weather.main does not exist then we are going to return the div, inside the div 
