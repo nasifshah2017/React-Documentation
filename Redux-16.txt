@@ -28,8 +28,8 @@ ReactDOM.render(
 );
 
 
-This is the codebase that we told you to get up and running. This is the redux middleware and we are going to run through the 
-file-structure fairly quickly. In index.js we started importing our regular files and then we set the Redux part exactly the way we did in
+This is the codebase that we told you to get up and running. This is the redux middleware and we are going to run through the file-structure 
+fairly quickly. In index.js we started importing our regular files and then we set the Redux part exactly the way we did in
 our grocery store. We have the Provider component which is coming from the "react-redux" module, we have the "createStore" which is coming 
 from the "redux" module and then we have the "rootReducer" that we have made and we have the rootReducer as below,
 
