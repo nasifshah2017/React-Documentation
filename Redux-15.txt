@@ -49,7 +49,7 @@ and the App.js renders the React components inside it.
 Over on the other side we have Redux and Redux is not related to React at all. They are totally seperate and they do not know that each 
 other exists. And Redux is primarily called the Store where state is managed. 
 
-One big object is maintained inside of that Store and the Store is informed by functions those return states and those states are called
+One big object is maintained inside of that Store and the Store is informed by functions those return states and those functions are called
 the Reducers. 
 
 So, the Reducers are informing the Store or building it up. Each one of those Reducer functions are in charge of managing a piece of Redux
