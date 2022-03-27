@@ -316,7 +316,8 @@ we are going to return an input-box with an onChange property, assigned to contr
 call this.changeCity and all the this.changeCity does is that it updates this.state.city,
 
 
-						changeCity = (e) => {this.setState({city: e.target.value})
+					changeCity = (e) => {this.setState({city: e.target.value})
+						
 
 It updates this.state.city to whatever the user has typed in and the value of this input-box is "this.state.city". Remember, this is just 
 the controlled component stuff that we talked about earlier. React is our source of truth. Then after that we have a button and on that 
