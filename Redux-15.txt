@@ -25,6 +25,7 @@ Now, we will draw the process of how Redux middleware interacts with the process
 
 
 React				React-Redux				Redux
+---------------------------------------------------------------------------------------------
 
 index.js			Provider				Store
 
