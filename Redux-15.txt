@@ -43,7 +43,7 @@ App				connect()				Reducers
 
 
 So, its just a quick review of all of the moving pieces. We have React and you already know how React works, that is the purpose of this 
-course. Inside of React we always have index.js because we are using the create-react-app, and index.js atleast in our case renders App.js 
+course. Inside of React we always have index.js because we are using the create-react-app, and index.js atleast in our case, renders App.js 
 and the App.js renders the React components inside it.
 
 Over on the other side we have Redux and Redux is not related to React at all. They are totally seperate and they do not know that each 
