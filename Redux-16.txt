@@ -578,24 +578,3 @@ So, the answer to our question is no, we cannot do .then(), not that .then() doe
 it immediatley sends the action to the dispatch() and the dispatch() immediately sends it to the reducer, so we need to stop the process 
 here, we need to do something to cut this off and then dispatch the action when we are ready. Well, that is exactly where our good friend
 custom middleware comes in. In the next lesson we will apply Redux promise and get this work in the way we want to. 
- 
-
-
-
-
-
-
-	    
-
-
-		
-
-
-			
-
-					 
-
-
- 
-
- 
