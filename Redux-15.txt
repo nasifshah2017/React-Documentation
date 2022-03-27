@@ -42,7 +42,7 @@ App				connect()				Reducers
 									() => {type: }
 
 
-So, its just a quick review of all of the moving pieces. We have React and you already know how React works that is the purpose of this 
+So, its just a quick review of all of the moving pieces. We have React and you already know how React works, that is the purpose of this 
 course. Inside of React we always have index.js because we are using the create-react-app, and index.js atleast in our case renders App.js 
 and the App.js renders the React components inside it.
 
