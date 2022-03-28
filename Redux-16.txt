@@ -576,6 +576,6 @@ Now, we will go back to our application and we are going to click the "Fetch Wea
 It says actions must be plain objects and then it is a dead giveaway for the title of the section, use custom middleware for async actions.
 
 So, the answer to our question is no, we cannot do .then(), not that .then() does not work, it is that Redux runs synchronously, meaning 
-it immediatley sends the action to the dispatch() and the dispatch() immediately sends it to the reducer, so we need to stop the process 
+it immediatley sends the action to the dispatch() and then the dispatch() immediately sends it to the reducer, so we need to stop the process 
 here, we need to do something to cut this off and then dispatch the action when we are ready. Well, that is exactly where our good friend
 custom middleware comes in. In the next lesson we will apply Redux promise and get this work in the way we want to. 
