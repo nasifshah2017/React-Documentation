@@ -377,7 +377,7 @@ API key that we are going to need and then the last one is a scale that we are g
 
 In our actual function after the variables, we are expecting an argument called 'city'. If we go back to the file Weather.js we are 
 passing the state, city as "this.props.city" that we are getting from the input-box and then we set up our endpoint by assigning it to the
-variable called "weatherApi", the we add the city that we are getting from the Weather.js file, then we pass the 'scale' variable as the 
+variable called "weatherApi", then we add the city that we are getting from the Weather.js file, then we pass the 'scale' variable as the 
 unit and then we pass the API key.
 
 Then we have the console.log taking city as its argument, so that we can check that we get the right city.
