@@ -197,9 +197,3 @@ you want to handle asynchronous actions, then it is on you to figure out the bes
 
 So, if you have gotten your first piece of Middleware down, in the next lesson we will go over redux-thunk which will be a little more and
 it will give us a little bit more power.  
-
-
-
-    
-
-  
