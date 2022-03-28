@@ -161,7 +161,7 @@ application browser and click the Fetch Weather! button then it instantly works,
 
 		Fetch the weather to find out if it's warm!
 
-			| London |		| Fetch Weather |	<- Click
+		| London |		| Fetch Weather |	<- Click
 
 
 					It's cold :(
