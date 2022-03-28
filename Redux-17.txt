@@ -164,9 +164,9 @@ application browser and click the Fetch Weather! button then it instantly works,
 		| London |		| Fetch Weather |	<- Click
 
 
-					It's cold :(
+			    It's cold :(
 
-				  It's currently 50.52
+		        It's currently 50.52
 
 
 It works out because as it was written on the description, that if it receives a promise, or if the Middleware function receives a promise,
