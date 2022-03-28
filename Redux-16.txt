@@ -499,7 +499,7 @@ The JSON file shows what the weather currently is in London, and we have one obj
 	}
 
 
-And weather.main is what we are interested in and this is where the teperature (temp) is at, and it is 55.63 degrees Farenheit in London 
+And weather.main is what we are interested in and this is where the temperature (temp) is at, and it is 55.63 degrees Farenheit in London 
 at the moment. 
 
 This brings us up to date with where we ended in our drawing, can we now do this, 
