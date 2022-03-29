@@ -658,7 +658,7 @@ testThunk
 Now, we can see testThunk on our console which means this does go through actually this time to the weatherReducer because now the store 
 is actually populated.
 
-This if-statement is very important in our application for whatever reason. Here, we want to dispatch only when the store the information 
+This if-statement is very important in our application for whatever reason. Here, we want to dispatch only when we store the information 
 (reduxState.weather.main) or it could be that we want to dispatch four different actions all with different information all reliant on 
 something else, or we can wait for it. We can write our Promise like we did in the last video, we can manually write it here. 
 
