@@ -340,7 +340,7 @@ dispatch. Then, we added a componentDidMount() method, and inside that we are ca
 
 So, as soon as the Weather component is mounted, the componentDidMount() method will run and it will call "this.props.testThunk()", and 
 testThunk() is defined inside the bindActionCreators() method inside the mapDispatchToProps() method as a prop. Again, its been ran 
-through the binActionCreators() method and then mapped to the "dispatch" which is coming as an argument in the mapDispatchToProps() method.
+through the bindActionCreators() method and then mapped to the "dispatch" which is coming as an argument in the mapDispatchToProps() method.
 The testThunk() function is being imported from the testThunk.js file. 
 
 Now, we will go back to our app and open our console and we can see that it is displaying "I waited for 2 seconds", and after that we 
