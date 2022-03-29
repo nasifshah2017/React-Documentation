@@ -209,7 +209,7 @@ for a little while, we will eventually have the Redux saga and maybe some custom
 const middleWare = [reduxPromise, reduxThunk];
 
 
-where we will have constant and we will say it is a middleWare and we will define it as an array ad then in there we will put reduxPromise,
+where we will have constant and we will say it is a middleWare and we will define it as an array and then in there we will put reduxPromise,
 and reduxThunk and then down on the store we can do a spread syntax,
 
 
