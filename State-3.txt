@@ -100,5 +100,4 @@ Output:
 	State In Action - Rob
 
 	State Check!
-	State Changed!! - Rob 
-    
+	State Changed!! - Rob
