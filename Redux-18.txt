@@ -632,7 +632,7 @@ Well! Now, if we refresh our browser and clear out the console and now click the
 							Fetch the weather to find out if it's warm! 
 
 
-								| London |		| Fetch Weather! | <- click 
+						          | London |	  | Fetch Weather! | <- click 
 
 
 
