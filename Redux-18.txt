@@ -616,7 +616,7 @@ Now, if we go back to our application and look at our browser,
 							Fetch the weather to find out if it's warm!
 
 
-								| London |		| Fetch Weather! |
+							  | London |		| Fetch Weather! |
 
 
 Console:
