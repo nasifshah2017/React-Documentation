@@ -418,9 +418,9 @@ testThunk															weatherReducer.js
 We can already see it showed up on our console, then when we refresh our application we again get the same message and "testThunk" is 
 displayed on the console after 2 seconds. 
 
-So, we got testThunk and run inside the weather reducer, So, testThunk() fuction is manually calling the dispatch in order to send out the
-object to all of the reducers, and the reason we are getting that console.log is because over in the weatherReducer.js file we are logging
-the action type everytime an action gets sent to a reducer.
+So, we got testThunk and we ran it inside the weather reducer. So, testThunk() fuction is manually calling the dispatch in order to send 
+out the object to all of the reducers, and the reason we are getting that console.log is because over in the weatherReducer.js file we are 
+logging the action type everytime an action gets sent to a reducer.
 
 The weatherReducer is the only one we have in this program,
 
