@@ -152,7 +152,7 @@ it we will run this code,
 
 which runs the expression "1 + 2". This function is a thunk, because it is wrapped around an expression so that we can run it later. 
 
-So, back in the description it says that, "a thuk is a function that wraps an expression to delay its evaluation". We do not want to run 
+So, back in the description it says that, "a thunk is a function that wraps an expression to delay its evaluation". We do not want to run 
 "1 + 2" yet we want to wait and then we will call sum() when we are ready to actually find out what "1 + 2" is. 
 
 Let's go ahead and give it a try. We are going to open up the terminal and on the terminal we are going to do "npm install redux-thunk".
