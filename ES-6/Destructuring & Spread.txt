@@ -144,9 +144,4 @@ console.log(x);	// { name: 'Rob' }
 // The spread operator is going to run through all the properties
 // in our object. When we run this program, "a" now has its own copy.
 // It is not pointing at x anymore and has its own object carrying the 
-// property of "name" with value "Jim".    
- 
- 
-
-  
-
+// property of "name" with value "Jim".
