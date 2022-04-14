@@ -12,7 +12,7 @@ setInterval(function() {
 
 
 // This function will be called at every 1000-second 
-// interval. It just a little bit of code that we are 
+// interval. It is just a little bit of code that we are 
 // passing around. We can do this all the time in JavaScript.
 // Whenever we use an anonymous function instead of writing
 // the whole word function we can do this,
@@ -131,9 +131,4 @@ console.log(a.filter((item, i)=>{
 
 console.log(a.filter((item, i)=>item === 4))
 
-// Output: [ 4 ]
-
-
-
-
-  
+// Output: [ 4 ]  
