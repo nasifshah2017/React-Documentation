@@ -24,7 +24,7 @@ setInterval(()=>{
 
 
 // This creates an anonymous function just like we had before,
-// so we have got open and close bracket, followed by the Rocket
+// so we have got open and close brackets, followed by the Rocket
 // and then we have the opening curly bracket followed by the 
 // function body and then the closing curly bracket, then we have 
 // the comma, followed by the time of interval at which this function
@@ -43,7 +43,7 @@ const myRocket = new Rocket('30k');
 console.log(myRocket.speed);	// 30k
 
 // What we did here is pretty straight forward. This is 
-// how JavaScript works basically. Now let's decalre a prototype.
+// how JavaScript works basically. Now let's declare a prototype.
 
 function Rocket(speed){
 	this.speed = speed;
@@ -76,15 +76,15 @@ Rocket.prototype.blastOff = function() {
 
 
 // We get back the actual object, its the object with 
-// name "Rocket" and a property of "speed" with value
-// "30k". There are going to be lot of occassions where
+// the name "Rocket" and a property of "speed" with value
+// "30k". There are going to be a lot of occassions where
 // we do not want the "this" keyword to be the whole 
 // Rocket object, we want it to be something outside 
 // the Rocket object. 
 
 // If we get rid of the word "function" and replace it
-// with the Arrow or the Rocket symbol. The this keyword
-// will change to a global this or the node object that is 
+// with the Arrow or the Rocket symbol then the "this" keyword
+// will change to a global "this" or the node object that is 
 // running , if we use the Rocket function it will not create
 // a new "this", so that is very important. 
 
