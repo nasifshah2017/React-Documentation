@@ -49,9 +49,3 @@ excited!`);
 // remember is that the backticks give us this power, and when 
 // we are inserting a variable or an expression we need to store
 // them inside ${}.
-
-
-
- 
-
-
