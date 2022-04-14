@@ -20,7 +20,7 @@ const fullName = firstName + " " + lastName;
 console.log(fullName);		// Rob Bunch
 
 // Template Literals give us the ability to use the backticks ` `
-// And when can insert variables in them as many as we want, by 
+// And we can insert variables in them as many as we want, by 
 // using the $ and the {}, and it will display our variables 
 // without the need of concatinating space in-between them, we
 // can put a space just by pressing the space-bar. 
