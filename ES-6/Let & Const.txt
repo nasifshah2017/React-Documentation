@@ -16,7 +16,7 @@ console.log(x);	// ERROR
 // a certain const variable can only be assigned once and cannot be reassigned
 // again in a program. 
 
-// But we can reassign it while using it an object. 
+// But we can reassign it while using it as an object. 
 // As an example,
 
 const y = {
