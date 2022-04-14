@@ -75,8 +75,8 @@ const dataFromAPI = {
 // array that we want to add in array property of our object.
 // This is really annoying as we need to either create a loop 
 // where we need to push each of those array item one at a time
-// or manually just add them using the array name with indes number
-// in square brackets.
+// or manually just add them using the array name with index number
+// in the square brackets.
 
 
 // Well Spread syntax (...) we can directly add external items in our
@@ -124,13 +124,13 @@ a.name = "Jim"
 
 console.log(x);	// { name: 'Jim' }
 
-// The reason the name property of "x" chnages to "Jim"
+// The reason the name property of "x" changes to "Jim"
 // is because we did not make a copy of "x", what we really
 // did is make a copy of variable "x" which actually got a 
 // value of the name property in the object.
 
 // The variable "a" is pointing to x = { name: "Rob" }, so when 
-// we change "a" we change x. The way to handle that is this,
+// we change "a", we change x. The way to handle that is this,
 
 const x = {
 	name: "Rob"
@@ -144,4 +144,4 @@ console.log(x);	// { name: 'Rob' }
 // The spread operator is going to run through all the properties
 // in our object. When we run this program, "a" now has its own copy.
 // It is not pointing at x anymore and has its own object carrying the 
-// property of "name" with value "Jim".
+// property of "name" with the value "Jim".
