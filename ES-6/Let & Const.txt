@@ -1,6 +1,6 @@
 // We are going to take a look at the new keywords "let" and "const"
 // They came out in 2015 and they fully replaced the keyword "var"
-// with which we described the JavaScript varaibles since 1995 when 
+// with which we described the JavaScript variables since 1995 when 
 // JavaScript was born. 
 
 var x = 3;
