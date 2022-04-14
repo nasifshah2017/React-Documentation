@@ -41,7 +41,7 @@ const firstName = "Rob";
 const lastName = "Bunch";
 
 console.log(`The year is ${new Date().getFullYear()}, and I'm
-excited!);
+excited!`);
 
 // Output: The year is 2020, and I'm excited!
 
