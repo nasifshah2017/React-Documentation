@@ -5,10 +5,11 @@
 // Destructuring
 
 const dataFromAPI = {
+
 	name: "Thanos",
 	age: "?",
 	job: "Super-Villain",
-
+	
 }
 
 
