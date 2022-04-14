@@ -108,7 +108,7 @@ console.log(dataFromAPI);
 //	'destruction' ]}
 
 
-// As we can see the abilities array that we had externally
+// As we can see the abilities array that we had externally,
 // got inserted in abilities property array inside our object.
 // This how the Spread syntax helps us add external items in
 // our arrays, objects or other entities. The Spread operator
