@@ -7,7 +7,7 @@ Step-1, The first step would be that we have an Empty Cart, we never had been he
 it is a good empty cart.
 
 Step-2, would be to put an item in our cart, that would be item in cart, that is another state in our
-application. Let's say that item is a book that we put in our cart.
+application. Let's say that the item is a book that we put in our cart.
 
 Step-3, Now let's say we take out the book that we put in our cart, so we remove it, does that take us 
 back to Step-1? It does not take us back to Step-1, in Amazon's eye we now have a dirty empty cart, and 
