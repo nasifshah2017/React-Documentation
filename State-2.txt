@@ -234,7 +234,7 @@ class StateInAction extends Component{
 
 		setTimeout (()=>{
 			this.setState({
-				text: "State changed!!"
+				text: "State Changed!!"
 			})
 		}, 2000)
 	}
